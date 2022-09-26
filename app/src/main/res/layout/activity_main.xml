@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <org.imaginativeworld.whynotimagecarousel.ImageCarousel
+        android:id="@+id/carousel"
+        app:indicatorMargin="100dp"
+        app:autoPlay="false"
+        app:carouselType="BLOCK"
+        app:showIndicator="false"
+        app:imageScaleType="fitXY"
+        app:autoPlayDelay="3000"
+        app:showNavigationButtons="false"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:paddingHorizontal="35dp"
+        android:paddingVertical="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textViewSelat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_semibold"
+            android:text="Selat"
+            android:textColor="#FDC500"
+            android:textSize="11sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewSelat"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/textViewSelat">
+
+            <View
+                android:id="@+id/id_1"
+                android:layout_width="4dp"
+                android:layout_height="4dp"
+                android:layout_marginHorizontal="4dp"
+                android:background="@drawable/indicator_white" />
+
+            <View
+                android:id="@+id/id_2"
+                android:layout_width="4dp"
+                android:layout_height="4dp"
+                android:layout_marginHorizontal="4dp"
+                android:background="@drawable/indicator_white" />
+
+            <View
+                android:id="@+id/id_3"
+                android:layout_width="4dp"
+                android:layout_height="4dp"
+                android:layout_marginHorizontal="4dp"
+                android:background="@drawable/indicator_white" />
+
+            <View
+                android:id="@+id/id_4"
+                android:layout_width="4dp"
+                android:layout_height="4dp"
+                android:layout_marginHorizontal="4dp"
+                android:background="@drawable/indicator_white" />
+        </LinearLayout>
+
+        <TextView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/skip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_semibold"
+            android:text="Skip"
+            android:textColor="@color/white"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/big_text"
+            app:layout_constraintVertical_bias="0.13625"
+            app:layout_constraintHorizontal_bias="0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="Sewa Mobil\nKilat"
+            android:textColor="@color/white"
+            android:textSize="36sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/montserrat_semibold"
+            android:text="Sewa mobil apapun, kapanpun,\ndan dimanapun, secepat Kilat!"
+            android:textColor="#FDC500"
+            android:textSize="12sp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/big_text" />
+
+        <FrameLayout
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/button_next_to_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <View
+
+                android:background="@drawable/start_button"
+                android:layout_width="match_parent"
+                android:layout_height="53dp"/>
+
+            <TextView
+                android:id="@+id/text_next"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:fontFamily="@font/montserrat_bold"
+                android:layout_gravity="center"
+                android:text="Lanjut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </FrameLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

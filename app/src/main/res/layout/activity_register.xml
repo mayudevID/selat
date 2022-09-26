@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#FDC500"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".auth.LoginActivity"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="36sp"
+        android:textColor="#353535"
+        android:fontFamily="@font/montserrat_bold"
+        android:text="REGISTER"
+        android:layout_marginBottom="4dp"/>
+
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:fontFamily="@font/montserrat_regular"
+        android:gravity="center"
+        android:textSize="12sp"
+        android:text="Silahkan daftar untuk melanjutkan"
+        android:layout_marginBottom="46dp"/>
+
+    <FrameLayout
+        android:layout_marginBottom="20dp"
+        android:layout_width="315dp"
+        android:layout_height="45dp">
+
+        <View
+            android:background="@drawable/background_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <EditText
+            android:id="@+id/email_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@null"
+            android:fontFamily="@font/montserrat_regular"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:paddingHorizontal="13dp"
+            android:textSize="12sp"
+            tools:ignore="TouchTargetSizeCheck" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_marginBottom="20dp"
+        android:layout_width="315dp"
+        android:layout_height="45dp">
+
+        <View
+            android:background="@drawable/background_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/pass_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:paddingHorizontal="13dp"
+                android:textSize="12sp"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <ImageButton
+                android:id="@+id/obsecure"
+                android:background="@color/white"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="13dp"
+                android:src="@drawable/ic_akar_icons_eye"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_marginBottom="46dp"
+        android:layout_width="315dp"
+        android:layout_height="45dp">
+
+        <View
+            android:background="@drawable/background_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/confirm_pass_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:fontFamily="@font/montserrat_regular"
+                android:hint="Confirm Password"
+                android:inputType="textPassword"
+                android:paddingHorizontal="13dp"
+                android:textSize="12sp"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <ImageButton
+                android:id="@+id/confirm_pass_obsecure"
+                android:background="@color/white"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="13dp"
+                android:src="@drawable/ic_akar_icons_eye"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/register_button"
+        android:layout_marginBottom="32dp"
+        android:layout_width="315dp"
+        android:layout_height="53dp">
+
+        <TextView
+            android:background="@drawable/background_button_login"
+            android:fontFamily="@font/montserrat_bold"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:text="Daftar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </FrameLayout>
+
+    <TextView
+        android:layout_marginBottom="32dp"
+        android:fontFamily="@font/montserrat_regular"
+        android:gravity="center"
+        android:textSize="10sp"
+        android:text="Atau lanjutkan dengan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#525252"/>
+
+    <LinearLayout
+        android:layout_marginBottom="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:src="@drawable/ic_akar_icons_twitter_fill"
+            android:layout_marginHorizontal="12dp"
+            android:background="@drawable/background_login_platform"
+            android:layout_width="40dp"
+            android:layout_height="40dp"/>
+
+        <ImageButton
+            android:src="@drawable/ic_flat_color_icons_google"
+            android:layout_marginHorizontal="12dp"
+            android:background="@drawable/background_login_platform"
+            android:layout_width="40dp"
+            android:layout_height="40dp"/>
+
+        <ImageButton
+            android:src="@drawable/ic_gg_facebook"
+            android:layout_marginHorizontal="12dp"
+            android:background="@drawable/background_login_platform"
+            android:layout_width="40dp"
+            android:layout_height="40dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:fontFamily="@font/montserrat_regular"
+            android:textSize="12sp"
+            android:textColor="@color/black"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sudah punya akun? "/>
+        <TextView
+            android:id="@+id/back_to_login"
+            android:fontFamily="@font/montserrat_regular"
+            android:textSize="12sp"
+            android:textColor="#00509D"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Masuk"/>
+    </LinearLayout>
+
+</LinearLayout>
