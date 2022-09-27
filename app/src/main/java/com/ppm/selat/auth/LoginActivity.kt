@@ -6,51 +6,40 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
-import android.transition.Fade
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.FrameLayout
-import android.widget.ImageButton
 import android.widget.TextView
 import com.ppm.selat.R
+import com.ppm.selat.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
-    private lateinit var emailEditText: EditText
-    private lateinit var passwordEditText: EditText
-    private lateinit var obsecureButton: ImageButton
-    private lateinit var loginButton: FrameLayout
+
+    private lateinit var binding: ActivityLoginBinding
     var isClosed: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         supportActionBar?.hide()
 
-        setUpLayout()
         setUpListener()
     }
 
-    private fun setUpLayout() {
-        emailEditText = findViewById(R.id.email_edit_text)
-        passwordEditText = findViewById(R.id.pass_edit_text)
-        obsecureButton = findViewById(R.id.obsecure)
-        loginButton = findViewById(R.id.login_button)
-    }
-
     private fun setUpListener() {
-        obsecureButton.setOnClickListener {
+        binding.obsecurePassword.setOnClickListener {
             isClosed = !isClosed
 
             if (isClosed) {
-                obsecureButton.setImageResource(R.drawable.ic_akar_icons_eye)
-                passwordEditText.transformationMethod = PasswordTransformationMethod.getInstance()
+                binding.obsecurePassword.setImageResource(R.drawable.ic_akar_icons_eye)
+                binding.passEditText.transformationMethod = PasswordTransformationMethod.getInstance()
             } else {
-                obsecureButton.setImageResource(R.drawable.ic_akar_icons_eye_slashed)
-                passwordEditText.transformationMethod = HideReturnsTransformationMethod.getInstance()
+                binding.obsecurePassword.setImageResource(R.drawable.ic_akar_icons_eye_slashed)
+                binding.passEditText.transformationMethod = HideReturnsTransformationMethod.getInstance()
             }
         }
 
-        loginButton.setOnClickListener {
+        binding.loginButton.setOnClickListener {
             val imm =
                 getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)

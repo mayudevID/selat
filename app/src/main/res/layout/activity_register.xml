@@ -84,7 +84,7 @@
                 tools:ignore="TouchTargetSizeCheck" />
 
             <ImageButton
-                android:id="@+id/obsecure"
+                android:id="@+id/pass_obsecure"
                 android:background="@color/white"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
