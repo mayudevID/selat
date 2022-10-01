@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"/>
 
         <TextView
-            android:id="@+id/sedan_price_per_day"
+            android:id="@+id/suv_price_per_day"
             app:layout_constraintTop_toBottomOf="@id/suv_name"
             app:layout_constraintStart_toStartOf="parent"
             android:fontFamily="@font/montserrat_bold"
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"/>
 
         <ImageView
-            android:id="@+id/image_sedan"
+            android:id="@+id/image_suv"
             android:scaleY="1.7"
             android:scaleX="1.7"
             android:translationX="40dp"
@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/temp_suv"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/sedan_price_per_day" />
+            app:layout_constraintTop_toBottomOf="@id/suv_price_per_day" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

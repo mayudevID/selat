@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".auth.LoginActivity">
+    tools:context=".ui.auth.LoginActivity">
 
     <TextView
         android:layout_width="match_parent"
@@ -28,16 +28,12 @@
         android:text="Silahkan login untuk melanjutkan"
         android:layout_marginBottom="46dp"/>
 
-    <FrameLayout
+    <LinearLayout
+        android:background="@drawable/background_edittext"
         android:layout_gravity="center"
         android:layout_marginBottom="20dp"
         android:layout_width="315dp"
         android:layout_height="45dp">
-
-        <View
-            android:background="@drawable/background_edittext"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
 
         <EditText
             android:id="@+id/email_edit_text"
@@ -51,22 +47,16 @@
             android:textSize="12sp"
             tools:ignore="TouchTargetSizeCheck" />
 
-    </FrameLayout>
+    </LinearLayout>
 
-    <FrameLayout
+    <LinearLayout
+        android:background="@drawable/background_edittext"
         android:layout_gravity="center"
         android:layout_marginBottom="12dp"
         android:layout_width="315dp"
         android:layout_height="45dp">
 
-        <View
-            android:background="@drawable/background_edittext"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
             <EditText
                 android:id="@+id/pass_edit_text"
@@ -92,9 +82,9 @@
                 tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
 
-        </LinearLayout>
 
-    </FrameLayout>
+
+    </LinearLayout>
 
     <TextView
         android:layout_gravity="center"

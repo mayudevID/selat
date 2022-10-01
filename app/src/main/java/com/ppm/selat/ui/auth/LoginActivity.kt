@@ -1,4 +1,4 @@
-package com.ppm.selat.auth
+package com.ppm.selat.ui.auth
 
 import android.content.Context
 import android.content.Intent
@@ -7,10 +7,9 @@ import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.view.inputmethod.InputMethodManager
-import android.widget.TextView
 import com.ppm.selat.R
 import com.ppm.selat.databinding.ActivityLoginBinding
-import com.ppm.selat.home.HomeActivity
+import com.ppm.selat.ui.home.HomeActivity
 
 class LoginActivity : AppCompatActivity() {
 

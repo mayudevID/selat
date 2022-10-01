@@ -1,4 +1,4 @@
-package com.ppm.selat.home
+package com.ppm.selat.ui.home
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +10,17 @@ import com.ppm.selat.margin
 import com.ppm.selat.model.Car
 
 class ListSedanAdapter(private val listSedan: ArrayList<Car>) : RecyclerView.Adapter <ListSedanAdapter.ListSedanViewHolder>() {
+    private lateinit var onItemClickCallback: OnItemClickCallback
+
+    interface OnItemClickCallback {
+        fun onItemClicked(data: Car)
+        fun onItemDeleted(data: Car)
+    }
+
+    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback
+    }
+
     inner class ListSedanViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val carName:TextView = itemView.findViewById(R.id.sedan_name)
         val price: TextView = itemView.findViewById(R.id.sedan_price_per_day)

@@ -1,4 +1,4 @@
-package com.ppm.selat.auth
+package com.ppm.selat.ui.auth
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
@@ -6,9 +6,6 @@ import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.FrameLayout
-import android.widget.ImageButton
 import android.widget.TextView
 import com.ppm.selat.R
 import com.ppm.selat.databinding.ActivityRegisterBinding

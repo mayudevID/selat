@@ -1,10 +1,11 @@
-package com.ppm.selat
+package com.ppm.selat.ui
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.ppm.selat.auth.LoginActivity
+import com.ppm.selat.R
+import com.ppm.selat.ui.auth.LoginActivity
 import com.ppm.selat.databinding.ActivityOnboardBinding
 import org.imaginativeworld.whynotimagecarousel.CarouselItem
 import org.imaginativeworld.whynotimagecarousel.CarouselOnScrollListener
@@ -17,8 +18,10 @@ class OnboardActivity : AppCompatActivity() {
     private lateinit var binding: ActivityOnboardBinding
     var isNextToLogin: Boolean = false
 
-    private val images = arrayListOf(R.drawable.onboard_1,
-        R.drawable.onboard_2, R.drawable.onboard_3, R.drawable.onboard_4)
+    private val images = arrayListOf(
+        R.drawable.onboard_1,
+        R.drawable.onboard_2, R.drawable.onboard_3, R.drawable.onboard_4
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -14,19 +14,13 @@
         android:theme="@style/Theme.Selat"
         tools:targetApi="31">
         <activity
-            android:name=".home.HomeActivity"
+            android:name=".ui.detail_car.DetailCarActivity"
             android:exported="false" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".ui.home.HomeActivity"
             android:exported="false" />
         <activity
-            android:name=".auth.RegisterActivity"
-            android:exported="false" />
-        <activity
-            android:name=".auth.LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".OnboardActivity"
+            android:name=".ui.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,6 +28,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.ppm.selat.ui.auth.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.ppm.selat.ui.auth.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.OnboardActivity"
+            android:exported="true"></activity>
     </application>
 
 </manifest>
