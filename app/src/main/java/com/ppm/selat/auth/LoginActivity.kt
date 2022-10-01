@@ -10,6 +10,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import com.ppm.selat.R
 import com.ppm.selat.databinding.ActivityLoginBinding
+import com.ppm.selat.home.HomeActivity
 
 class LoginActivity : AppCompatActivity() {
 
@@ -43,9 +44,12 @@ class LoginActivity : AppCompatActivity() {
             val imm =
                 getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+            finish()
         }
 
-        findViewById<TextView>(R.id.to_register).setOnClickListener {
+        binding.toRegister.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
