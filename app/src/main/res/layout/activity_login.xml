@@ -29,7 +29,7 @@
         android:layout_marginBottom="46dp"/>
 
     <LinearLayout
-        android:background="@drawable/background_edittext"
+        android:background="@drawable/bg_edittext"
         android:layout_gravity="center"
         android:layout_marginBottom="20dp"
         android:layout_width="315dp"
@@ -50,7 +50,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:background="@drawable/background_edittext"
+        android:background="@drawable/bg_edittext"
         android:layout_gravity="center"
         android:layout_marginBottom="12dp"
         android:layout_width="315dp"
@@ -97,29 +97,24 @@
         android:layout_width="315dp"
         android:layout_height="wrap_content"/>
 
-    <FrameLayout
-        android:layout_gravity="center"
+    <TextView
         android:id="@+id/login_button"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:background="@drawable/bg_button_login"
+        android:fontFamily="@font/montserrat_bold"
+        android:textColor="@color/white"
+        android:gravity="center"
         android:layout_marginBottom="32dp"
+        android:text="Mulai Menjelajah"
         android:layout_width="315dp"
-        android:layout_height="53dp">
+        android:layout_height="53dp"/>
 
-        <TextView
-            android:background="@drawable/background_button_login"
-            android:fontFamily="@font/montserrat_bold"
-            android:textColor="@color/white"
-            android:gravity="center"
-            android:text="Mulai Menjelajah"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-    </FrameLayout>
 
     <TextView
         android:layout_marginBottom="32dp"
         android:fontFamily="@font/montserrat_regular"
         android:gravity="center"
-        android:textSize="10sp"
+        android:textSize="11sp"
         android:text="Atau lanjutkan dengan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -132,23 +127,29 @@
         android:layout_height="wrap_content">
 
         <ImageButton
+            android:contentDescription="twitter"
+            android:foreground="?android:attr/selectableItemBackground"
             android:src="@drawable/ic_akar_icons_twitter_fill"
             android:layout_marginHorizontal="12dp"
-            android:background="@drawable/background_login_platform"
+            android:background="@drawable/bg_login_platform"
             android:layout_width="40dp"
             android:layout_height="40dp"/>
 
         <ImageButton
+            android:contentDescription="google"
+            android:foreground="?android:attr/selectableItemBackground"
             android:src="@drawable/ic_flat_color_icons_google"
             android:layout_marginHorizontal="12dp"
-            android:background="@drawable/background_login_platform"
+            android:background="@drawable/bg_login_platform"
             android:layout_width="40dp"
             android:layout_height="40dp"/>
 
         <ImageButton
+            android:contentDescription="facebook"
+            android:foreground="?android:attr/selectableItemBackground"
             android:src="@drawable/ic_gg_facebook"
             android:layout_marginHorizontal="12dp"
-            android:background="@drawable/background_login_platform"
+            android:background="@drawable/bg_login_platform"
             android:layout_width="40dp"
             android:layout_height="40dp"/>
 

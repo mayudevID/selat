@@ -1,5 +1,6 @@
 package com.ppm.selat.ui.home
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,11 +33,15 @@ class ListSuvAdapter(private val listSuv: ArrayList<Car>) : RecyclerView.Adapter
         return ListSuvViewHolder(view)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ListSuvViewHolder, position: Int) {
         val data = listSuv[position]
         holder.carName.text = data.carName
-        holder.price.text = data.price.toString()
+        holder.price.text = "${data.price.toString()}K / hari)"
         holder.rating.text = data.rating.toString()
+        holder.itemView.setOnClickListener {
+            onItemClickCallback.onItemClicked(listSuv[holder.adapterPosition])
+        }
         holder.itemView.margin(right = 38F)
         if (position == 0) {
             holder.itemView.margin(left = 36F)

@@ -1,10 +1,13 @@
 package com.ppm.selat.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ppm.selat.databinding.ActivityHomeBinding
 import com.ppm.selat.model.Car
+import com.ppm.selat.ui.detail_car.DetailCarActivity
+import com.ppm.selat.ui.detail_car.DetailCarActivity.Companion.CAR_DATA
 
 
 class HomeActivity : AppCompatActivity() {
@@ -12,6 +15,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var listSedanAdapter: ListSedanAdapter
     private lateinit var listSuvAdapter: ListSuvAdapter
+    private lateinit var listCarBrandsAdapter: ListCarBrandsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,6 +29,17 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setUpListCar() {
+        val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        binding.rvListCarBrands.layoutManager = linearLayoutManager
+        binding.rvListCarBrands.setHasFixedSize(true)
+
+        val listBrands = arrayListOf<String>("Toyota", "Honda", "Suzuki", "Nissan", "Hyundai")
+
+        listCarBrandsAdapter = ListCarBrandsAdapter(listBrands)
+        binding.rvListCarBrands.adapter = listCarBrandsAdapter
+
+        //////////////////////////////////////////////////////
+
         val sedanLayoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.rvListSedan.layoutManager = sedanLayoutManager
@@ -44,6 +59,8 @@ class HomeActivity : AppCompatActivity() {
 
         listSedanAdapter = ListSedanAdapter(listSedan)
         binding.rvListSedan.adapter = listSedanAdapter
+
+        //////////////////////////////////////////////////////
 
             val suvLayoutManager =
         LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
@@ -69,7 +86,9 @@ class HomeActivity : AppCompatActivity() {
     private fun setUpListener() {
         listSedanAdapter.setOnItemClickCallback(object : ListSedanAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Car) {
-
+                val intent = Intent(this@HomeActivity, DetailCarActivity::class.java)
+                intent.putExtra("CAR_DATA", data)
+                startActivity(intent)
             }
 
             override fun onItemDeleted(data: Car) {
@@ -78,10 +97,21 @@ class HomeActivity : AppCompatActivity() {
 
         listSuvAdapter.setOnItemClickCallback(object : ListSuvAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Car) {
-
+                val intent = Intent(applicationContext, DetailCarActivity::class.java)
+                intent.putExtra("CAR_DATA", data)
+                startActivity(intent)
             }
 
             override fun onItemDeleted(data: Car) {
+            }
+        })
+
+        listCarBrandsAdapter.setOnItemClickCallback(object : ListCarBrandsAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: String) {
+
+            }
+
+            override fun onItemDeleted(data: String) {
             }
         })
     }

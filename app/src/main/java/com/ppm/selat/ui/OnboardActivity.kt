@@ -95,7 +95,7 @@ class OnboardActivity : AppCompatActivity() {
             finish()
         }
 
-        binding.buttonNextToLogin.setOnClickListener {
+        binding.textNext.setOnClickListener {
             if (!isNextToLogin) {
                 carousel.next()
             } else {
