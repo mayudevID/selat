@@ -25,29 +25,32 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.constraintlayout.motion.widget.MotionLayout
+            android:id="@+id/motion_top"
             android:background="#FFE9E9E9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:context=".ui.detail_car.DetailCarActivity">
+            tools:context=".ui.detail_car.DetailCarActivity"
+            app:layoutDescription="@xml/activity_detail_car_scene">
 
             <View
-                android:background="#FFFDC500"
-                app:layout_constraintTop_toTopOf="parent"
+                android:id="@+id/view_for_base"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"/>
+                android:layout_height="100dp"
+                android:background="#FFFDC500"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/detail_cardview"
-                app:cardElevation="15dp"
-                android:paddingBottom="16dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:cardCornerRadius="24dp"
-                app:cardBackgroundColor="#FFFDC500"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingBottom="16dp"
+                app:cardBackgroundColor="#FFFDC500"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="15dp"
+                app:layout_constraintBottom_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/detail_car_data"
@@ -97,11 +100,11 @@
                         android:id="@+id/type_brand"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
                         android:layout_marginStart="17dp"
                         android:layout_marginTop="15dp"
                         android:layout_marginEnd="48dp"
                         android:fontFamily="@font/montserrat_black"
+                        android:gravity="center"
                         android:text="Fortuner"
                         android:textColor="@color/black"
                         android:textSize="36sp"
@@ -126,37 +129,39 @@
                         android:id="@+id/price_tag"
                         android:layout_width="match_parent"
                         android:layout_height="53dp"
-                        android:gravity="center"
                         android:layout_marginHorizontal="36dp"
                         android:layout_marginTop="30dp"
                         android:background="@drawable/bg_price_detail"
+                        android:gravity="center"
                         app:layout_constraintTop_toBottomOf="@id/year_production">
 
                         <TextView
                             android:id="@+id/price_data"
-                            android:gravity="center"
-                            android:fontFamily="@font/montserrat_bold"
-                            android:textColor="@color/white"
-                            android:text="Rp 200.000"
-                            android:textSize="24dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
-                        <TextView
                             android:fontFamily="@font/montserrat_bold"
+                            android:gravity="center"
+                            android:text="Rp 200.000"
                             android:textColor="@color/white"
-                            android:text="/Hari"
-                            android:textSize="10dp"
+                            android:textSize="24dp" />
+
+                        <TextView
+                            android:id="@+id/price_per_date"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"/>
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_bold"
+                            android:text="/Hari"
+                            android:textColor="@color/white"
+                            android:textSize="10dp" />
 
                     </LinearLayout>
 
                     <View
-                        app:layout_constraintTop_toBottomOf="@id/price_tag"
+                        android:id="@+id/view_for_base_2"
                         android:layout_width="match_parent"
-                        android:layout_height="16dp"/>
-
+                        android:layout_height="16dp"
+                        app:layout_constraintTop_toBottomOf="@id/price_tag" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -164,16 +169,16 @@
 
             <TextView
                 android:id="@+id/specification"
-                android:fontFamily="@font/montserrat_bold"
-                android:textSize="24dp"
-                android:textColor="@color/black"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="36dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/detail_cardview"
-                android:text="Spesifikasi"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Spesifikasi"
+                android:textColor="@color/black"
+                android:textSize="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="parent" />
 
             <ImageView
                 android:id="@+id/icon_1"
@@ -187,6 +192,7 @@
                 android:layout_height="14dp"/>
 
             <TextView
+                android:id="@+id/desc_1"
                 android:fontFamily="@font/montserrat_semibold"
                 android:textColor="@color/black"
                 android:textSize="10sp"
@@ -210,6 +216,7 @@
                 android:layout_height="14dp"/>
 
             <TextView
+                android:id="@+id/desc_2"
                 android:fontFamily="@font/montserrat_semibold"
                 android:textColor="@color/black"
                 android:textSize="10sp"
@@ -233,6 +240,7 @@
                 android:layout_height="14dp"/>
 
             <TextView
+                android:id="@+id/desc_3"
                 android:fontFamily="@font/montserrat_semibold"
                 android:textColor="@color/black"
                 android:textSize="10sp"
@@ -269,6 +277,7 @@
                 android:layout_height="14dp"/>
 
             <TextView
+                android:id="@+id/desc_4"
                 android:fontFamily="@font/montserrat_semibold"
                 android:textColor="@color/black"
                 android:textSize="10sp"
@@ -292,7 +301,7 @@
                 android:layout_height="53dp">
 
                 <TextView
-
+                    android:id="@+id/text_pay"
                     android:background="@drawable/bg_pay"
                     android:layout_gravity="center"
                     android:gravity="center"
@@ -306,11 +315,12 @@
             </FrameLayout>
 
             <View
+                android:id="@+id/base"
                 app:layout_constraintTop_toBottomOf="@id/pay_button"
                 android:layout_width="match_parent"
                 android:layout_height="23dp"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.motion.widget.MotionLayout>
 
     </com.factor.bouncy.BouncyNestedScrollView>
 

@@ -1,9 +1,13 @@
 package com.ppm.selat.ui.detail_car
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import com.ppm.selat.R
 import com.ppm.selat.databinding.ActivityDetailCarBinding
+import com.ppm.selat.ui.OnboardActivity
 
 class DetailCarActivity : AppCompatActivity() {
 
@@ -21,11 +25,28 @@ class DetailCarActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         setUpListener()
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            binding.motionTop.transitionToEnd()
+        }, 0)
     }
 
     private fun setUpListener() {
         binding.backButton.setOnClickListener {
-            finish()
+            backFromPage()
         }
+    }
+
+    override fun onBackPressed() {
+        backFromPage()
+    }
+
+    private fun backFromPage() {
+        Handler(Looper.getMainLooper()).postDelayed({
+            binding.motionTop.transitionToStart()
+        }, 0)
+        Handler(Looper.getMainLooper()).postDelayed({
+            finish()
+        }, 100)
     }
 }
