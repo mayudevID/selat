@@ -10,6 +10,7 @@
         <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/Selat/app/src/main/res/drawable/banner_profile.xml" value="0.237" />
         <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/Selat/app/src/main/res/drawable/bg_pay.xml" value="0.2725" />
         <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/Selat/app/src/main/res/drawable/bg_price_detail.xml" value="0.2725" />
+        <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/Selat/app/src/main/res/drawable/bg_search.xml" value="0.2495" />
         <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/Selat/app/src/main/res/drawable/card_view_sedan.xml" value="0.142" />
         <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/Selat/app/src/main/res/drawable/ic_akar_icons_eye.xml" value="0.237" />
         <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/Selat/app/src/main/res/drawable/ic_akar_icons_eye_slashed.xml" value="0.237" />
@@ -18,6 +19,7 @@
         <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/Selat/app/src/main/res/drawable/ic_logo_selat.xml" value="0.152" />
         <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/Selat/app/src/main/res/drawable/indicator_white.xml" value="0.1" />
         <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/Selat/app/src/main/res/drawable/indicator_yellow.xml" value="0.1" />
+        <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/Selat/app/src/main/res/drawable/rincian_shape.xml" value="0.2495" />
         <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/Selat/app/src/main/res/drawable/round_rect.xml" value="0.2735" />
         <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/Selat/app/src/main/res/drawable/side_bottom_detail_car.xml" value="0.2735" />
         <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/Selat/app/src/main/res/drawable/start_button.xml" value="0.185" />
@@ -32,11 +34,15 @@
         <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/Selat/app/src/main/res/layout/activity_main_test.xml" value="0.1" />
         <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/Selat/app/src/main/res/layout/activity_mainn_test.xml" value="0.2554347826086957" />
         <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/Selat/app/src/main/res/layout/activity_onboard.xml" value="0.17703349282296652" />
+        <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/Selat/app/src/main/res/layout/activity_pick_car.xml" value="0.33" />
         <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/Selat/app/src/main/res/layout/activity_register.xml" value="0.2" />
         <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/Selat/app/src/main/res/layout/activity_splash.xml" value="0.2554347826086957" />
         <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/Selat/app/src/main/res/layout/card_view_sedan.xml" value="4.0" />
         <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/Selat/app/src/main/res/layout/card_view_suv.xml" value="0.5" />
+        <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/Selat/app/src/main/res/layout/list_available_car_cardview.xml" value="0.22" />
         <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/Selat/app/src/main/res/layout/list_car_brand.xml" value="0.75" />
+        <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/Selat/app/src/main/res/layout/list_car_brands_to_pick.xml" value="1.25" />
+        <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/Selat/app/src/main/res/layout/list_car_brands_to_pick_cardview.xml" value="1.5" />
         <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/Selat/app/src/main/res/layout/onboard_layout.xml" value="0.12135416666666667" />
         <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/Selat/app/src/main/res/layout/punya_azka.xml" value="0.25146198830409355" />
       </map>

@@ -7,7 +7,6 @@
     android:layout_height="match_parent">
 
     <com.factor.bouncy.BouncyNestedScrollView
-
         app:fling_animation_size=".7"
         app:overscroll_animation_size=".7"
         android:layout_width="match_parent"
@@ -132,6 +131,7 @@
                 app:layout_constraintTop_toBottomOf="@id/rv_list_car_brands" />
 
             <ImageButton
+                android:id="@+id/expand_sedan"
                 android:background="@null"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
@@ -171,6 +171,7 @@
                 app:layout_constraintTop_toBottomOf="@id/rv_list_sedan" />
 
             <ImageButton
+                android:id="@+id/expand_suv"
                 android:background="@null"
                 android:layout_width="24dp"
                 android:layout_height="24dp"

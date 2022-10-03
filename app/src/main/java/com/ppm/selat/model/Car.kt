@@ -11,4 +11,5 @@ data class Car(
     val typeCar: String?,
     val price: Int?,
     val rating: Double?,
+    val yearProduction: Int?
 ) : Parcelable

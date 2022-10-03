@@ -8,6 +8,7 @@ import com.ppm.selat.databinding.ActivityHomeBinding
 import com.ppm.selat.model.Car
 import com.ppm.selat.ui.detail_car.DetailCarActivity
 import com.ppm.selat.ui.detail_car.DetailCarActivity.Companion.CAR_DATA
+import com.ppm.selat.ui.pick_car.PickCarActivity
 
 
 class HomeActivity : AppCompatActivity() {
@@ -51,7 +52,8 @@ class HomeActivity : AppCompatActivity() {
             carImage = null,
             carName = "Camry",
             price = 200,
-            rating = 5.0
+            rating = 5.0,
+            yearProduction = 2022
         )
 
         val listSedan = ArrayList<Car>()
@@ -73,7 +75,8 @@ class HomeActivity : AppCompatActivity() {
             carImage = null,
             carName = "Avanza",
             price = 200,
-            rating = 5.0
+            rating = 5.0,
+            yearProduction = 2022
         )
 
         val listSuv = ArrayList<Car>()
@@ -114,5 +117,15 @@ class HomeActivity : AppCompatActivity() {
             override fun onItemDeleted(data: String) {
             }
         })
+
+        binding.expandSedan.setOnClickListener {
+            val intent = Intent(this, PickCarActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.expandSuv.setOnClickListener {
+            val intent = Intent(this, PickCarActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

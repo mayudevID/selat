@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="#FFE9E9E9"
+    android:layout_height="match_parent"
+    tools:context=".ui.pick_car.PickCarActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:background="#FFE9E9E9"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapisng_toolbar"
+            android:background="#FFE9E9E9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:contentScrim="#FFE9E9E9"
+
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+         >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                app:layout_collapseMode="parallax"
+                android:layout_height="wrap_content">
+
+                    <ImageButton
+                        android:background="@null"
+                        android:id="@+id/back_button_from_pick"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="36dp"
+                        android:layout_marginTop="45dp"
+                        android:rotation="180"
+                        android:src="@drawable/expand_type"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
+
+                    <ImageButton
+                        android:id="@+id/search_button"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginTop="45dp"
+                        android:layout_marginEnd="36dp"
+                        android:background="@null"
+                        android:src="@drawable/ic_akar_icons_search"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
+
+                    <TextView
+                        android:id="@+id/pilih_mobil_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="36dp"
+                        android:layout_marginTop="25dp"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="Pilih Mobil"
+                        android:textColor="@color/black"
+                        android:textSize="36sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/back_button_from_pick" />
+
+                    <TextView
+                        android:id="@+id/merek_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="36dp"
+                        android:layout_marginTop="13dp"
+                        android:fontFamily="@font/montserrat_semibold"
+                        android:text="Merek"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/pilih_mobil_text" />
+
+                    <com.factor.bouncy.BouncyRecyclerView
+                        android:id="@+id/rv_list_brands_car_to_pick"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="26dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toBottomOf="@id/merek_text" />
+
+                    <TextView
+                        android:id="@+id/mobil_yang_tersedia_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="36dp"
+                        android:layout_marginTop="21sp"
+                        android:fontFamily="@font/montserrat_semibold"
+                        android:text="Mobil yang tersedia"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/rv_list_brands_car_to_pick" />
+
+                    <ImageButton
+                        android:background="@null"
+                        android:layout_marginEnd="36dp"
+                        android:id="@+id/filter_button"
+                        app:layout_constraintTop_toTopOf="@id/mobil_yang_tersedia_text"
+                        app:layout_constraintBottom_toBottomOf="@id/mobil_yang_tersedia_text"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:src="@drawable/ic_clarity_filter_line"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar_collapse"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
+        android:layout_width="match_parent"
+        android:fillViewport="true"
+        android:layout_height="match_parent"
+        app:layout_anchor="@+id/nestedScrollView"
+        app:layout_anchorGravity="top|center"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:overScrollMode="never"
+                android:nestedScrollingEnabled="false"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                android:id="@+id/rv_list_available_car_to_pick"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
