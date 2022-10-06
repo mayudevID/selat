@@ -49,9 +49,9 @@ class ListAvailableCarAdapter(private val listAvailableCar: ArrayList<Car>) :
         holder.itemView.setOnClickListener {
             onItemClickCallback.onItemClicked(listAvailableCar[holder.adapterPosition])
         }
-        if (position == 0) {
-            holder.itemView.margin(top = 26F)
-        }
+//        if (position == 0) {
+//            holder.itemView.margin(top = 26F)
+//        }
     }
 
     override fun getItemCount(): Int {

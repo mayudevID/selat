@@ -89,6 +89,7 @@
             android:textSize="11sp" />
 
         <TextView
+            android:alpha="0"
             android:id="@+id/big_text"
             app:layout_constraintVertical_bias="0.13625"
             app:layout_constraintHorizontal_bias="0"
@@ -103,15 +104,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+        <TextSwitcher
+            android:alpha="0"
+            android:id="@+id/small_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:fontFamily="@font/montserrat_semibold"
-            android:text="Sewa mobil apapun, kapanpun,\ndan dimanapun, secepat Kilat!"
-            android:textColor="#FDC500"
-            android:textSize="12sp"
-
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"

@@ -22,9 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:contentScrim="#FFE9E9E9"
-
-            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
-         >
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -114,12 +112,19 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"/>
 
+                <View
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/mobil_yang_tersedia_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="26dp"/>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar_collapse"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="0dp"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
 
@@ -128,6 +133,8 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
+        app:fling_animation_size=".7"
+        app:overscroll_animation_size=".7"
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:fillViewport="true"

@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="#FDC500"
     android:gravity="center"
     android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:context=".ui.auth.LoginActivity">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="36sp"
-        android:textColor="#353535"
+        android:layout_marginBottom="4dp"
         android:fontFamily="@font/montserrat_bold"
+        android:gravity="center"
         android:text="LOGIN"
-        android:layout_marginBottom="4dp"/>
+        android:textColor="#353535"
+        android:textSize="36sp" />
 
     <TextView
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="46dp"
         android:fontFamily="@font/montserrat_regular"
         android:gravity="center"
-        android:textSize="12sp"
         android:text="Silahkan login untuk melanjutkan"
-        android:layout_marginBottom="46dp"/>
+        android:textColor="@color/black"
+        android:textSize="12sp" />
 
     <LinearLayout
-        android:background="@drawable/bg_edittext"
+        android:layout_width="315dp"
+        android:layout_height="45dp"
         android:layout_gravity="center"
         android:layout_marginBottom="20dp"
-        android:layout_width="315dp"
-        android:layout_height="45dp">
+        android:background="@drawable/bg_edittext">
 
         <EditText
             android:id="@+id/email_edit_text"
@@ -50,131 +50,130 @@
     </LinearLayout>
 
     <LinearLayout
-        android:background="@drawable/bg_edittext"
+        android:layout_width="315dp"
+        android:layout_height="45dp"
         android:layout_gravity="center"
         android:layout_marginBottom="12dp"
-        android:layout_width="315dp"
-        android:layout_height="45dp">
+        android:background="@drawable/bg_edittext">
 
 
+        <EditText
+            android:id="@+id/pass_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:background="@null"
+            android:fontFamily="@font/montserrat_regular"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:paddingHorizontal="13dp"
+            android:textSize="12sp"
+            tools:ignore="TouchTargetSizeCheck" />
 
-            <EditText
-                android:id="@+id/pass_edit_text"
-                android:layout_width="0dp"
-                android:layout_height="45dp"
-                android:layout_weight="1"
-                android:background="@null"
-                android:fontFamily="@font/montserrat_regular"
-                android:hint="Password"
-                android:inputType="textPassword"
-                android:paddingHorizontal="13dp"
-                android:textSize="12sp"
-                tools:ignore="TouchTargetSizeCheck" />
-
-            <ImageButton
-                android:id="@+id/obsecure_password"
-                android:background="@color/white"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center"
-                android:layout_marginEnd="13dp"
-                android:src="@drawable/ic_akar_icons_eye"
-                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-
-
+        <ImageButton
+            android:id="@+id/obsecure_password"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:layout_marginEnd="13dp"
+            android:background="@color/white"
+            android:src="@drawable/ic_akar_icons_eye"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
 
     </LinearLayout>
 
     <TextView
+        android:layout_width="315dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="23dp"
-        android:gravity="end"
         android:fontFamily="@font/montserrat_regular"
-        android:textSize="12sp"
-        android:textColor="#00509D"
+        android:gravity="end"
         android:text="Lupa Password?"
-        android:layout_width="315dp"
-        android:layout_height="wrap_content"/>
+        android:textColor="#00509D"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/login_button"
-        android:foreground="?android:attr/selectableItemBackground"
+        android:layout_width="315dp"
+        android:layout_height="53dp"
+        android:layout_marginBottom="32dp"
         android:background="@drawable/bg_button_login"
         android:fontFamily="@font/montserrat_bold"
-        android:textColor="@color/white"
+        android:foreground="?android:attr/selectableItemBackground"
         android:gravity="center"
-        android:layout_marginBottom="32dp"
         android:text="Mulai Menjelajah"
-        android:layout_width="315dp"
-        android:layout_height="53dp"/>
+        android:textColor="@color/white" />
 
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:fontFamily="@font/montserrat_regular"
         android:gravity="center"
-        android:textSize="11sp"
         android:text="Atau lanjutkan dengan"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#525252"/>
+        android:textColor="#525252"
+        android:textSize="11sp" />
 
     <LinearLayout
-        android:layout_gravity="center"
-        android:layout_marginBottom="12dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="12dp">
 
         <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="12dp"
+            android:background="@drawable/bg_login_platform"
             android:contentDescription="twitter"
             android:foreground="?android:attr/selectableItemBackground"
-            android:src="@drawable/ic_akar_icons_twitter_fill"
-            android:layout_marginHorizontal="12dp"
-            android:background="@drawable/bg_login_platform"
-            android:layout_width="40dp"
-            android:layout_height="40dp"/>
+            android:src="@drawable/ic_akar_icons_twitter_fill" />
 
         <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="12dp"
+            android:background="@drawable/bg_login_platform"
             android:contentDescription="google"
             android:foreground="?android:attr/selectableItemBackground"
-            android:src="@drawable/ic_flat_color_icons_google"
-            android:layout_marginHorizontal="12dp"
-            android:background="@drawable/bg_login_platform"
-            android:layout_width="40dp"
-            android:layout_height="40dp"/>
+            android:src="@drawable/ic_flat_color_icons_google" />
 
         <ImageButton
-            android:contentDescription="facebook"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:src="@drawable/ic_gg_facebook"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginHorizontal="12dp"
             android:background="@drawable/bg_login_platform"
-            android:layout_width="40dp"
-            android:layout_height="40dp"/>
+            android:contentDescription="facebook"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:src="@drawable/ic_gg_facebook" />
 
     </LinearLayout>
 
-   <LinearLayout
-       android:layout_gravity="center"
-       android:orientation="horizontal"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content">
-       <TextView
-           android:fontFamily="@font/montserrat_regular"
-           android:textSize="12sp"
-           android:textColor="@color/black"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:text="Belum punya akun? "/>
-       <TextView
-           android:id="@+id/to_register"
-           android:fontFamily="@font/montserrat_regular"
-           android:textSize="12sp"
-           android:textColor="#00509D"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:text="Daftar Disini"/>
-   </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_regular"
+            android:text="Belum punya akun? "
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/to_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_regular"
+            android:text="Daftar Disini"
+            android:textColor="#00509D"
+            android:textSize="12sp" />
+    </LinearLayout>
 
 </LinearLayout>

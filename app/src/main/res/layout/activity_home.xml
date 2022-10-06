@@ -20,6 +20,7 @@
             tools:context=".ui.home.HomeActivity">
 
             <LinearLayout
+                android:alpha="0"
                 android:id="@+id/search_bar"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
@@ -57,16 +58,19 @@
             </LinearLayout>
 
             <androidx.cardview.widget.CardView
+                android:alpha="0"
                 android:id="@+id/profile_banner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="36dp"
+                app:cardBackgroundColor="@color/white"
                 android:layout_marginTop="22dp"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="15dp"
                 app:layout_constraintTop_toBottomOf="@id/search_bar">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:paddingHorizontal="20dp"
@@ -109,6 +113,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.recyclerview.widget.RecyclerView
+                android:alpha="0"
                 android:orientation="horizontal"
                 android:layout_marginTop="30dp"
                 android:id="@+id/rv_list_car_brands"
@@ -118,6 +123,7 @@
             </androidx.recyclerview.widget.RecyclerView>
 
             <TextView
+                android:alpha="0"
                 android:id="@+id/sedan_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -131,6 +137,7 @@
                 app:layout_constraintTop_toBottomOf="@id/rv_list_car_brands" />
 
             <ImageButton
+                android:alpha="0"
                 android:id="@+id/expand_sedan"
                 android:background="@null"
                 android:layout_width="24dp"
@@ -143,6 +150,7 @@
                 tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
             <com.factor.bouncy.BouncyRecyclerView
+                android:alpha="0"
                 android:id="@+id/rv_list_sedan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -158,6 +166,7 @@
                 app:recyclerview_stiffness="STIFFNESS_MEDIUM" />
 
             <TextView
+                android:alpha="0"
                 android:id="@+id/suv_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -171,6 +180,7 @@
                 app:layout_constraintTop_toBottomOf="@id/rv_list_sedan" />
 
             <ImageButton
+                android:alpha="0"
                 android:id="@+id/expand_suv"
                 android:background="@null"
                 android:layout_width="24dp"
@@ -180,9 +190,11 @@
                 app:layout_constraintBottom_toBottomOf="@id/suv_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/suv_text"
-                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck"
+                android:contentDescription="TODO" />
 
             <com.factor.bouncy.BouncyRecyclerView
+                android:alpha="0"
                 android:id="@+id/rv_list_suv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

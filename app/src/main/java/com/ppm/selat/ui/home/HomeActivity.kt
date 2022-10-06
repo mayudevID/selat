@@ -1,7 +1,12 @@
 package com.ppm.selat.ui.home
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ppm.selat.databinding.ActivityHomeBinding
@@ -27,6 +32,9 @@ class HomeActivity : AppCompatActivity() {
 
         setUpListCar()
         setUpListener()
+        Handler(Looper.getMainLooper()).postDelayed({
+            setUpAnimation()
+        }, 10)
     }
 
     private fun setUpListCar() {
@@ -64,8 +72,8 @@ class HomeActivity : AppCompatActivity() {
 
         //////////////////////////////////////////////////////
 
-            val suvLayoutManager =
-        LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        val suvLayoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.rvListSuv.layoutManager = suvLayoutManager
         binding.rvListSuv.setHasFixedSize(true)
 
@@ -109,7 +117,8 @@ class HomeActivity : AppCompatActivity() {
             }
         })
 
-        listCarBrandsAdapter.setOnItemClickCallback(object : ListCarBrandsAdapter.OnItemClickCallback {
+        listCarBrandsAdapter.setOnItemClickCallback(object :
+            ListCarBrandsAdapter.OnItemClickCallback {
             override fun onItemClicked(data: String) {
 
             }
@@ -126,6 +135,43 @@ class HomeActivity : AppCompatActivity() {
         binding.expandSuv.setOnClickListener {
             val intent = Intent(this, PickCarActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    private fun setUpAnimation() {
+        val search = ObjectAnimator.ofFloat(binding.searchBar, View.ALPHA, 1F).setDuration(100)
+        val profileBanner =
+            ObjectAnimator.ofFloat(binding.profileBanner, View.ALPHA, 1F).setDuration(100)
+        val rvListCarBrands =
+            ObjectAnimator.ofFloat(binding.rvListCarBrands, View.ALPHA, 1F).setDuration(100)
+        val sedanText = ObjectAnimator.ofFloat(binding.sedanText, View.ALPHA, 1F).setDuration(100)
+        val suvText = ObjectAnimator.ofFloat(binding.suvText, View.ALPHA, 1F).setDuration(100)
+        val expandSedan =
+            ObjectAnimator.ofFloat(binding.expandSedan, View.ALPHA, 1F).setDuration(100)
+        val expandSuv = ObjectAnimator.ofFloat(binding.expandSuv, View.ALPHA, 1F).setDuration(100)
+        val rvListSedan =
+            ObjectAnimator.ofFloat(binding.rvListSedan, View.ALPHA, 1F).setDuration(100)
+        val rvListSuv = ObjectAnimator.ofFloat(binding.rvListSuv, View.ALPHA, 1F).setDuration(100)
+
+        val together = AnimatorSet().apply {
+            playTogether(sedanText, expandSedan)
+        }
+
+        val togetherSecond = AnimatorSet().apply {
+            playTogether(suvText, expandSuv)
+        }
+
+        AnimatorSet().apply {
+            playSequentially(
+                search,
+                profileBanner,
+                rvListCarBrands,
+                together,
+                rvListSedan,
+                togetherSecond,
+                rvListSuv,
+            )
+            start()
         }
     }
 }

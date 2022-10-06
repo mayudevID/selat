@@ -1,10 +1,14 @@
 package com.ppm.selat.ui
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.Gravity
 import android.view.View
 import android.widget.TextView
@@ -47,8 +51,20 @@ class OnboardActivity : AppCompatActivity() {
             textView
         }
 
+        binding.smallText.setFactory {
+            val textView = TextView(this)
+            textView.setTextColor(Color.parseColor("#FFFDC500"))
+            textView.typeface = ResourcesCompat.getFont(this, R.font.montserrat_semibold)
+            textView.textSize = 12F
+            textView.text = "Sewa mobil apapun, kapanpun, dan dimanapun, secepat Kilat!"
+            textView
+        }
+
         binding.textSwitch.setInAnimation(this, android.R.anim.fade_in);
         binding.textSwitch.setOutAnimation(this, android.R.anim.fade_out);
+
+        binding.smallText.setInAnimation(this, android.R.anim.fade_in);
+        binding.smallText.setOutAnimation(this, android.R.anim.fade_out);
 
         supportActionBar?.hide()
 
@@ -80,6 +96,7 @@ class OnboardActivity : AppCompatActivity() {
                         binding.id2.setBackgroundResource(R.drawable.indicator_white)
                         lastLocCarousel = locCarousel
                         locCarousel = position
+                        binding.smallText.setText("Sewa mobil apapun, kapanpun,\ndan dimanapun, secepat Kilat!")
                     }
                     1 -> {
                         binding.id1.setBackgroundResource(R.drawable.indicator_white)
@@ -87,6 +104,7 @@ class OnboardActivity : AppCompatActivity() {
                         binding.id3.setBackgroundResource(R.drawable.indicator_white)
                         lastLocCarousel = locCarousel
                         locCarousel = position
+                        binding.smallText.setText("Nikmati mobil-mobil pilihan\ndengan kualitas premium\ndengan harga yang terjangkau!")
                     }
                     2 -> {
                         binding.id2.setBackgroundResource(R.drawable.indicator_white)
@@ -94,6 +112,7 @@ class OnboardActivity : AppCompatActivity() {
                         binding.id4.setBackgroundResource(R.drawable.indicator_white)
                         lastLocCarousel = locCarousel
                         locCarousel = position
+                        binding.smallText.setText("Harian? Bulanan? Tahunan?\nSelat menyediakan semua\npilihan tersebut")
                     }
                     3 -> {
                         binding.id3.setBackgroundResource(R.drawable.indicator_white)
@@ -101,6 +120,7 @@ class OnboardActivity : AppCompatActivity() {
                         binding.id1.setBackgroundResource(R.drawable.indicator_white)
                         lastLocCarousel = locCarousel
                         locCarousel = position
+                        binding.smallText.setText("Ayo mulai menjelajah!")
                     }
                 }
 
@@ -113,6 +133,10 @@ class OnboardActivity : AppCompatActivity() {
                 }
             }
         }
+
+        Handler(Looper.getMainLooper()).postDelayed({
+            setUpAnimation()
+        }, 10)
     }
 
     private fun setUpButtonListener() {
@@ -132,6 +156,19 @@ class OnboardActivity : AppCompatActivity() {
 
         binding.skipButton.setOnClickListener {
             goToLoginActivity()
+        }
+    }
+
+    private fun setUpAnimation() {
+        val bigText = ObjectAnimator.ofFloat(binding.bigText, View.ALPHA, 1F).setDuration(500)
+        val smallText = ObjectAnimator.ofFloat(binding.smallText, View.ALPHA, 1F).setDuration(500)
+
+        AnimatorSet().apply {
+            playSequentially(
+                bigText,
+                smallText
+            )
+            start()
         }
     }
 }

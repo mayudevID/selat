@@ -3,6 +3,7 @@ package com.ppm.selat.ui.pick_car
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,22 +37,29 @@ class PickCarActivity : AppCompatActivity() {
 //        binding.collapisngToolbar.setExpandedTitleColor(Color.BLACK)
 //        binding.collapisngToolbar.setCollapsedTitleTypeface(customFont)
 //        binding.collapisngToolbar.setExpandedTitleTypeface(customFont)
-//
-//        var isShow = true
-//        var scrollRange = -1
-//        binding.appBarLayout.addOnOffsetChangedListener { barLayout, verticalOffset ->
-//            if (scrollRange == -1) {
-//                scrollRange = barLayout?.totalScrollRange!!
-//            }
-//            if (scrollRange + verticalOffset == 0) {
-//                binding.collapisngToolbar.title = "Mobil yang tersedia"
-//                isShow = true
-//            } else if (isShow) {
-//                binding.collapisngToolbar.title =
-//                    " " //careful there should a space between double quote otherwise it wont work
-//                isShow = false
-//            }
-//        }
+
+        var isShow = true
+        var scrollRange = -1
+        binding.appBarLayout.addOnOffsetChangedListener { barLayout, verticalOffset ->
+            Log.d("PickCarActivity", "vo: $verticalOffset")
+
+            if (scrollRange == -1) {
+                scrollRange = barLayout?.totalScrollRange!!
+            }
+
+            Log.d("PickCarActivity", "sr: $scrollRange")
+
+            if (scrollRange + verticalOffset == 0) {
+                binding.collapisngToolbar.title = "Mobil yang tersedia"
+                isShow = true
+            } else if (isShow) {
+                binding.collapisngToolbar.title =
+                    " " //careful there should a space between double quote otherwise it wont work
+                isShow = false
+            }
+        }
+
+
     }
 
     private fun setUpListener() {
@@ -107,6 +115,51 @@ class PickCarActivity : AppCompatActivity() {
         binding.rvListAvailableCarToPick.layoutManager = LinearLayoutManager(this)
 
         val listData = arrayListOf<Car>(
+            Car(
+                id = null,
+                carImage = null,
+                typeCar = null,
+                carName = "Fortuner",
+                yearProduction = 2022,
+                price = 200,
+                rating = 4.8
+            ),
+            Car(
+                id = null,
+                carImage = null,
+                typeCar = null,
+                carName = "Fortuner",
+                yearProduction = 2022,
+                price = 200,
+                rating = 4.8
+            ),
+            Car(
+                id = null,
+                carImage = null,
+                typeCar = null,
+                carName = "Fortuner",
+                yearProduction = 2022,
+                price = 200,
+                rating = 4.8
+            ),
+            Car(
+                id = null,
+                carImage = null,
+                typeCar = null,
+                carName = "Fortuner",
+                yearProduction = 2022,
+                price = 200,
+                rating = 4.8
+            ),
+            Car(
+                id = null,
+                carImage = null,
+                typeCar = null,
+                carName = "Fortuner",
+                yearProduction = 2022,
+                price = 200,
+                rating = 4.8
+            ),
             Car(
                 id = null,
                 carImage = null,
