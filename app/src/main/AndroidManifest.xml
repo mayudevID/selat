@@ -3,7 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ppm.selat">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -26,16 +29,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.detail_car.DetailCarActivity"
+            android:name=".detail_car.DetailCarActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.home.HomeActivity"
+            android:name=".home.HomeActivity"
             android:exported="false" />
         <activity
-            android:name="com.ppm.selat.ui.auth.RegisterActivity"
+            android:name="com.ppm.selat.auth.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name="com.ppm.selat.ui.auth.LoginActivity"
+            android:name="com.ppm.selat.auth.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".ui.OnboardActivity"

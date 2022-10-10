@@ -30,7 +30,7 @@
             android:background="#FFE9E9E9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:context=".ui.detail_car.DetailCarActivity"
+            tools:context=".detail_car.DetailCarActivity"
             app:layoutDescription="@xml/activity_detail_car_scene">
 
             <View

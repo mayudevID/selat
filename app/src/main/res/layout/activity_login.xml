@@ -3,10 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#FDC500"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".ui.auth.LoginActivity">
+    tools:context=".auth.LoginActivity">
 
     <TextView
         android:layout_width="match_parent"
@@ -94,17 +95,42 @@
         android:textColor="#00509D"
         android:textSize="12sp" />
 
-    <TextView
-        android:id="@+id/login_button"
+
+    <FrameLayout
         android:layout_width="315dp"
         android:layout_height="53dp"
         android:layout_marginBottom="32dp"
-        android:background="@drawable/bg_button_login"
-        android:fontFamily="@font/montserrat_bold"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:gravity="center"
-        android:text="Mulai Menjelajah"
-        android:textColor="@color/white" />
+        >
+
+        <LinearLayout
+            android:id="@+id/loading_logo"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:indeterminate="true"
+                app:trackColor="#FFFDC500"
+                app:indicatorColor="@color/black"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/login_button"
+            android:layout_width="315dp"
+            android:layout_height="53dp"
+
+            android:background="@drawable/bg_button_login"
+            android:fontFamily="@font/montserrat_bold"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:text="Mulai Menjelajah"
+            android:textColor="@color/white" />
+
+    </FrameLayout>
 
 
     <TextView

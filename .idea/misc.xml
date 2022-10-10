@@ -45,9 +45,11 @@
         <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/Selat/app/src/main/res/layout/list_car_brands_to_pick_cardview.xml" value="1.5" />
         <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/Selat/app/src/main/res/layout/onboard_layout.xml" value="0.12135416666666667" />
         <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/Selat/app/src/main/res/layout/punya_azka.xml" value="0.25146198830409355" />
+        <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/selat/app/src/main/res/layout/activity_login.xml" value="0.1" />
       </map>
     </option>
   </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
