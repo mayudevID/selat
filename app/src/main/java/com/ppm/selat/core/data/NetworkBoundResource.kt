@@ -1,6 +1,6 @@
 package com.ppm.selat.core.data
 
-import com.ppm.selat.core.data.source.remote.FirebaseResponse
+import com.ppm.selat.core.data.source.remote.response.FirebaseResponse
 import kotlinx.coroutines.flow.*
 
 abstract class NetworkBoundResource<ResultType, RequestType> {

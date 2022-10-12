@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
-class RemoteDataSource {
+class CarDataSource {
 //    suspend fun getCarByType() : Flow<FirebaseResponse<List<Car>>> {
 //        return flow {
 //

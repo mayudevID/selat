@@ -1,4 +1,4 @@
-package com.ppm.selat.core.data.source.remote
+package com.ppm.selat.core.data.source.remote.response
 
 sealed class FirebaseResponse<out R> {
     data class Success<out T>(val data: T) : FirebaseResponse<T>()
