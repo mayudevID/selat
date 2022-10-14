@@ -3,6 +3,7 @@ package com.ppm.selat.auth
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
@@ -14,13 +15,19 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.widget.doOnTextChanged
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.ppm.selat.MyApplication
 import com.ppm.selat.R
 import com.ppm.selat.core.data.Resource
 import com.ppm.selat.core.presentation.ViewModelAuthFactory
+import com.ppm.selat.core.utils.emailPattern
 import com.ppm.selat.databinding.ActivityLoginBinding
 import com.ppm.selat.home.HomeActivity
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -35,6 +42,35 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private var isClosed: Boolean = true
+    private var emailErrorMessage: String? = null
+    private var passwordErrorMessage: String? = null
+    private val emailFlow = MutableStateFlow("")
+    private val passwordFlow = MutableStateFlow("")
+
+    private val formIsValid = combine(
+        emailFlow,
+        passwordFlow,
+    ) { email, password ->
+        binding.emailError.text = ""
+        binding.passwordError.text = ""
+        val emailIsValid = if (email == "") true else emailPattern.matcher(email).matches()
+        val passwordIsValid = if (password == "") true else password.length in 8..100
+        emailErrorMessage = when {
+            emailIsValid.not() -> "Email tidak valid"
+            else -> null
+        }
+        passwordErrorMessage = when {
+            passwordIsValid.not() -> "Password minimal 8 (delapan) karakter"
+            else -> null
+        }
+        emailErrorMessage?.let {
+            binding.emailError.text = it
+        }
+        passwordErrorMessage?.let {
+            binding.passwordError.text = it
+        }
+        emailIsValid and passwordIsValid
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as MyApplication).appComponent.inject(this)
@@ -43,6 +79,23 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         supportActionBar?.hide()
+        
+        with(binding) {
+            emailEditText.doOnTextChanged { text, _, _, _ ->
+                emailFlow.value = text.toString().trim()
+            }
+            passEditText.doOnTextChanged { text, _, _, _ ->
+                passwordFlow.value = text.toString().trim()
+            }
+        }
+
+        lifecycleScope.launch {
+            formIsValid.collect {
+                binding.loginButton.apply {
+                    isClickable = it
+                }
+            }
+        }
 
         setUpListener()
     }
@@ -108,8 +161,9 @@ class LoginActivity : AppCompatActivity() {
 
         
     }
+
     private fun onSnackError(errorMessage: String){
-        val snackbar = Snackbar.make(binding.root, errorMessage,
+        val snackbar = Snackbar.make(binding.root, convertCode(errorMessage),
             Snackbar.LENGTH_LONG).setAction("Action", null)
         val snackbarView = snackbar.view
 

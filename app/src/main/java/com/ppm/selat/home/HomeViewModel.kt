@@ -1,4 +1,7 @@
 package com.ppm.selat.home
 
-class HomeViewModel {
+import androidx.lifecycle.ViewModel
+
+class HomeViewModel : ViewModel() {
+
 }

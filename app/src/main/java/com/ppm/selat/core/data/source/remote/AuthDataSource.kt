@@ -6,6 +6,7 @@ import com.google.firebase.auth.FirebaseAuthException
 import com.ppm.selat.core.data.source.remote.response.FirebaseResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -19,17 +20,17 @@ class AuthDataSource @Inject constructor(private val firebaseAuth: FirebaseAuth)
             } catch (e: FirebaseAuthException) {
                 emit(FirebaseResponse.Error(e.errorCode))
             }
-        }.flowOn(Dispatchers.IO)
+        }
     }
 
-    suspend fun registerToFirebase(name: String, email: String, password: String) : Flow<FirebaseResponse<Boolean>> {
+    suspend fun registerToFirebase(email: String, password: String) : Flow<FirebaseResponse<String>> {
         return flow {
             try {
-                firebaseAuth.createUserWithEmailAndPassword(email, password).await()
-                emit(FirebaseResponse.Success(true))
+                val authResult = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
+                emit(FirebaseResponse.Success(authResult.user?.uid.toString()))
             } catch (e: FirebaseAuthException) {
                 emit(FirebaseResponse.Error(e.errorCode))
             }
-        }.flowOn(Dispatchers.IO)
+        }
     }
 }

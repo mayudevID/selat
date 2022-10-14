@@ -32,7 +32,36 @@
 
     <LinearLayout
         android:background="@drawable/bg_edittext"
-        android:layout_marginBottom="20dp"
+        android:layout_width="315dp"
+        android:layout_height="45dp">
+
+        <EditText
+            android:id="@+id/name_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@null"
+            android:fontFamily="@font/montserrat_regular"
+            android:hint="Name"
+            android:inputType="textEmailAddress"
+            android:paddingHorizontal="13dp"
+            android:textSize="12sp"
+            tools:ignore="TouchTargetSizeCheck" />
+
+    </LinearLayout>
+
+    <TextView
+        android:fontFamily="@font/montserrat_medium"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/name_error"
+        android:layout_marginTop="5dp"
+        android:text="error"
+        android:textSize="13sp"
+        android:layout_height="20dp"
+        android:layout_width="315dp"
+        android:textColor="#FFFF0000"/>
+
+    <LinearLayout
+        android:background="@drawable/bg_edittext"
         android:layout_width="315dp"
         android:layout_height="45dp">
 
@@ -50,9 +79,19 @@
 
     </LinearLayout>
 
+    <TextView
+        android:fontFamily="@font/montserrat_medium"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/email_error"
+        android:layout_height="20dp"
+        android:layout_marginTop="5dp"
+        android:text="error"
+        android:textSize="13sp"
+        android:layout_width="315dp"
+        android:textColor="#FFFF0000"/>
+
     <LinearLayout
         android:background="@drawable/bg_edittext"
-        android:layout_marginBottom="20dp"
         android:layout_width="315dp"
         android:layout_height="45dp">
 
@@ -81,9 +120,19 @@
 
     </LinearLayout>
 
+    <TextView
+        android:fontFamily="@font/montserrat_medium"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/password_error"
+        android:layout_height="20dp"
+        android:layout_marginTop="5dp"
+        android:text="error"
+        android:textSize="13sp"
+        android:layout_width="315dp"
+        android:textColor="#FFFF0000"/>
+
     <LinearLayout
         android:background="@drawable/bg_edittext"
-        android:layout_marginBottom="46dp"
         android:layout_width="315dp"
         android:layout_height="45dp">
 
@@ -113,16 +162,51 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/register_button"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:background="@drawable/bg_button_login"
-        android:fontFamily="@font/montserrat_bold"
-        android:textColor="@color/white"
-        android:gravity="center"
-        android:layout_marginBottom="32dp"
-        android:text="Daftar"
+        android:fontFamily="@font/montserrat_medium"
+        android:layout_marginBottom="25dp"
+        android:id="@+id/confirm_password_error"
+        android:layout_height="20dp"
         android:layout_width="315dp"
-        android:layout_height="53dp"/>
+        android:layout_marginTop="5dp"
+        android:text="error"
+        android:textSize="13sp"
+        android:textColor="#FFFF0000"/>
+
+    <FrameLayout
+        android:layout_width="315dp"
+        android:layout_height="53dp"
+        android:layout_marginBottom="32dp"
+        >
+
+        <LinearLayout
+            android:id="@+id/loading_logo"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:indeterminate="true"
+                app:trackColor="#FFFDC500"
+                app:indicatorColor="@color/black"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/register_button"
+            android:layout_width="315dp"
+            android:layout_height="53dp"
+
+            android:background="@drawable/bg_button_login"
+            android:fontFamily="@font/montserrat_bold"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:text="Daftar"
+            android:textColor="@color/white" />
+
+    </FrameLayout>
 
     <TextView
         android:layout_marginBottom="32dp"

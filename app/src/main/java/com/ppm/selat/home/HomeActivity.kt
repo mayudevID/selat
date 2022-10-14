@@ -32,11 +32,16 @@ class HomeActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
+        setUpProfile()
         setUpListCar()
         setUpListener()
         Handler(Looper.getMainLooper()).postDelayed({
             setUpAnimation()
         }, 10)
+    }
+
+    private fun setUpProfile() {
+
     }
 
     private fun setUpListCar() {
