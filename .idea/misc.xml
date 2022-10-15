@@ -3,10 +3,24 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/selat/app/src/main/res/drawable/bg_button_login.xml" value="0.229" />
+        <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/selat/app/src/main/res/drawable/bg_button_logout.xml" value="0.229" />
+        <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/selat/app/src/main/res/drawable/ic_akar_icons_eye.xml" value="0.229" />
+        <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/selat/app/src/main/res/layout/activity_detail_car.xml" value="0.2677083333333333" />
+        <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/selat/app/src/main/res/layout/activity_home.xml" value="0.2677083333333333" />
         <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/selat/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/selat/app/src/main/res/layout/activity_onboard.xml" value="0.1" />
         <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/selat/app/src/main/res/layout/activity_pick_car.xml" value="0.2677083333333333" />
+        <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/selat/app/src/main/res/layout/activity_profile.xml" value="0.22" />
         <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/selat/app/src/main/res/layout/activity_register.xml" value="0.47962962962962963" />
+        <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/selat/core/src/main/res/drawable/ic_star.xml" value="0.1525" />
+        <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/selat/core/src/main/res/drawable/rincian_shape.xml" value="0.1525" />
+        <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/selat/core/src/main/res/drawable/round_rect.xml" value="0.1525" />
+        <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/selat/core/src/main/res/layout/card_view_sedan.xml" value="0.2677083333333333" />
+        <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/selat/core/src/main/res/layout/card_view_suv.xml" value="0.75" />
+        <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/selat/core/src/main/res/layout/list_available_car_cardview.xml" value="0.2677083333333333" />
+        <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/selat/core/src/main/res/layout/list_car_brand.xml" value="0.2677083333333333" />
+        <entry key="..\:/FileMaul/Programming/AndroidStudioProjects/selat/core/src/main/res/layout/list_car_brands_to_pick_cardview.xml" value="1.1" />
       </map>
     </option>
   </component>

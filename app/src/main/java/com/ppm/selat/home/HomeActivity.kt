@@ -7,18 +7,32 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.ppm.selat.MyApplication
+import com.ppm.selat.ViewModelFactory
 import com.ppm.selat.core.presentation.home.ListCarBrandsAdapter
 import com.ppm.selat.core.presentation.home.ListSedanAdapter
 import com.ppm.selat.core.presentation.home.ListSuvAdapter
 import com.ppm.selat.databinding.ActivityHomeBinding
 import com.ppm.selat.core.domain.model.Car
 import com.ppm.selat.detail_car.DetailCarActivity
+import com.ppm.selat.profile.ProfileActivity
 import com.ppm.selat.ui.pick_car.PickCarActivity
+import javax.inject.Inject
 
 
 class HomeActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var factory: ViewModelFactory
+
+    private val homeViewModel: HomeViewModel by viewModels {
+        factory
+    }
 
     private lateinit var binding: ActivityHomeBinding
     private lateinit var listSedanAdapter: ListSedanAdapter
@@ -26,6 +40,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var listCarBrandsAdapter: ListCarBrandsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        (application as MyApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -41,7 +56,13 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setUpProfile() {
-
+        homeViewModel.userDataStream.observe(this) {
+            binding.userName.text = it.name
+            Glide.with(this)
+                .load(it.photoUrl)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(binding.profileImage);
+        }
     }
 
     private fun setUpListCar() {
@@ -49,7 +70,7 @@ class HomeActivity : AppCompatActivity() {
         binding.rvListCarBrands.layoutManager = linearLayoutManager
         binding.rvListCarBrands.setHasFixedSize(true)
 
-        val listBrands = arrayListOf<String>("Toyota", "Honda", "Suzuki", "Nissan", "Hyundai")
+        val listBrands = arrayListOf("Toyota", "Honda", "Suzuki", "Nissan", "Hyundai")
 
         listCarBrandsAdapter = ListCarBrandsAdapter(listBrands)
         binding.rvListCarBrands.adapter = listCarBrandsAdapter
@@ -102,6 +123,12 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setUpListener() {
+        binding.profileBanner.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
+
         listSedanAdapter.setOnItemClickCallback(object : ListSedanAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Car) {
                 val intent = Intent(this@HomeActivity, DetailCarActivity::class.java)

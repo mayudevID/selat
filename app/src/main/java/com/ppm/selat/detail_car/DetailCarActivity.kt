@@ -1,19 +1,13 @@
 package com.ppm.selat.detail_car
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import com.ppm.selat.R
+import androidx.activity.OnBackPressedCallback
 import com.ppm.selat.databinding.ActivityDetailCarBinding
-import com.ppm.selat.ui.OnboardActivity
 
 class DetailCarActivity : AppCompatActivity() {
-
-    companion object {
-        const val CAR_DATA = "CAR_DATA"
-    }
 
     private lateinit var binding: ActivityDetailCarBinding
 
@@ -29,16 +23,19 @@ class DetailCarActivity : AppCompatActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
             binding.motionTop.transitionToEnd()
         }, 0)
+
+        //BackSystemPressed
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                backFromPage()
+            }
+        })
     }
 
     private fun setUpListener() {
         binding.backButton.setOnClickListener {
             backFromPage()
         }
-    }
-
-    override fun onBackPressed() {
-        backFromPage()
     }
 
     private fun backFromPage() {

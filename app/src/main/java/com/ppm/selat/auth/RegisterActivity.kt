@@ -19,7 +19,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.ppm.selat.MyApplication
 import com.ppm.selat.R
 import com.ppm.selat.core.data.Resource
-import com.ppm.selat.core.presentation.ViewModelAuthFactory
+import com.ppm.selat.ViewModelFactory
 import com.ppm.selat.core.utils.emailPattern
 import com.ppm.selat.databinding.ActivityRegisterBinding
 import com.ppm.selat.home.HomeActivity
@@ -31,7 +31,7 @@ import javax.inject.Inject
 class RegisterActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var factory: ViewModelAuthFactory
+    lateinit var factory: ViewModelFactory
 
     private val registerViewModel: RegisterViewModel by viewModels {
         factory

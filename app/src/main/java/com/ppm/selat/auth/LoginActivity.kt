@@ -3,7 +3,6 @@ package com.ppm.selat.auth
 
 import android.content.Context
 import android.content.Intent
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
@@ -21,7 +20,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.ppm.selat.MyApplication
 import com.ppm.selat.R
 import com.ppm.selat.core.data.Resource
-import com.ppm.selat.core.presentation.ViewModelAuthFactory
+import com.ppm.selat.ViewModelFactory
 import com.ppm.selat.core.utils.emailPattern
 import com.ppm.selat.databinding.ActivityLoginBinding
 import com.ppm.selat.home.HomeActivity
@@ -34,7 +33,7 @@ import javax.inject.Inject
 class LoginActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var factory: ViewModelAuthFactory
+    lateinit var factory: ViewModelFactory
 
     private val loginViewModel: LoginViewModel by viewModels {
         factory

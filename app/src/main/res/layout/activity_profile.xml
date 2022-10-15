@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFE9E9E9"
+    tools:context=".profile.ProfileActivity">
+
+    <ImageView
+        android:id="@+id/back_button"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="45dp"
+        android:contentDescription="Back Button"
+        android:rotation="180"
+        android:src="@drawable/expand_type"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_my_profile"
+        android:text="My Profile"
+        android:fontFamily="@font/montserrat_bold"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/back_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/back_button" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/photo_profile"
+        android:layout_width="match_parent"
+        android:layout_height="84dp"
+        android:layout_marginTop="56dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_my_profile">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/circle_image_view"
+            android:layout_width="84dp"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/edit_button"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:foregroundGravity="right"
+            android:src="@drawable/ic_edit_profile"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.61"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.275" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/montserrat_semibold"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/photo_profile"
+        android:text="User"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/free_user"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/montserrat_regular"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/user_name"
+        android:text="Free User"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    
+    <ImageView
+        android:src="@drawable/ic_bx_wallet"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/payment_icon"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="70dp"
+        app:layout_constraintTop_toBottomOf="@id/free_user"
+        android:layout_width="31dp"
+        android:layout_height="29dp"/>
+
+    <TextView
+        android:text="Pembayaran"
+        android:id="@+id/payment_text"
+        android:fontFamily="@font/montserrat_medium"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:layout_marginStart="18dp"
+        app:layout_constraintTop_toTopOf="@id/payment_icon"
+        app:layout_constraintBottom_toBottomOf="@id/payment_icon"
+        app:layout_constraintStart_toEndOf="@id/payment_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <View
+        android:id="@+id/border_1"
+        android:layout_marginTop="21dp"
+        android:layout_marginHorizontal="36dp"
+        app:layout_constraintTop_toBottomOf="@id/payment_icon"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black"/>
+
+    <ImageView
+        android:src="@drawable/ic_bx_phone_call"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/call_icon"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="21dp"
+        app:layout_constraintTop_toBottomOf="@id/border_1"
+        android:layout_width="31dp"
+        android:layout_height="29dp"/>
+
+    <TextView
+        android:text="Kontak Kami"
+        android:id="@+id/call_text"
+        android:fontFamily="@font/montserrat_medium"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:layout_marginStart="18dp"
+        app:layout_constraintTop_toTopOf="@id/call_icon"
+        app:layout_constraintBottom_toBottomOf="@id/call_icon"
+        app:layout_constraintStart_toEndOf="@id/call_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <View
+        android:id="@+id/border_2"
+        android:layout_marginTop="21dp"
+        android:layout_marginHorizontal="36dp"
+        app:layout_constraintTop_toBottomOf="@id/call_icon"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black"/>
+
+    <ImageView
+        android:src="@drawable/ic_carbon_book"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/order_icon"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="21dp"
+        app:layout_constraintTop_toBottomOf="@id/border_2"
+        android:layout_width="31dp"
+        android:layout_height="29dp"/>
+
+    <TextView
+        android:text="Pemesanan"
+        android:id="@+id/order_text"
+        android:fontFamily="@font/montserrat_medium"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:layout_marginStart="18dp"
+        app:layout_constraintTop_toTopOf="@id/order_icon"
+        app:layout_constraintBottom_toBottomOf="@id/order_icon"
+        app:layout_constraintStart_toEndOf="@id/order_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <View
+        android:id="@+id/border_3"
+        android:layout_marginTop="21dp"
+        android:layout_marginHorizontal="36dp"
+        app:layout_constraintTop_toBottomOf="@id/order_icon"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black"/>
+
+    <ImageView
+        android:src="@drawable/ic_majesticons_paper_fold_text_line"
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/tc_icon"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="21dp"
+        app:layout_constraintTop_toBottomOf="@id/border_3"
+        android:layout_width="31dp"
+        android:layout_height="29dp"/>
+
+    <TextView
+        android:id="@+id/tc_text"
+        android:text="Syarat dan Ketentuan"
+        android:fontFamily="@font/montserrat_medium"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:layout_marginStart="18dp"
+        app:layout_constraintTop_toTopOf="@id/tc_icon"
+        app:layout_constraintBottom_toBottomOf="@id/tc_icon"
+        app:layout_constraintStart_toEndOf="@id/tc_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/logout_button"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:gravity="center"
+        android:text="Logout"
+        android:fontFamily="@font/montserrat_bold"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:background="@drawable/bg_button_logout"
+        android:layout_marginHorizontal="36dp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintTop_toBottomOf="@+id/tc_icon"
+        android:layout_width="match_parent"
+        android:layout_height="53dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
