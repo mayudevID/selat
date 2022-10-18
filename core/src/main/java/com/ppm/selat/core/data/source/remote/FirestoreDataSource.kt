@@ -29,7 +29,7 @@ class FirestoreDataSource (
         }
     }
 
-    suspend fun createUserDataToFirestore(user: UserData): Flow<FirebaseResponse<Boolean>>{
+    suspend fun createUserDataToFirestore(user: UserData): Flow<FirebaseResponse<Boolean>> {
         return flow {
             try {
                 val userData = hashMapOf(
@@ -45,11 +45,7 @@ class FirestoreDataSource (
         }
     }
 
-    suspend fun uploadProfilePicture() {
-
-    }
-
-    suspend fun updateName(name: String, uid: String): Flow<Resource<Boolean>>{
+    suspend fun updateName(name: String, uid: String): Flow<Resource<Boolean>> {
         return flow {
             emit(Resource.Loading())
             try {
@@ -64,12 +60,18 @@ class FirestoreDataSource (
         }.flowOn(Dispatchers.IO)
     }
 
-//    Future<void> updatePhoto(String url) async
-//    {
-//        firestore.collection('users').document(currentUser.id).update(
-//            {
-//                "photoUrl": url,
-//            },
-//        );
-//    }
+    suspend fun updatePhoto(photoUrl: String, uid: String): Flow<Resource<Boolean>> {
+        return flow {
+            emit(Resource.Loading())
+            try {
+                val nameData = mapOf(
+                    "photoUrl" to photoUrl,
+                )
+                firestore.collection("users").document(uid).update(nameData).await()
+                emit(Resource.Success(true))
+            } catch (e: FirebaseFirestoreException) {
+                emit(Resource.Error(e.message.toString()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
 }

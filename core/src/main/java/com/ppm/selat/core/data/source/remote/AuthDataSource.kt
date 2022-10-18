@@ -24,11 +24,11 @@ class AuthDataSource (private val firebaseAuth: FirebaseAuth){
         }
     }
 
-    suspend fun registerToFirebase(email: String, password: String) : Flow<FirebaseResponse<String>> {
+    suspend fun registerToFirebase(email: String, password: String) : Flow<FirebaseResponse<AuthResult>> {
         return flow {
             try {
                 val authResult = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
-                emit(FirebaseResponse.Success(authResult.user?.uid.toString()))
+                emit(FirebaseResponse.Success(authResult))
             } catch (e: FirebaseAuthException) {
                 emit(FirebaseResponse.Error(e.errorCode))
             }

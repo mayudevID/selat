@@ -1,4 +1,4 @@
-package com.ppm.selat.ui
+package com.ppm.selat
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
@@ -13,7 +13,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.ppm.selat.R
 import com.ppm.selat.auth.LoginActivity
 import com.ppm.selat.databinding.ActivityOnboardBinding
 import org.imaginativeworld.whynotimagecarousel.CarouselItem
@@ -55,7 +54,7 @@ class OnboardActivity : AppCompatActivity() {
             textView.setTextColor(Color.parseColor("#FFFDC500"))
             textView.typeface = ResourcesCompat.getFont(this, R.font.montserrat_semibold)
             textView.textSize = 12F
-            textView.text = "Sewa mobil apapun, kapanpun, dan dimanapun, secepat Kilat!"
+            textView.text = "Sewa mobil apapun, kapanpun, \ndan dimanapun, secepat Kilat!"
             textView
         }
 

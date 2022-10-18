@@ -8,7 +8,7 @@ import android.os.Handler
 import android.os.Looper
 import com.ppm.selat.R
 import com.ppm.selat.home.HomeActivity
-import com.ppm.selat.ui.OnboardActivity
+import com.ppm.selat.OnboardActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @SuppressLint("CustomSplashScreen")

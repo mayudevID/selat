@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
-class AuthRepository (
+class AuthRepository(
     private val authDataSource: AuthDataSource,
     private val userLocalDataSource: UserLocalDataSource,
     private val firestoreDataSource: FirestoreDataSource,
@@ -36,17 +36,11 @@ class AuthRepository (
             when (val firebaseResponse = result.first()) {
                 is FirebaseResponse.Success -> {
                     emit(Resource.Loading())
-                    Log.d("LoginActivity", "Loading 2")
                     val userData =
                         firestoreDataSource.getUserDataFromFirestore(firebaseResponse.data.user!!.uid)
                     when (val dataResult = userData.first()) {
                         is FirebaseResponse.Success -> {
                             emit(Resource.Loading())
-                            Log.d("LoginActivity", "Loading 3")
-                            Log.d("LoginActivity", dataResult.data.id)
-                            Log.d("LoginActivity", dataResult.data["name"].toString())
-                            Log.d("LoginActivity", dataResult.data["email"].toString())
-                            Log.d("LoginActivity", dataResult.data["photoUrl"].toString())
                             val dataTemp = UserData(
                                 id = dataResult.data.id,
                                 name = dataResult.data["name"].toString(),
@@ -61,15 +55,6 @@ class AuthRepository (
                             } else {
                                 emit(Resource.Error(getResource[1] as String))
                             }
-//                            when (val last = saveResult.first()) {
-//                                is (last[0] == true) -> {
-//
-//                                }
-//                                is Resource.Error -> {
-//                                    emit(Resource.Error(last.message.toString()))
-//                                }
-//                                is Resource.Loading -> {}
-//                            }
                         }
                         is FirebaseResponse.Error -> {
                             emit(Resource.Error(dataResult.errorMessage))
@@ -108,16 +93,18 @@ class AuthRepository (
                         )
                     )
                     // Firebase Upload to Storage FIRESTORE DATA STORE
-                    val uploadProfilePicture = storageDataSource.uploadProfilePicture(targetPath)
-                    when (val result = uploadProfilePicture.first()) {
+                    val uploadProfilePicture = storageDataSource.uploadProfilePicture(
+                        targetPath, firebaseResponse.data.user!!.uid
+                    )
+                    when (val resultUpload = uploadProfilePicture.first()) {
                         is FirebaseResponse.Success -> {
                             emit(Resource.Loading())
                             // Make UserData
                             val newUserData = UserData(
-                                id = firebaseResponse.data,
+                                id = firebaseResponse.data.user!!.uid,
                                 name = name,
                                 email = email,
-                                photoUrl = result.data
+                                photoUrl = resultUpload.data
                             )
                             // UserData to Firestore
                             val save = firestoreDataSource.createUserDataToFirestore(newUserData)
@@ -132,7 +119,7 @@ class AuthRepository (
                             }
                         }
                         is FirebaseResponse.Error -> {
-                            emit(Resource.Error(result.errorMessage))
+                            emit(Resource.Error(resultUpload.errorMessage))
                         }
                         is FirebaseResponse.Empty -> {}
                     }
@@ -151,11 +138,11 @@ class AuthRepository (
 
     override fun isUserSigned(): Flow<Boolean> = authDataSource.isUserSigned()
 
-    override fun logoutFromFirebase() : Flow<Resource<Boolean>> {
+    override fun logoutFromFirebase(): Flow<Resource<Boolean>> {
         return flow {
             emit(Resource.Loading())
             val clearData = userLocalDataSource.removeUserData()
-            when(val result = clearData.first()) {
+            when (val result = clearData.first()) {
                 is Resource.Success -> {
                     emit(Resource.Loading())
                     val resultLogin = authDataSource.logoutFromFirebase()

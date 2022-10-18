@@ -30,7 +30,7 @@ val repositoryModule = module {
     single { AuthDataSource(get()) }
     //single { CarDataSource(get()) }
     single { FirestoreDataSource(get()) }
-    single { StorageDataSource(get(), get()) }
+    single { StorageDataSource(get()) }
 
     single<IAuthRepository> {
         AuthRepository(
