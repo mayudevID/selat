@@ -20,9 +20,7 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
-
-@Singleton
-class AuthRepository @Inject constructor(
+class AuthRepository (
     private val authDataSource: AuthDataSource,
     private val userLocalDataSource: UserLocalDataSource,
     private val firestoreDataSource: FirestoreDataSource,

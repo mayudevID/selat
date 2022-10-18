@@ -7,32 +7,24 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.ppm.selat.MyApplication
-import com.ppm.selat.ViewModelFactory
-import com.ppm.selat.core.presentation.home.ListCarBrandsAdapter
-import com.ppm.selat.core.presentation.home.ListSedanAdapter
-import com.ppm.selat.core.presentation.home.ListSuvAdapter
+import com.ppm.selat.core.ui.home.ListCarBrandsAdapter
+import com.ppm.selat.core.ui.home.ListSedanAdapter
+import com.ppm.selat.core.ui.home.ListSuvAdapter
 import com.ppm.selat.databinding.ActivityHomeBinding
 import com.ppm.selat.core.domain.model.Car
 import com.ppm.selat.detail_car.DetailCarActivity
 import com.ppm.selat.profile.ProfileActivity
 import com.ppm.selat.ui.pick_car.PickCarActivity
-import javax.inject.Inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class HomeActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var factory: ViewModelFactory
-
-    private val homeViewModel: HomeViewModel by viewModels {
-        factory
-    }
+    private val homeViewModel: HomeViewModel by viewModel()
 
     private lateinit var binding: ActivityHomeBinding
     private lateinit var listSedanAdapter: ListSedanAdapter
@@ -40,7 +32,6 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var listCarBrandsAdapter: ListCarBrandsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        (application as MyApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -61,7 +52,7 @@ class HomeActivity : AppCompatActivity() {
             Glide.with(this)
                 .load(it.photoUrl)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(binding.profileImage);
+                .into(binding.profileImage)
         }
     }
 

@@ -11,7 +11,6 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
@@ -19,23 +18,17 @@ import com.google.android.material.snackbar.Snackbar
 import com.ppm.selat.MyApplication
 import com.ppm.selat.R
 import com.ppm.selat.core.data.Resource
-import com.ppm.selat.ViewModelFactory
 import com.ppm.selat.core.utils.emailPattern
 import com.ppm.selat.databinding.ActivityRegisterBinding
 import com.ppm.selat.home.HomeActivity
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
-import javax.inject.Inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RegisterActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var factory: ViewModelFactory
-
-    private val registerViewModel: RegisterViewModel by viewModels {
-        factory
-    }
+    private val registerViewModel: RegisterViewModel by viewModel()
 
     private lateinit var binding: ActivityRegisterBinding
     var isClosed: Boolean = true
@@ -95,7 +88,6 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        (application as MyApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)

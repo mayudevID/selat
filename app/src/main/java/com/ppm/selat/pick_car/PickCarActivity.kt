@@ -5,8 +5,8 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ppm.selat.R
-import com.ppm.selat.core.presentation.pick_car.ListAvailableCarAdapter
-import com.ppm.selat.core.presentation.pick_car.ListBrandsCarToPickAdapter
+import com.ppm.selat.core.ui.pick_car.ListAvailableCarAdapter
+import com.ppm.selat.core.ui.pick_car.ListBrandsCarToPickAdapter
 import com.ppm.selat.databinding.ActivityPickCarBinding
 import com.ppm.selat.core.domain.model.Car
 
@@ -30,12 +30,6 @@ class PickCarActivity : AppCompatActivity() {
     }
 
     private fun setAppBarTitle() {
-//        val customFont = ResourcesCompat.getFont(this@PickCarActivity, R.font.montserrat_semibold);
-//        binding.collapisngToolbar.setCollapsedTitleTextColor(Color.BLACK)
-//        binding.collapisngToolbar.setExpandedTitleColor(Color.BLACK)
-//        binding.collapisngToolbar.setCollapsedTitleTypeface(customFont)
-//        binding.collapisngToolbar.setExpandedTitleTypeface(customFont)
-
         var isShow = true
         var scrollRange = -1
         binding.appBarLayout.addOnOffsetChangedListener { barLayout, verticalOffset ->

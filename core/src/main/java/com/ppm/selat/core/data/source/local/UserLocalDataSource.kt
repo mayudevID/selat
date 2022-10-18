@@ -10,8 +10,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.Exception
 
-@Singleton
-class UserLocalDataSource @Inject constructor(private val sharedPreferences: SharedPreferences) {
+class UserLocalDataSource (private val sharedPreferences: SharedPreferences) {
 
     companion object {
         private const val DATA_USER = "DATA_USER"

@@ -1,4 +1,4 @@
-package com.ppm.selat.core.presentation.home
+package com.ppm.selat.core.ui.home
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater

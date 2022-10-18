@@ -6,28 +6,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.activity.viewModels
-import com.google.firebase.auth.FirebaseAuth
-import com.ppm.selat.MyApplication
 import com.ppm.selat.R
-import com.ppm.selat.ViewModelFactory
-import com.ppm.selat.auth.LoginViewModel
 import com.ppm.selat.home.HomeActivity
 import com.ppm.selat.ui.OnboardActivity
-import javax.inject.Inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var factory: ViewModelFactory
-
-    private val splashViewModel: SplashViewModel by viewModels {
-        factory
-    }
+    private val splashViewModel: SplashViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        (application as MyApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 

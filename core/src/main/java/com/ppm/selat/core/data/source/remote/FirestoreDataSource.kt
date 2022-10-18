@@ -15,8 +15,7 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
-class FirestoreDataSource @Inject constructor(
+class FirestoreDataSource (
     private val firestore: FirebaseFirestore,
 ) {
     suspend fun getUserDataFromFirestore(uid: String): Flow<FirebaseResponse<DocumentSnapshot>> {

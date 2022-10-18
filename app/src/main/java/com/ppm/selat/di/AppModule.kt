@@ -1,17 +1,23 @@
 package com.ppm.selat.di
 
-import android.app.Application
-import android.content.Context
+import com.ppm.selat.auth.LoginViewModel
+import com.ppm.selat.auth.RegisterViewModel
 import com.ppm.selat.core.domain.usecase.AuthInteractor
 import com.ppm.selat.core.domain.usecase.AuthUseCase
-import dagger.Binds
-import dagger.Module
-import dagger.Provides
-import javax.inject.Singleton
+import com.ppm.selat.home.HomeViewModel
+import com.ppm.selat.profile.ProfileViewModel
+import com.ppm.selat.splash.SplashViewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.dsl.module
 
-@Module
-abstract class AppModule {
+val useCaseModule = module {
+    factory<AuthUseCase> { AuthInteractor(get()) }
+}
 
-    @Binds
-    abstract fun provideAuthUseCase(authInteractor: AuthInteractor): AuthUseCase
+val viewModelModule = module {
+    viewModel { SplashViewModel(get()) }
+    viewModel { LoginViewModel(get()) }
+    viewModel { RegisterViewModel(get()) }
+    viewModel { HomeViewModel(get()) }
+    viewModel { ProfileViewModel(get()) }
 }

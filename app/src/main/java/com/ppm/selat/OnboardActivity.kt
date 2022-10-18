@@ -30,7 +30,9 @@ class OnboardActivity : AppCompatActivity() {
 
     private val images = arrayListOf(
         R.drawable.onboard_1,
-        R.drawable.onboard_2, R.drawable.onboard_3, R.drawable.onboard_4
+        R.drawable.onboard_2,
+        R.drawable.onboard_3,
+        R.drawable.onboard_4
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,11 +59,11 @@ class OnboardActivity : AppCompatActivity() {
             textView
         }
 
-        binding.textSwitch.setInAnimation(this, android.R.anim.fade_in);
-        binding.textSwitch.setOutAnimation(this, android.R.anim.fade_out);
+        binding.textSwitch.setInAnimation(this, android.R.anim.fade_in)
+        binding.textSwitch.setOutAnimation(this, android.R.anim.fade_out)
 
-        binding.smallText.setInAnimation(this, android.R.anim.fade_in);
-        binding.smallText.setOutAnimation(this, android.R.anim.fade_out);
+        binding.smallText.setInAnimation(this, android.R.anim.fade_in)
+        binding.smallText.setOutAnimation(this, android.R.anim.fade_out)
 
         supportActionBar?.hide()
 

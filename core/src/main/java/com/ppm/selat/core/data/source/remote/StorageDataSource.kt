@@ -11,8 +11,7 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
-class StorageDataSource @Inject constructor(
+class StorageDataSource (
     private val firebaseStorage: FirebaseStorage,
     private val firebaseAuth: FirebaseAuth
 ) {

@@ -20,24 +20,18 @@ import com.google.android.material.snackbar.Snackbar
 import com.ppm.selat.MyApplication
 import com.ppm.selat.R
 import com.ppm.selat.core.data.Resource
-import com.ppm.selat.ViewModelFactory
 import com.ppm.selat.core.utils.emailPattern
 import com.ppm.selat.databinding.ActivityLoginBinding
 import com.ppm.selat.home.HomeActivity
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
-import javax.inject.Inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class LoginActivity : AppCompatActivity() {
 
-    @Inject
-    lateinit var factory: ViewModelFactory
-
-    private val loginViewModel: LoginViewModel by viewModels {
-        factory
-    }
+    private val loginViewModel: LoginViewModel by viewModel()
 
     private lateinit var binding: ActivityLoginBinding
     private var isClosed: Boolean = true
@@ -72,7 +66,6 @@ class LoginActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        (application as MyApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)

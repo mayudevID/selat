@@ -1,4 +1,3 @@
 package com.ppm.selat.detail_car
 
-class DetailCarViewModel {
-}
+class DetailCarViewModel

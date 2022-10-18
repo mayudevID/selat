@@ -1,4 +1,4 @@
-package com.ppm.selat.core.presentation.pick_car
+package com.ppm.selat.core.ui.pick_car
 
 import android.view.LayoutInflater
 import android.view.View

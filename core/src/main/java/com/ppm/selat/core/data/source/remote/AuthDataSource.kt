@@ -12,8 +12,7 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
-class AuthDataSource @Inject constructor(private val firebaseAuth: FirebaseAuth){
+class AuthDataSource (private val firebaseAuth: FirebaseAuth){
     suspend fun loginToFirebase(email: String, password: String): Flow<FirebaseResponse<AuthResult>> {
         return flow {
             try {

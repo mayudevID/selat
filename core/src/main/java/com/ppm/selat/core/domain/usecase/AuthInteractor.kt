@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 
-class AuthInteractor @Inject constructor(private val authRepository: IAuthRepository): AuthUseCase {
+class AuthInteractor(private val authRepository: IAuthRepository): AuthUseCase {
     override fun loginToFirebase(email: String, password: String) = authRepository.loginToFirebase(email, password)
     override fun registerToFirebase(name: String, email: String, password: String) = authRepository.registerToFirebase(name, email, password)
     override fun getUserStream() = authRepository.getUserStream()

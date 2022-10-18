@@ -1,18 +1,31 @@
 package com.ppm.selat
 
 import android.app.Application
-import com.ppm.selat.core.di.CoreComponent
-import com.ppm.selat.core.di.DaggerCoreComponent
-import com.ppm.selat.di.AppComponent
-import com.ppm.selat.di.DaggerAppComponent
+import com.ppm.selat.core.di.databaseModule
+import com.ppm.selat.core.di.networkModule
+import com.ppm.selat.core.di.repositoryModule
+import com.ppm.selat.di.useCaseModule
+import com.ppm.selat.di.viewModelModule
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
+import org.koin.core.logger.Level
 
 open class MyApplication : Application() {
-
-    private val coreComponent: CoreComponent by lazy {
-        DaggerCoreComponent.factory().create(applicationContext)
-    }
-
-    val appComponent: AppComponent by lazy {
-        DaggerAppComponent.factory().create(coreComponent)
+    override fun onCreate() {
+        super.onCreate()
+        startKoin {
+            androidLogger(Level.NONE)
+            androidContext(this@MyApplication)
+            modules(
+                listOf(
+                    databaseModule,
+                    networkModule,
+                    repositoryModule,
+                    useCaseModule,
+                    viewModelModule
+                )
+            )
+        }
     }
 }
