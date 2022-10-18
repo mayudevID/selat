@@ -4,6 +4,7 @@ import com.ppm.selat.auth.LoginViewModel
 import com.ppm.selat.auth.RegisterViewModel
 import com.ppm.selat.core.domain.usecase.AuthInteractor
 import com.ppm.selat.core.domain.usecase.AuthUseCase
+import com.ppm.selat.edit_profile.EditProfileViewModel
 import com.ppm.selat.home.HomeViewModel
 import com.ppm.selat.profile.ProfileViewModel
 import com.ppm.selat.splash.SplashViewModel
@@ -20,4 +21,5 @@ val viewModelModule = module {
     viewModel { RegisterViewModel(get()) }
     viewModel { HomeViewModel(get()) }
     viewModel { ProfileViewModel(get()) }
+    viewModel { EditProfileViewModel(get()) }
 }

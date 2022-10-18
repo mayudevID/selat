@@ -8,6 +8,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.ppm.selat.auth.LoginActivity
 import com.ppm.selat.core.data.Resource
 import com.ppm.selat.databinding.ActivityProfileBinding
+import com.ppm.selat.edit_profile.EditProfileActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ProfileActivity : AppCompatActivity() {
@@ -38,6 +39,12 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun setUpListener() {
+
+        binding.editButton.setOnClickListener {
+            val intent = Intent(this@ProfileActivity, EditProfileActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.logoutButton.setOnClickListener {
             profileViewModel.logoutFromFirebase().observe(this) { result ->
                 if (result != null) {

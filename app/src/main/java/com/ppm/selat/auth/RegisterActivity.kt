@@ -1,5 +1,7 @@
 package com.ppm.selat.auth
 
+import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -10,6 +12,7 @@ import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doOnTextChanged
@@ -23,6 +26,7 @@ import com.ppm.selat.databinding.ActivityRegisterBinding
 import com.ppm.selat.home.HomeActivity
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.observeOn
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -37,55 +41,6 @@ class RegisterActivity : AppCompatActivity() {
     private var emailErrorMessage: String? = null
     private var passwordErrorMessage: String? = null
     private var cPasswordErrorMessage: String? = null
-    private val nameFlow =  MutableStateFlow("")
-    private val emailFlow = MutableStateFlow("")
-    private val passwordFlow = MutableStateFlow("")
-    private val cPasswordFlow = MutableStateFlow("")
-
-    private val formIsValid = combine(
-        nameFlow,
-        emailFlow,
-        passwordFlow,
-        cPasswordFlow
-    ) { name, email, password, cPassword ->
-        binding.nameError.text = ""
-        binding.emailError.text = ""
-        binding.passwordError.text = ""
-        binding.confirmPasswordError.text = ""
-        val nameIsValid = if (name == "") true else name.length > 4
-        val emailIsValid = if (email == "") true else emailPattern.matcher(email).matches()
-        val passwordIsValid = if (password == "") true else password.length in 8..100
-        val cPasswordIsValid = if (cPassword == "") true else password == cPassword
-        nameErrorMessage = when {
-            nameIsValid.not() -> "Nama harus lebih dari 4 (empat) karakter"
-            else -> null
-        }
-        emailErrorMessage = when {
-            emailIsValid.not() -> "Email tidak valid"
-            else -> null
-        }
-        passwordErrorMessage = when {
-            passwordIsValid.not() -> "Password minimal 8 (delapan) karakter"
-            else -> null
-        }
-        cPasswordErrorMessage = when {
-            cPasswordIsValid.not() -> "Password tidak cocok"
-            else -> null
-        }
-        nameErrorMessage?.let {
-            binding.nameError.text = it
-        }
-        emailErrorMessage?.let {
-            binding.emailError.text = it
-        }
-        passwordErrorMessage?.let {
-            binding.passwordError.text = it
-        }
-        cPasswordErrorMessage?.let {
-            binding.confirmPasswordError.text = it
-        }
-        nameIsValid and emailIsValid and passwordIsValid and cPasswordIsValid
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,18 +49,68 @@ class RegisterActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
+        setValidForm()
+        setUpListener()
+    }
+
+    private fun setValidForm() {
+        val formIsValid = combine(
+            registerViewModel.nameFlow,
+            registerViewModel.emailFlow,
+            registerViewModel.passwordFlow,
+            registerViewModel.cPasswordFlow
+        ) { name, email, password, cPassword ->
+            binding.nameError.text = ""
+            binding.emailError.text = ""
+            binding.passwordError.text = ""
+            binding.confirmPasswordError.text = ""
+            val nameIsValid = if (name == "") true else name.length > 4
+            val emailIsValid = if (email == "") true else emailPattern.matcher(email).matches()
+            val passwordIsValid = if (password == "") true else password.length in 8..100
+            val cPasswordIsValid = if (cPassword == "") true else password == cPassword
+            nameErrorMessage = when {
+                nameIsValid.not() -> "Nama harus lebih dari 4 (empat) karakter"
+                else -> null
+            }
+            emailErrorMessage = when {
+                emailIsValid.not() -> "Email tidak valid"
+                else -> null
+            }
+            passwordErrorMessage = when {
+                passwordIsValid.not() -> "Password minimal 8 (delapan) karakter"
+                else -> null
+            }
+            cPasswordErrorMessage = when {
+                cPasswordIsValid.not() -> "Password tidak cocok"
+                else -> null
+            }
+            nameErrorMessage?.let {
+                binding.nameError.text = it
+            }
+            emailErrorMessage?.let {
+                binding.emailError.text = it
+            }
+            passwordErrorMessage?.let {
+                binding.passwordError.text = it
+            }
+            cPasswordErrorMessage?.let {
+                binding.confirmPasswordError.text = it
+            }
+            nameIsValid and emailIsValid and passwordIsValid and cPasswordIsValid
+        }
+
         with(binding) {
             nameEditText.doOnTextChanged { text, _, _, _ ->
-                nameFlow.value = text.toString().trim()
+                registerViewModel.nameFlow.value = text.toString().trim()
             }
             emailEditText.doOnTextChanged { text, _, _, _ ->
-                emailFlow.value = text.toString().trim()
+                registerViewModel.emailFlow.value = text.toString().trim()
             }
             passEditText.doOnTextChanged { text, _, _, _ ->
-                passwordFlow.value = text.toString().trim()
+                registerViewModel.passwordFlow.value = text.toString().trim()
             }
             confirmPassEditText.doOnTextChanged { text, _, _, _ ->
-                cPasswordFlow.value = text.toString().trim()
+                registerViewModel.cPasswordFlow.value = text.toString().trim()
             }
         }
 
@@ -116,8 +121,6 @@ class RegisterActivity : AppCompatActivity() {
                 }
             }
         }
-
-        setUpListener()
     }
 
     private fun setUpListener() {
@@ -175,16 +178,26 @@ class RegisterActivity : AppCompatActivity() {
                            }
                            is Resource.Success<*> -> {
                                Log.d("RegisterActivity", "Success")
-                               startActivity(Intent(this, HomeActivity::class.java))
-                               finish()
-                               registerViewModel.registerAccount(name, emailX, passwordX).removeObservers(this)
+                               registerViewModel.logoutForLogin().observe(this) {
+                                   resultD ->
+                                    if (resultD != null) {
+                                        when (resultD) {
+                                            is Resource.Loading -> {}
+                                            is Resource.Success -> {
+                                                showCustomAlert()
+                                            }
+                                            is Resource.Error -> {
+                                                onSnackError("Kesalahan: Harap hapus cache data atau reinstall kembali aplikasi")
+                                            }
+                                        }
+                                    }
+                               }
                            }
                            is Resource.Error<*> -> {
                                binding.registerButton.visibility = View.VISIBLE
                                binding.loadingLogo.visibility = View.GONE
                                Log.d("RegisterActivity", result.message.toString())
                                onSnackError(result.message.toString())
-                               registerViewModel.registerAccount(name, emailX, passwordX).removeObservers(this)
                            }
                        }
                    }
@@ -196,6 +209,17 @@ class RegisterActivity : AppCompatActivity() {
             finish()
         }
     }
+
+    private fun showCustomAlert() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_finish_register, null)
+        val customDialog = AlertDialog.Builder(this).setView(dialogView).show()
+        val btDismiss = dialogView.findViewById<TextView>(R.id.ok_button)
+        btDismiss.setOnClickListener {
+            customDialog.dismiss()
+            finish()
+        }
+    }
+
     private fun onSnackError(errorMessage: String){
         val snackbar = Snackbar.make(binding.root, convertCode(errorMessage),
             Snackbar.LENGTH_LONG).setAction("Action", null)

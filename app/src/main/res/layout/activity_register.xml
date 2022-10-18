@@ -42,7 +42,7 @@
             android:background="@null"
             android:fontFamily="@font/montserrat_regular"
             android:hint="Name"
-            android:inputType="textEmailAddress"
+            android:inputType="textPersonName"
             android:paddingHorizontal="13dp"
             android:textSize="12sp"
             tools:ignore="TouchTargetSizeCheck" />

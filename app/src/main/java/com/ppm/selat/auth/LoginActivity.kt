@@ -37,33 +37,6 @@ class LoginActivity : AppCompatActivity() {
     private var isClosed: Boolean = true
     private var emailErrorMessage: String? = null
     private var passwordErrorMessage: String? = null
-    private val emailFlow = MutableStateFlow("")
-    private val passwordFlow = MutableStateFlow("")
-
-    private val formIsValid = combine(
-        emailFlow,
-        passwordFlow,
-    ) { email, password ->
-        binding.emailError.text = ""
-        binding.passwordError.text = ""
-        val emailIsValid = if (email == "") true else emailPattern.matcher(email).matches()
-        val passwordIsValid = if (password == "") true else password.length in 8..100
-        emailErrorMessage = when {
-            emailIsValid.not() -> "Email tidak valid"
-            else -> null
-        }
-        passwordErrorMessage = when {
-            passwordIsValid.not() -> "Password minimal 8 (delapan) karakter"
-            else -> null
-        }
-        emailErrorMessage?.let {
-            binding.emailError.text = it
-        }
-        passwordErrorMessage?.let {
-            binding.passwordError.text = it
-        }
-        emailIsValid and passwordIsValid
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,13 +44,43 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         supportActionBar?.hide()
-        
+
+        setValidForm()
+        setUpListener()
+    }
+
+    private fun setValidForm() {
+        val formIsValid = combine(
+            loginViewModel.emailFlow,
+            loginViewModel.passwordFlow,
+        ) { email, password ->
+            binding.emailError.text = ""
+            binding.passwordError.text = ""
+            val emailIsValid = if (email == "") true else emailPattern.matcher(email).matches()
+            val passwordIsValid = if (password == "") true else password.length in 8..100
+            emailErrorMessage = when {
+                emailIsValid.not() -> "Email tidak valid"
+                else -> null
+            }
+            passwordErrorMessage = when {
+                passwordIsValid.not() -> "Password minimal 8 (delapan) karakter"
+                else -> null
+            }
+            emailErrorMessage?.let {
+                binding.emailError.text = it
+            }
+            passwordErrorMessage?.let {
+                binding.passwordError.text = it
+            }
+            emailIsValid and passwordIsValid
+        }
+
         with(binding) {
             emailEditText.doOnTextChanged { text, _, _, _ ->
-                emailFlow.value = text.toString().trim()
+                loginViewModel.emailFlow.value = text.toString().trim()
             }
             passEditText.doOnTextChanged { text, _, _, _ ->
-                passwordFlow.value = text.toString().trim()
+                loginViewModel.passwordFlow.value = text.toString().trim()
             }
         }
 
@@ -88,8 +91,6 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
-
-        setUpListener()
     }
 
     private fun setUpListener() {
