@@ -17,6 +17,10 @@
         android:theme="@style/Theme.Selat"
         tools:targetApi="31">
         <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
             android:name=".edit_profile.EditProfileActivity"
             android:exported="false">
             <meta-data

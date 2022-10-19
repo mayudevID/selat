@@ -123,6 +123,7 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
+                android:id="@+id/edit_text_full_name"
                 android:text="Firman Utina"
                 android:background="@null"
                 android:fontFamily="@font/montserrat_semibold"
@@ -185,6 +186,7 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
+                android:id="@+id/edit_text_email"
                 android:text="firmanutina15@gmail.com"
                 android:background="@null"
                 android:fontFamily="@font/montserrat_semibold"
@@ -247,6 +249,7 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
+                android:clickable="false"
                 android:text="***************"
                 android:background="@null"
                 android:fontFamily="@font/montserrat_semibold"
@@ -309,6 +312,7 @@
                 android:layout_height="wrap_content"/>
 
             <EditText
+                android:clickable="false"
                 android:text="08121198xxx"
                 android:background="@null"
                 android:fontFamily="@font/montserrat_semibold"
