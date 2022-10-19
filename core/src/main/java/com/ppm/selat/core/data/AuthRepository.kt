@@ -134,10 +134,6 @@ class AuthRepository(
         }
     }
 
-    override fun getUserStream(): MutableStateFlow<UserData> = userLocalDataSource.getDataStream()
-
-    override fun isUserSigned(): Flow<Boolean> = authDataSource.isUserSigned()
-
     override fun logoutFromFirebase(): Flow<Resource<Boolean>> {
         return flow {
             emit(Resource.Loading())
@@ -167,4 +163,10 @@ class AuthRepository(
             }
         }
     }
+
+    override fun getUserStream(): MutableStateFlow<UserData> = userLocalDataSource.getDataStream()
+
+    override fun isUserSigned(): Flow<Boolean> = authDataSource.isUserSigned()
+
+
 }

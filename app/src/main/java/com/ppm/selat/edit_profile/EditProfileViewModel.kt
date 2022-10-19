@@ -10,14 +10,12 @@ class EditProfileViewModel(private val authUseCase: AuthUseCase): ViewModel() {
     var nameFlow = MutableStateFlow("")
     lateinit var emailInit: String
     var emailFlow = MutableStateFlow("")
+    var photoIsChanged = MutableStateFlow(false)
 
-    fun checkNameIsChanged() : Boolean {
-        return nameInit != nameFlow.value
-    }
-
-    fun checkEmailIsChanged() : Boolean {
-        return emailInit != emailFlow.value
-    }
+    fun checkNameIsChanged() : Boolean = nameInit != nameFlow.value
+    fun checkEmailIsChanged() : Boolean = emailInit != emailFlow.value
 
     val userDataStream = authUseCase.getUserStream()
+
+
 }

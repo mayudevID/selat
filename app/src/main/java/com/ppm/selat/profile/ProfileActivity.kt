@@ -40,6 +40,10 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun setUpListener() {
 
+        binding.backButton.setOnClickListener {
+            finish()
+        }
+
         binding.editButton.setOnClickListener {
             val intent = Intent(this@ProfileActivity, EditProfileActivity::class.java)
             startActivity(intent)

@@ -27,5 +27,5 @@ dependencies {
     implementation "io.insert-koin:koin-android-compat:3.2.2"
     implementation "io.insert-koin:koin-androidx-workmanager:3.2.2"
     implementation "io.insert-koin:koin-androidx-navigation:3.2.2"
-    implementation 'com.github.yalantis:ucrop:2.2.6-native'
+    implementation 'com.github.CanHub:Android-Image-Cropper:4.3.2'
 }

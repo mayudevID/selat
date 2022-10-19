@@ -1,15 +1,19 @@
 package com.ppm.selat.edit_profile
 
-import android.content.Intent
-import android.net.Uri
+import android.content.Context
+import android.graphics.Bitmap
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.canhub.cropper.CropImageContract
+import com.canhub.cropper.CropImageView
+import com.canhub.cropper.options
 import com.ppm.selat.databinding.ActivityEditProfileBinding
-import com.yalantis.ucrop.UCrop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -18,6 +22,21 @@ class EditProfileActivity : AppCompatActivity() {
 
     private val editProfileViewModel: EditProfileViewModel by viewModel()
     private lateinit var binding: ActivityEditProfileBinding
+
+    val cropImage = registerForActivityResult(CropImageContract()) { result ->
+        if (result.isSuccessful) {
+            // use the returned uri
+            val uriContent = result.uriContent
+            val uriFilePath = result.getUriFilePath(this) // optional usage
+            Glide.with(this)
+                .load(uriContent)
+                .into(binding.circleImageView)
+            editProfileViewModel.photoIsChanged.value = true
+        } else {
+            // an error occurred
+            val exception = result.error
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +51,12 @@ class EditProfileActivity : AppCompatActivity() {
             editProfileViewModel.nameFlow.value = data.name.toString()
             editProfileViewModel.emailInit = data.name.toString()
             editProfileViewModel.emailFlow.value = data.name.toString()
+
+            binding.userName.text = data.name.toString()
+            Glide.with(this@EditProfileActivity)
+                .load(data.photoUrl)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(binding.circleImageView)
         }
 
         with(binding) {
@@ -44,52 +69,39 @@ class EditProfileActivity : AppCompatActivity() {
                 Log.d("EditProfileActivity", editProfileViewModel.checkEmailIsChanged().toString())
             }
         }
+
+        setUpListener()
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK && requestCode == UCrop.REQUEST_CROP) {
-            val resultUri: Uri? = data?.let { UCrop.getOutput(it) }
-        } else if (resultCode == UCrop.RESULT_ERROR) {
-            val cropError = data?.let { UCrop.getError(it) }
+    private fun setUpListener() {
+        binding.backButton.setOnClickListener {
+            finish()
+        }
+        binding.cancelButton.setOnClickListener {
+            finish()
+        }
+        binding.circleImageView.setOnClickListener {
+            pickImageForProfilePicture()
         }
     }
 
     private fun pickImageForProfilePicture() {
-
-        val launcherIntentGallery = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { result ->
-            if (result.resultCode == RESULT_OK) {
-                val selectedImg: Uri = result.data?.data as Uri
-
-                //val myFile = uriToFile(selectedImg, this@AddStoryActivity)
-
-                //getFile = myFile
-
-                //binding.previewImageView.setImageURI(selectedImg)
+        cropImage.launch(
+            options {
+                setImageSource(includeGallery = true, includeCamera = false)
+                setCropShape(CropImageView.CropShape.OVAL)
+                setGuidelines(CropImageView.Guidelines.ON)
+                setAspectRatio(1,1)
+                setFixAspectRatio(true)
+                setOutputCompressFormat(Bitmap.CompressFormat.PNG)
             }
-        }
+        )
+    }
 
-//        val launcherUCrop = registerForActivityResult(
-//            ActivityResultContracts.StartActivityForResult()
-//        ) { result ->
-//            if (result.resultCode == RESULT_OK) {
-//                val resultUri: Uri? = result.data?.let { UCrop.getOutput(it) }
-//            } else if (result.resultCode == UCrop.RESULT_ERROR) {
-//                val cropError = result.data?.let { UCrop.getError(it) }
-//            }
-//        }
-
-        val intent = Intent()
-        intent.action = Intent.ACTION_GET_CONTENT
-        intent.type = "image/*"
-        val chooser = Intent.createChooser(intent, "Choose a Picture")
-        launcherIntentGallery.launch(chooser)
-
-        UCrop.of(sourceUri, destinationUri)
-            .withAspectRatio(1F, 1F)
-            .start(this);
+    private fun isNetworkAvailable(context: Context): Boolean {
+        val connectivityManager: ConnectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo()!!
+            .isConnected()
     }
 }

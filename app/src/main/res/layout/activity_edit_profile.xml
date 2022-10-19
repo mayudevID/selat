@@ -339,6 +339,7 @@
         android:layout_height="wrap_content">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cancel_button"
             app:cardBackgroundColor="#FFFFFFFF"
             app:cardElevation="0dp"
             app:cardCornerRadius="8dp"
@@ -361,6 +362,7 @@
             android:layout_height="0dp"/>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/save_button"
             app:cardBackgroundColor="#FF00296B"
             app:cardElevation="0dp"
             app:cardCornerRadius="8dp"
