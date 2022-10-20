@@ -53,4 +53,8 @@ class AuthDataSource (private val firebaseAuth: FirebaseAuth){
             }
         }.flowOn(Dispatchers.IO)
     }
+
+    fun getUidUser() : String {
+        return firebaseAuth.currentUser!!.uid
+    }
 }

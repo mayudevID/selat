@@ -76,15 +76,15 @@
                     android:paddingVertical="11dp">
 
                     <TextView
+                        app:layout_constraintHorizontal_bias="0"
                         android:id="@+id/user_name"
-                        android:layout_width="wrap_content"
+                        android:layout_width="230dp"
                         android:layout_height="wrap_content"
-
                         android:fontFamily="@font/montserrat_bold"
                         android:text="Firman"
-
                         android:textColor="@color/black"
                         android:textSize="24sp"
+                        app:layout_constraintEnd_toStartOf="@+id/profile_image"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 

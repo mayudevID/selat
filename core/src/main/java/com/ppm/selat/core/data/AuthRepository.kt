@@ -3,6 +3,7 @@ package com.ppm.selat.core.data
 import android.content.ContentResolver
 import android.content.res.Resources
 import android.net.Uri
+import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.util.Log
 import com.google.firebase.auth.FirebaseUser
 import com.ppm.selat.core.R
@@ -46,6 +47,7 @@ class AuthRepository(
                                 name = dataResult.data["name"].toString(),
                                 email = dataResult.data["email"].toString(),
                                 photoUrl = dataResult.data["photoUrl"].toString(),
+                                phone = dataResult.data["phone"].toString()
                             )
                             Log.d("LoginActivity", dataTemp.toString())
                             val saveResult = userLocalDataSource.saveUserData(dataTemp)
@@ -104,7 +106,8 @@ class AuthRepository(
                                 id = firebaseResponse.data.user!!.uid,
                                 name = name,
                                 email = email,
-                                photoUrl = resultUpload.data
+                                photoUrl = resultUpload.data,
+                                phone = "0"
                             )
                             // UserData to Firestore
                             val save = firestoreDataSource.createUserDataToFirestore(newUserData)
@@ -150,7 +153,7 @@ class AuthRepository(
                             emit(Resource.Error(result.message.toString()))
                         }
                         is Resource.Loading -> {
-
+                            emit(Resource.Loading())
                         }
                     }
                 }
@@ -158,8 +161,76 @@ class AuthRepository(
                     emit(Resource.Error(result.message.toString()))
                 }
                 is Resource.Loading -> {
+                    emit(Resource.Loading())
+                }
+            }
+        }
+    }
+
+    override fun updateName(name: String): Flow<Resource<Boolean>> {
+        return flow {
+            emit(Resource.Loading())
+            val uid = authDataSource.getUidUser()
+            val data = firestoreDataSource.updateName(name, uid)
+            when (val result = data.first()) {
+                is Resource.Success -> {
+                    emit(Resource.Success(true))
+                }
+                is Resource.Error -> {
+                    emit(Resource.Error(result.message.toString()))
+                }
+                is Resource.Loading -> {
+                    emit(Resource.Loading())
+                }
+            }
+        }
+    }
+
+    override fun updateEmail(email: String): Flow<Resource<Boolean>> {
+        TODO()
+    }
+
+    override fun updatePhone(phone: String): Flow<Resource<Boolean>> {
+        TODO()
+    }
+
+    override fun updatePhoto(photo: Uri): Flow<Resource<Boolean>> {
+        return flow {
+            emit(Resource.Loading())
+            val uid = authDataSource.getUidUser()
+            val userDataTemp = userLocalDataSource.getSingleUserData()
+
+            val deletePhoto = storageDataSource.deleteProfilePicture(userDataTemp.photoUrl!!, uid)
+            when (val resultDelete = deletePhoto.first()) {
+                is FirebaseResponse.Success -> {
+                    emit(Resource.Loading())
+                    val uploadStorage = storageDataSource.uploadProfilePicture(photo, uid)
+                    when (val resultUpload = uploadStorage.first()) {
+                        is FirebaseResponse.Success -> {
+                            emit(Resource.Loading())
+                            val dataRes = firestoreDataSource.updatePhoto(resultUpload.data, uid)
+                            when (val result = dataRes.first()) {
+                                is Resource.Success -> {
+                                    emit(Resource.Success(true))
+                                }
+                                is Resource.Error -> {
+                                    emit(Resource.Error(result.message.toString()))
+                                }
+                                is Resource.Loading -> {
+                                    emit(Resource.Loading())
+                                }
+                            }
+                        }
+                        is FirebaseResponse.Error -> {
+                            emit(Resource.Error(resultUpload.errorMessage))
+                        }
+                        is FirebaseResponse.Empty -> {}
+                    }
+                }
+                is FirebaseResponse.Error -> {
 
                 }
+                is FirebaseResponse.Empty -> {}
             }
         }
     }
@@ -167,6 +238,4 @@ class AuthRepository(
     override fun getUserStream(): MutableStateFlow<UserData> = userLocalDataSource.getDataStream()
 
     override fun isUserSigned(): Flow<Boolean> = authDataSource.isUserSigned()
-
-
 }

@@ -17,7 +17,7 @@ class UserLocalDataSource (private val sharedPreferences: SharedPreferences) {
     }
 
     private val userData = UserData(
-        id = "NULL", name = "NULL", email = "NULL", photoUrl = "NULL"
+        id = "NULL", name = "NULL", email = "NULL", photoUrl = "NULL", phone = "String"
     )
 
     private val userDataStream = MutableStateFlow(userData)
@@ -32,6 +32,10 @@ class UserLocalDataSource (private val sharedPreferences: SharedPreferences) {
     }
 
     fun getDataStream() : MutableStateFlow<UserData> = userDataStream
+
+    fun getSingleUserData() : UserData {
+        return userDataStream.value
+    }
 
     suspend fun saveUserData(newUserData: UserData) : Flow<List<Any>> {
         return flow {

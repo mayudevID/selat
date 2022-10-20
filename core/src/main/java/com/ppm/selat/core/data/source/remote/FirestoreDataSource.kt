@@ -35,7 +35,8 @@ class FirestoreDataSource (
                 val userData = hashMapOf(
                     "name" to user.name,
                     "email" to user.email,
-                    "photoUrl" to user.photoUrl
+                    "photoUrl" to user.photoUrl,
+                    "phone" to user.phone,
                 )
                 firestore.collection("users").document(user.id as String).set(userData).await()
                 emit(FirebaseResponse.Success(true))

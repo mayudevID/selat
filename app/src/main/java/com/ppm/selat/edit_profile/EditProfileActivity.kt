@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
@@ -82,6 +83,16 @@ class EditProfileActivity : AppCompatActivity() {
         }
         binding.circleImageView.setOnClickListener {
             pickImageForProfilePicture()
+        }
+        binding.saveButton.setOnClickListener {
+            val isConnected = isNetworkAvailable(this)
+            if (isConnected) {
+                editProfileViewModel.saveProfile().observe(this) {
+
+                }
+            } else {
+                Toast.makeText(this, "Tidak terhubung ke internet", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

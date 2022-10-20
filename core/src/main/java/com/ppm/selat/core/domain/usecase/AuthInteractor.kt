@@ -1,5 +1,6 @@
 package com.ppm.selat.core.domain.usecase
 
+import android.net.Uri
 import com.google.firebase.auth.FirebaseUser
 import com.ppm.selat.core.data.Resource
 import com.ppm.selat.core.domain.model.UserData
@@ -15,4 +16,8 @@ class AuthInteractor(private val authRepository: IAuthRepository): AuthUseCase {
     override fun getUserStream() = authRepository.getUserStream()
     override fun isUserSigned() = authRepository.isUserSigned()
     override fun logoutFromFirebase() = authRepository.logoutFromFirebase()
+    override fun updateName(name: String) = authRepository.updateName(name)
+    override fun updateEmail(email: String) = authRepository.updateEmail(email)
+    override fun updatePhone(phone: String) = authRepository.updatePhone(phone)
+    override fun updatePhoto(photo: Uri) = authRepository.updatePhoto(photo)
 }
