@@ -46,33 +46,31 @@ class FirestoreDataSource (
         }
     }
 
-    suspend fun updateName(name: String, uid: String): Flow<Resource<Boolean>> {
+    suspend fun updateName(name: String, uid: String): Flow<FirebaseResponse<Boolean>> {
         return flow {
-            emit(Resource.Loading())
             try {
                 val nameData = mapOf(
                     "name" to name,
                 )
                 firestore.collection("users").document(uid).update(nameData).await()
-                emit(Resource.Success(true))
+                emit(FirebaseResponse.Success(true))
             } catch (e: FirebaseFirestoreException) {
-                emit(Resource.Error(e.message.toString()))
+                emit(FirebaseResponse.Error(e.message.toString()))
             }
-        }.flowOn(Dispatchers.IO)
+        }
     }
 
-    suspend fun updatePhoto(photoUrl: String, uid: String): Flow<Resource<Boolean>> {
+    suspend fun updatePhoto(photoUrl: String, uid: String): Flow<FirebaseResponse<Boolean>> {
         return flow {
-            emit(Resource.Loading())
             try {
                 val nameData = mapOf(
                     "photoUrl" to photoUrl,
                 )
                 firestore.collection("users").document(uid).update(nameData).await()
-                emit(Resource.Success(true))
+                emit(FirebaseResponse.Success(true))
             } catch (e: FirebaseFirestoreException) {
-                emit(Resource.Error(e.message.toString()))
+                emit(FirebaseResponse.Error(e.message.toString()))
             }
-        }.flowOn(Dispatchers.IO)
+        }
     }
 }

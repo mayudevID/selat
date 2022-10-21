@@ -51,11 +51,16 @@ class AuthRepository(
                             )
                             Log.d("LoginActivity", dataTemp.toString())
                             val saveResult = userLocalDataSource.saveUserData(dataTemp)
-                            val getResource = saveResult.first()
-                            if (getResource[0] == true) {
-                                emit(Resource.Success(true))
-                            } else {
-                                emit(Resource.Error(getResource[1] as String))
+                            when (val getResource = saveResult.first()) {
+                                is Resource.Success -> {
+                                    emit(Resource.Success(true))
+                                }
+                                is Resource.Error -> {
+                                    emit(Resource.Error(getResource.message.toString()))
+                                }
+                                is Resource.Loading -> {
+
+                                }
                             }
                         }
                         is FirebaseResponse.Error -> {
@@ -173,15 +178,13 @@ class AuthRepository(
             val uid = authDataSource.getUidUser()
             val data = firestoreDataSource.updateName(name, uid)
             when (val result = data.first()) {
-                is Resource.Success -> {
+                is FirebaseResponse.Success -> {
                     emit(Resource.Success(true))
                 }
-                is Resource.Error -> {
-                    emit(Resource.Error(result.message.toString()))
+                is FirebaseResponse.Error -> {
+                    emit(Resource.Error(result.errorMessage))
                 }
-                is Resource.Loading -> {
-                    emit(Resource.Loading())
-                }
+                is FirebaseResponse.Empty -> {}
             }
         }
     }
@@ -194,7 +197,7 @@ class AuthRepository(
         TODO()
     }
 
-    override fun updatePhoto(photo: Uri): Flow<Resource<Boolean>> {
+    override fun updatePhoto(photo: Uri): Flow<Resource<String>> {
         return flow {
             emit(Resource.Loading())
             val uid = authDataSource.getUidUser()
@@ -210,14 +213,13 @@ class AuthRepository(
                             emit(Resource.Loading())
                             val dataRes = firestoreDataSource.updatePhoto(resultUpload.data, uid)
                             when (val result = dataRes.first()) {
-                                is Resource.Success -> {
-                                    emit(Resource.Success(true))
+                                is FirebaseResponse.Success -> {
+                                    emit(Resource.Success(resultUpload.data))
                                 }
-                                is Resource.Error -> {
-                                    emit(Resource.Error(result.message.toString()))
+                                is FirebaseResponse.Error -> {
+                                    emit(Resource.Error(result.errorMessage))
                                 }
-                                is Resource.Loading -> {
-                                    emit(Resource.Loading())
+                                is FirebaseResponse.Empty-> {
                                 }
                             }
                         }
@@ -228,7 +230,7 @@ class AuthRepository(
                     }
                 }
                 is FirebaseResponse.Error -> {
-
+                    emit(Resource.Error(resultDelete.errorMessage))
                 }
                 is FirebaseResponse.Empty -> {}
             }
@@ -238,4 +240,22 @@ class AuthRepository(
     override fun getUserStream(): MutableStateFlow<UserData> = userLocalDataSource.getDataStream()
 
     override fun isUserSigned(): Flow<Boolean> = authDataSource.isUserSigned()
+
+    override fun saveNewUserData(user: UserData) : Flow<Resource<Boolean>> {
+        return flow {
+            emit(Resource.Loading())
+            val saveResult = userLocalDataSource.saveUserData(user)
+            when (val getResource = saveResult.first()) {
+                is Resource.Success -> {
+                    emit(Resource.Success(true))
+                }
+                is Resource.Error -> {
+                    emit(Resource.Error(getResource.message.toString()))
+                }
+                is Resource.Loading -> {
+
+                }
+            }
+        }
+    }
 }

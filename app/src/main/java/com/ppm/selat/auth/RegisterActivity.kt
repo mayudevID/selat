@@ -213,8 +213,9 @@ class RegisterActivity : AppCompatActivity() {
     private fun showCustomAlert() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_finish_register, null)
         val customDialog = AlertDialog.Builder(this).setView(dialogView).create()
-        customDialog.window?.decorView?.setBackgroundResource(R.drawable.bg_dialog_register_success)
+        customDialog.window?.decorView?.setBackgroundResource(R.drawable.bg_dialog_border)
         val btDismiss = dialogView.findViewById<TextView>(R.id.ok_button)
+        customDialog.setCanceledOnTouchOutside(false)
         btDismiss.setOnClickListener {
             customDialog.dismiss()
             finish()

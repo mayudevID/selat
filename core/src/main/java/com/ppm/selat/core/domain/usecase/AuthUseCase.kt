@@ -16,5 +16,6 @@ interface AuthUseCase {
     fun updateName(name: String) : Flow<Resource<Boolean>>
     fun updateEmail(email: String) : Flow<Resource<Boolean>>
     fun updatePhone(phone: String) : Flow<Resource<Boolean>>
-    fun updatePhoto(photo: Uri) : Flow<Resource<Boolean>>
+    fun updatePhoto(photo: Uri) : Flow<Resource<String>>
+    fun saveNewUserData(user: UserData) : Flow<Resource<Boolean>>
 }

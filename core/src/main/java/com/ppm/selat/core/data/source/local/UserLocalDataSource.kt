@@ -37,16 +37,16 @@ class UserLocalDataSource (private val sharedPreferences: SharedPreferences) {
         return userDataStream.value
     }
 
-    suspend fun saveUserData(newUserData: UserData) : Flow<List<Any>> {
+    suspend fun saveUserData(newUserData: UserData) : Flow<Resource<Boolean>> {
         return flow {
             try {
                 val editor = sharedPreferences.edit()
                 editor.putString(DATA_USER, Json.encodeToString(UserData.serializer(), newUserData) )
                 editor.apply()
                 userDataStream.value = newUserData
-                emit(listOf(true, "SUCCESS"))
+                emit(Resource.Success(true))
             } catch (e: Exception) {
-                emit(listOf(false, e.message.toString()))
+                emit(Resource.Error(e.message.toString()))
             }
         }.flowOn(Dispatchers.IO)
     }
