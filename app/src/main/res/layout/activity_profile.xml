@@ -50,6 +50,8 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
+            android:background="@drawable/bg_to_edit_profile"
+            android:padding="4dp"
             android:id="@+id/edit_button"
             android:layout_width="26dp"
             android:layout_height="26dp"

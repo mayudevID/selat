@@ -182,12 +182,12 @@ class AuthRepository(
                     emit(Resource.Loading())
                     val oldUserData = userLocalDataSource.getSingleUserData()
                     val newUserData = UserData(
-                            id = oldUserData.id,
+                        id = oldUserData.id,
                         name = name,
                         email = oldUserData.email,
                         photoUrl = oldUserData.photoUrl,
-                        phone = oldUserData.photoUrl,
-                            )
+                        phone = oldUserData.phone,
+                    )
                     val saveLocal = userLocalDataSource.saveUserData(newUserData)
                     when (val resultSaveLocal = saveLocal.first()) {
                         is Resource.Success -> {
@@ -212,7 +212,38 @@ class AuthRepository(
     }
 
     override fun updatePhone(phone: String): Flow<Resource<Boolean>> {
-        TODO()
+        return flow {
+            emit(Resource.Loading())
+            val uid = authDataSource.getUidUser()
+            val data = firestoreDataSource.updatePhone(phone, uid)
+            when (val result = data.first()) {
+                is FirebaseResponse.Success -> {
+                    emit(Resource.Loading())
+                    val oldUserData = userLocalDataSource.getSingleUserData()
+                    val newUserData = UserData(
+                        id = oldUserData.id,
+                        name = oldUserData.name,
+                        email = oldUserData.email,
+                        photoUrl = oldUserData.photoUrl,
+                        phone = phone,
+                    )
+                    val saveLocal = userLocalDataSource.saveUserData(newUserData)
+                    when (val resultSaveLocal = saveLocal.first()) {
+                        is Resource.Success -> {
+                            emit(Resource.Success(true))
+                        }
+                        is Resource.Error -> {
+                            emit(Resource.Error(resultSaveLocal.message.toString()))
+                        }
+                        is Resource.Loading -> {}
+                    }
+                }
+                is FirebaseResponse.Error -> {
+                    emit(Resource.Error(result.errorMessage))
+                }
+                is FirebaseResponse.Empty -> {}
+            }
+        }
     }
 
     override fun updatePhoto(photo: Uri): Flow<Resource<String>> {
@@ -232,12 +263,30 @@ class AuthRepository(
                             val dataRes = firestoreDataSource.updatePhoto(resultUpload.data, uid)
                             when (val result = dataRes.first()) {
                                 is FirebaseResponse.Success -> {
-                                    emit(Resource.Success(resultUpload.data))
+                                    emit(Resource.Loading())
+                                    val oldUserData = userLocalDataSource.getSingleUserData()
+                                    val newUserData = UserData(
+                                        id = oldUserData.id,
+                                        name = oldUserData.name,
+                                        email = oldUserData.email,
+                                        photoUrl = resultUpload.data,
+                                        phone = oldUserData.phone,
+                                    )
+                                    val saveLocal = userLocalDataSource.saveUserData(newUserData)
+                                    when (val resultSaveLocal = saveLocal.first()) {
+                                        is Resource.Success -> {
+                                            emit(Resource.Success("true"))
+                                        }
+                                        is Resource.Error -> {
+                                            emit(Resource.Error(resultSaveLocal.message.toString()))
+                                        }
+                                        is Resource.Loading -> {}
+                                    }
                                 }
                                 is FirebaseResponse.Error -> {
                                     emit(Resource.Error(result.errorMessage))
                                 }
-                                is FirebaseResponse.Empty-> {
+                                is FirebaseResponse.Empty -> {
                                 }
                             }
                         }
@@ -259,7 +308,7 @@ class AuthRepository(
 
     override fun isUserSigned(): Flow<Boolean> = authDataSource.isUserSigned()
 
-    override fun saveNewUserData(user: UserData) : Flow<Resource<Boolean>> {
+    override fun saveNewUserData(user: UserData): Flow<Resource<Boolean>> {
         return flow {
             emit(Resource.Loading())
             val saveResult = userLocalDataSource.saveUserData(user)

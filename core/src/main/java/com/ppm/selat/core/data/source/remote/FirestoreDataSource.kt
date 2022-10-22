@@ -60,6 +60,20 @@ class FirestoreDataSource (
         }
     }
 
+    suspend fun updatePhone(phone: String, uid: String): Flow<FirebaseResponse<Boolean>> {
+        return flow {
+            try {
+                val nameData = mapOf(
+                    "phone" to phone,
+                )
+                firestore.collection("users").document(uid).update(nameData).await()
+                emit(FirebaseResponse.Success(true))
+            } catch (e: FirebaseFirestoreException) {
+                emit(FirebaseResponse.Error(e.message.toString()))
+            }
+        }
+    }
+
     suspend fun updatePhoto(photoUrl: String, uid: String): Flow<FirebaseResponse<Boolean>> {
         return flow {
             try {

@@ -18,20 +18,20 @@ class EditProfileViewModel(private val authUseCase: AuthUseCase) : ViewModel() {
     var nameFlow = MutableStateFlow("")
     lateinit var emailInit: String
     var emailFlow = MutableStateFlow("")
+    lateinit var phoneInit: String
+    var phoneFlow = MutableStateFlow("")
 
     var photoIsChanged = MutableStateFlow(false)
     var photoFlow = MutableStateFlow(Uri.parse(""))
     private var newPhotoUrl = MutableStateFlow("")
 
-    var emailChangedError = MutableStateFlow("")
-    var nameChangedError = MutableStateFlow("")
-    private var photoChangedError = MutableStateFlow("")
-
     fun checkNameIsChanged(): Boolean = nameInit != nameFlow.value
     fun checkEmailIsChanged(): Boolean = emailInit != emailFlow.value
+    fun checkPhoneIsChanged(): Boolean = phoneInit != phoneFlow.value
 
     val userDataStream = authUseCase.getUserStream()
     fun saveNewName() = authUseCase.updateName(nameFlow.value).asLiveData()
     fun saveNewEmail() = authUseCase.updateEmail(emailFlow.value).asLiveData()
     fun saveNewProfile() = authUseCase.updatePhoto(photoFlow.value).asLiveData()
+    fun saveNewPhone() = authUseCase.updatePhone(phoneFlow.value).asLiveData()
 }

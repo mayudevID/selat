@@ -1,13 +1,19 @@
 package com.ppm.selat.edit_profile
 
+import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.ConnectivityManager
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
@@ -18,6 +24,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageView
 import com.canhub.cropper.options
+import com.ppm.selat.R
 import com.ppm.selat.core.data.Resource
 import com.ppm.selat.databinding.ActivityEditProfileBinding
 import kotlinx.coroutines.flow.first
@@ -28,16 +35,12 @@ class EditProfileActivity : AppCompatActivity() {
 
     private val editProfileViewModel: EditProfileViewModel by viewModel()
     private lateinit var binding: ActivityEditProfileBinding
-    private val customLoadingDialog = CustomLoadingDialog(this)
 
     private val cropImage = registerForActivityResult(CropImageContract()) { result ->
         if (result.isSuccessful) {
             val uriContent = result.uriContent
             val uriFilePath = result.getUriFilePath(this) // optional usage
-            Glide.with(this)
-                .load(uriContent)
-                .into(binding.circleImageView)
-            editProfileViewModel.photoIsChanged.value = true
+            showPickDialog(uriContent!!)
         } else {
             val exception = result.error
         }
@@ -72,6 +75,13 @@ class EditProfileActivity : AppCompatActivity() {
             editProfileViewModel.emailInit = data.email.toString()
             editProfileViewModel.emailFlow.value = data.email.toString()
             binding.editTextEmail.setText(data.email.toString())
+            // PLAN
+            binding.editTextEmail.isFocusable = false
+            binding.editTextEmail.isEnabled = false
+
+            editProfileViewModel.phoneInit = data.phone.toString()
+            editProfileViewModel.phoneFlow.value = data.phone.toString()
+            binding.editTextPhone.setText(data.phone.toString())
 
             Glide.with(this@EditProfileActivity)
                 .load(data.photoUrl)
@@ -93,12 +103,23 @@ class EditProfileActivity : AppCompatActivity() {
             }
             editTextEmail.doAfterTextChanged {
                 editProfileViewModel.emailFlow.value = it.toString().trim()
-                if (editProfileViewModel.checkEmailIsChanged()) {
-                    binding.editedEmail.visibility = View.VISIBLE
-                    binding.cancelSaveEmail.visibility = View.VISIBLE
+//                if (editProfileViewModel.checkEmailIsChanged()) {
+//                    binding.editedEmail.visibility = View.VISIBLE
+//                    binding.cancelSaveEmail.visibility = View.VISIBLE
+//                } else {
+//                    binding.editedEmail.visibility = View.GONE
+//                    binding.cancelSaveEmail.visibility = View.GONE
+//                }
+                Log.d("EditProfileActivity", editProfileViewModel.checkEmailIsChanged().toString())
+            }
+            editTextPhone.doAfterTextChanged {
+                editProfileViewModel.phoneFlow.value = it.toString().trim()
+                if (editProfileViewModel.checkPhoneIsChanged()) {
+                    binding.editedPhone.visibility = View.VISIBLE
+                    binding.cancelSavePhone.visibility = View.VISIBLE
                 } else {
-                    binding.editedEmail.visibility = View.GONE
-                    binding.cancelSaveEmail.visibility = View.GONE
+                    binding.editedPhone.visibility = View.GONE
+                    binding.cancelSavePhone.visibility = View.GONE
                 }
                 Log.d("EditProfileActivity", editProfileViewModel.checkEmailIsChanged().toString())
             }
@@ -109,7 +130,7 @@ class EditProfileActivity : AppCompatActivity() {
         binding.backButton.setOnClickListener {
             finish()
         }
-        binding.circleImageView.setOnClickListener {
+        binding.editPhotoButton.setOnClickListener {
             pickImageForProfilePicture()
         }
 
@@ -121,7 +142,7 @@ class EditProfileActivity : AppCompatActivity() {
         binding.saveFullNameButton.setOnClickListener {
             dismissKeyboard()
             if (isNetworkAvailable()) {
-                val dialog = customLoadingDialog.startLoadingDialog("Simpan nama...")
+                val dialogLoading = startLoadingDialog("Simpan nama...")
                 editProfileViewModel.saveNewName().observe(this) { result ->
                     if (result != null) {
                         when (result) {
@@ -131,11 +152,11 @@ class EditProfileActivity : AppCompatActivity() {
                                 editProfileViewModel.nameInit = editProfileViewModel.nameFlow.value
                                 binding.editedFullName.visibility = View.GONE
                                 binding.cancelSaveFullName.visibility = View.GONE
-                                dialog.dismiss()
+                                dialogLoading.dismiss()
                             }
                             is Resource.Error -> {
                                 Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
-                                dialog.dismiss()
+                                dialogLoading.dismiss()
                             }
                         }
                     }
@@ -146,11 +167,43 @@ class EditProfileActivity : AppCompatActivity() {
         }
 
         // email changed handler
-        binding.cancelEmailButton.setOnClickListener {
-            binding.editTextEmail.setText(editProfileViewModel.emailInit)
-        }
-        binding.saveEmailButton.setOnClickListener {
+//        binding.cancelEmailButton.setOnClickListener {
+//            dismissKeyboard()
+//            binding.editTextEmail.setText(editProfileViewModel.emailInit)
+//        }
+//        binding.saveEmailButton.setOnClickListener {
+//        }
 
+        // phone changed handler
+        binding.cancelPhoneButton.setOnClickListener {
+            dismissKeyboard()
+            binding.editTextPhone.setText(editProfileViewModel.phoneInit)
+        }
+        binding.savePhoneButton.setOnClickListener {
+            dismissKeyboard()
+            if (isNetworkAvailable()) {
+                val dialogLoading = startLoadingDialog("Simpan nomor...")
+                editProfileViewModel.saveNewPhone().observe(this) { result ->
+                    if (result != null) {
+                        when (result) {
+                            is Resource.Loading -> {}
+                            is Resource.Success -> {
+                                Toast.makeText(this, "Nomor diperbarui", Toast.LENGTH_SHORT).show()
+                                editProfileViewModel.phoneInit = editProfileViewModel.phoneFlow.value
+                                binding.editedPhone.visibility = View.GONE
+                                binding.cancelSavePhone.visibility = View.GONE
+                                dialogLoading.dismiss()
+                            }
+                            is Resource.Error -> {
+                                Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
+                                dialogLoading.dismiss()
+                            }
+                        }
+                    }
+                }
+            } else {
+                Toast.makeText(this, "Tidak dapat terhubung ke internet", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -175,7 +228,82 @@ class EditProfileActivity : AppCompatActivity() {
             .isConnected()
     }
 
-    private fun setLoadingDialog(textLoad: String) {
+    private fun startLoadingDialog(textDesc: String) : AlertDialog {
+        val dialog: AlertDialog
+        val builder = AlertDialog.Builder(this)
+        val inflater = this.layoutInflater
+        val dialogView = inflater.inflate(R.layout.dialog_loading, null)
+
+        builder.setView(dialogView)
+
+        dialog = builder.create()
+        dialog.window?.decorView?.setBackgroundResource(R.drawable.bg_dialog_border)
+        dialog.window?.setLayout(600, WindowManager.LayoutParams.WRAP_CONTENT)
+        dialog.window?.setGravity(Gravity.CENTER)
+        dialog.setCanceledOnTouchOutside(false)
+
+        val textLoading = dialogView.findViewById<TextView>(R.id.text_desc_cpi)
+        textLoading.text = textDesc
+        dialog.show()
+
+        return dialog
+    }
+
+    private fun showPickDialog(photo: Uri)  {
+        val dialog: AlertDialog
+        val builder = AlertDialog.Builder(this)
+        val inflater = this.layoutInflater
+        val dialogView = inflater.inflate(R.layout.dialog_pick_photo, null)
+
+        builder.setView(dialogView)
+
+        dialog = builder.create()
+        dialog.window?.decorView?.setBackgroundResource(R.drawable.bg_dialog_border)
+        dialog.window?.setLayout(800, WindowManager.LayoutParams.WRAP_CONTENT)
+        dialog.window?.setGravity(Gravity.CENTER)
+        dialog.setCanceledOnTouchOutside(false)
+
+        val cancelButton = dialogView.findViewById<TextView>(R.id.cancel_button)
+        cancelButton.setOnClickListener{
+            dialog.dismiss()
+        }
+        val okButton = dialogView.findViewById<TextView>(R.id.ok_button)
+        okButton.setOnClickListener{
+            dialog.dismiss()
+            changeProfilePicture(photo)
+        }
+        val imageView = dialogView.findViewById<ImageView>(R.id.image_temp)
+
+        Glide.with(dialogView)
+            .load(photo)
+            .into(imageView)
+
+        dialog.show()
+    }
+
+    private fun changeProfilePicture(photo: Uri) {
+        if (isNetworkAvailable()) {
+            val dialogLoading = startLoadingDialog("Simpan foto...")
+            editProfileViewModel.photoFlow.value = photo
+            editProfileViewModel.saveNewProfile().observe(this) { result ->
+                if (result != null) {
+                    when (result) {
+                        is Resource.Loading -> {}
+                        is Resource.Success -> {
+                            Toast.makeText(this, "Foto profil diperbarui", Toast.LENGTH_SHORT).show()
+                            dialogLoading.dismiss()
+                            finish()
+                        }
+                        is Resource.Error -> {
+                            Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
+                            dialogLoading.dismiss()
+                        }
+                    }
+                }
+            }
+        } else {
+            Toast.makeText(this, "Tidak dapat terhubung ke internet", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun dismissKeyboard() {
@@ -184,31 +312,3 @@ class EditProfileActivity : AppCompatActivity() {
         imm.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)
     }
 }
-
-//if (isConnected) {
-//                val dialogView = layoutInflater.inflate(R.layout.dialog_loading, null)
-//                val customDialog = AlertDialog.Builder(this).setView(dialogView).create()
-//                customDialog.window?.decorView?.setBackgroundResource(R.drawable.bg_dialog_border)
-//                customDialog.window?.setLayout(300, 300)
-//                customDialog.setCanceledOnTouchOutside(false)
-//                editProfileViewModel.saveProfile().observe(this) {
-//                    result ->
-//                        if (result != null) {
-//                            when (result) {
-//                                is Resource.Success -> {
-//                                    customDialog.dismiss()
-//                                    finish()
-//                                }
-//                                is Resource.Error -> {
-//                                    customDialog.dismiss()
-//                                    Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
-//                                }
-//                                is Resource.Loading -> {
-//                                    customDialog.show()
-//                                }
-//                            }
-//                        }
-//                }
-//            } else {
-//                Toast.makeText(this, "Tidak terhubung ke internet", Toast.LENGTH_SHORT).show()
-//            }
