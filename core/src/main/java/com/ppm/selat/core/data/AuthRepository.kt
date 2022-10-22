@@ -179,7 +179,25 @@ class AuthRepository(
             val data = firestoreDataSource.updateName(name, uid)
             when (val result = data.first()) {
                 is FirebaseResponse.Success -> {
-                    emit(Resource.Success(true))
+                    emit(Resource.Loading())
+                    val oldUserData = userLocalDataSource.getSingleUserData()
+                    val newUserData = UserData(
+                            id = oldUserData.id,
+                        name = name,
+                        email = oldUserData.email,
+                        photoUrl = oldUserData.photoUrl,
+                        phone = oldUserData.photoUrl,
+                            )
+                    val saveLocal = userLocalDataSource.saveUserData(newUserData)
+                    when (val resultSaveLocal = saveLocal.first()) {
+                        is Resource.Success -> {
+                            emit(Resource.Success(true))
+                        }
+                        is Resource.Error -> {
+                            emit(Resource.Error(resultSaveLocal.message.toString()))
+                        }
+                        is Resource.Loading -> {}
+                    }
                 }
                 is FirebaseResponse.Error -> {
                     emit(Resource.Error(result.errorMessage))

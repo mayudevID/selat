@@ -1,44 +1,37 @@
 package com.ppm.selat.edit_profile
 
-import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
 import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
-import android.widget.TextView
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AlertDialogLayout
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.widget.doAfterTextChanged
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageView
 import com.canhub.cropper.options
-import com.ppm.selat.R
 import com.ppm.selat.core.data.Resource
 import com.ppm.selat.databinding.ActivityEditProfileBinding
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.w3c.dom.Text
 
 class EditProfileActivity : AppCompatActivity() {
 
     private val editProfileViewModel: EditProfileViewModel by viewModel()
     private lateinit var binding: ActivityEditProfileBinding
-    private lateinit var customDialog: AlertDialog
+    private val customLoadingDialog = CustomLoadingDialog(this)
 
     private val cropImage = registerForActivityResult(CropImageContract()) { result ->
         if (result.isSuccessful) {
-            // use the returned uri
             val uriContent = result.uriContent
             val uriFilePath = result.getUriFilePath(this) // optional usage
             Glide.with(this)
@@ -46,7 +39,6 @@ class EditProfileActivity : AppCompatActivity() {
                 .into(binding.circleImageView)
             editProfileViewModel.photoIsChanged.value = true
         } else {
-            // an error occurred
             val exception = result.error
         }
     }
@@ -66,12 +58,15 @@ class EditProfileActivity : AppCompatActivity() {
         binding.editedFullName.visibility = View.GONE
         binding.editedEmail.visibility = View.GONE
 
+        editProfileViewModel.userDataStream.asLiveData().observe(this) {
+            binding.userName.text = it.name
+        }
+
         lifecycleScope.launch {
             val data = editProfileViewModel.userDataStream.first()
 
             editProfileViewModel.nameInit = data.name.toString()
             editProfileViewModel.nameFlow.value = data.name.toString()
-            binding.userName.text = data.name.toString()
             binding.editTextFullName.setText(data.name.toString())
 
             editProfileViewModel.emailInit = data.email.toString()
@@ -120,29 +115,33 @@ class EditProfileActivity : AppCompatActivity() {
 
         // full name changed handler
         binding.cancelFullNameButton.setOnClickListener {
+            dismissKeyboard()
             binding.editTextFullName.setText(editProfileViewModel.nameInit)
         }
         binding.saveFullNameButton.setOnClickListener {
-            editProfileViewModel.saveNewName().observe(this) { result ->
-                if (result != null) {
-                    when (result) {
-                        is Resource.Loading -> {
-                            setLoadingDialog("Simpan nama...")
-                        }
-                        is Resource.Success -> {
-                            Toast.makeText(this, "Nama diperbarui", Toast.LENGTH_SHORT).show()
-                            editProfileViewModel.nameInit = editProfileViewModel.nameFlow.value
-                            binding.editedFullName.visibility = View.GONE
-                            binding.cancelSaveFullName.visibility = View.GONE
-                            customDialog.dismiss()
-                        }
-                        is Resource.Error -> {
-
-                            Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
-                            customDialog.dismiss()
+            dismissKeyboard()
+            if (isNetworkAvailable()) {
+                val dialog = customLoadingDialog.startLoadingDialog("Simpan nama...")
+                editProfileViewModel.saveNewName().observe(this) { result ->
+                    if (result != null) {
+                        when (result) {
+                            is Resource.Loading -> {}
+                            is Resource.Success -> {
+                                Toast.makeText(this, "Nama diperbarui", Toast.LENGTH_SHORT).show()
+                                editProfileViewModel.nameInit = editProfileViewModel.nameFlow.value
+                                binding.editedFullName.visibility = View.GONE
+                                binding.cancelSaveFullName.visibility = View.GONE
+                                dialog.dismiss()
+                            }
+                            is Resource.Error -> {
+                                Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
+                                dialog.dismiss()
+                            }
                         }
                     }
                 }
+            } else {
+                Toast.makeText(this, "Tidak dapat terhubung ke internet", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -158,6 +157,7 @@ class EditProfileActivity : AppCompatActivity() {
     private fun pickImageForProfilePicture() {
         cropImage.launch(
             options {
+                setToolbarColor(Color.BLACK)
                 setImageSource(includeGallery = true, includeCamera = false)
                 setCropShape(CropImageView.CropShape.OVAL)
                 setGuidelines(CropImageView.Guidelines.ON)
@@ -168,22 +168,20 @@ class EditProfileActivity : AppCompatActivity() {
         )
     }
 
-    private fun isNetworkAvailable(context: Context): Boolean {
+    private fun isNetworkAvailable(): Boolean {
         val connectivityManager: ConnectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo()!!
             .isConnected()
     }
 
     private fun setLoadingDialog(textLoad: String) {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_loading, null)
-        customDialog = AlertDialog.Builder(this).setView(dialogView).show()
-        customDialog.window?.decorView?.setBackgroundResource(R.drawable.bg_dialog_border)
-        customDialog.window?.setLayout(400, WindowManager.LayoutParams.WRAP_CONTENT)
-        customDialog.window?.setGravity(Gravity.CENTER)
-        customDialog.setCanceledOnTouchOutside(false)
-        val textLoading = dialogView.findViewById<TextView>(R.id.text_desc_cpi)
-        textLoading.text = textLoad
+    }
+
+    private fun dismissKeyboard() {
+        val imm =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)
     }
 }
 
