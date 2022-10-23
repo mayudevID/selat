@@ -1,4 +1,4 @@
-package com.ppm.selat.auth
+package com.ppm.selat.auth.register
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -8,14 +8,14 @@ import com.ppm.selat.core.domain.usecase.AuthUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class RegisterViewModel(private val authUseCase: AuthUseCase) : ViewModel() {
-    val nameFlow =  MutableStateFlow("")
+    val nameFlow = MutableStateFlow("")
     val emailFlow = MutableStateFlow("")
     val passwordFlow = MutableStateFlow("")
     val cPasswordFlow = MutableStateFlow("")
 
-    fun registerAccount(name: String, email: String, password: String): LiveData<Resource<Boolean>> {
-        return authUseCase.registerToFirebase(name, email, password).asLiveData()
-    }
+    fun registerAccount() =
+        authUseCase.registerToFirebase(nameFlow.value, emailFlow.value, passwordFlow.value)
+            .asLiveData()
 
     fun logoutForLogin() = authUseCase.logoutFromFirebase().asLiveData()
 }

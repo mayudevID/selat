@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.ppm.selat.auth.LoginActivity
+import com.ppm.selat.auth.login.LoginActivity
 import com.ppm.selat.core.data.Resource
 import com.ppm.selat.databinding.ActivityProfileBinding
 import com.ppm.selat.edit_profile.EditProfileActivity

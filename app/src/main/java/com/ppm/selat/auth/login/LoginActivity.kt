@@ -1,4 +1,4 @@
-package com.ppm.selat.auth
+package com.ppm.selat.auth.login
 
 
 import android.content.Context
@@ -11,19 +11,17 @@ import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
-import com.ppm.selat.MyApplication
 import com.ppm.selat.R
+import com.ppm.selat.auth.register.RegisterActivity
 import com.ppm.selat.core.data.Resource
 import com.ppm.selat.core.utils.emailPattern
 import com.ppm.selat.databinding.ActivityLoginBinding
 import com.ppm.selat.home.HomeActivity
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -111,15 +109,15 @@ class LoginActivity : AppCompatActivity() {
                 getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)
 
-            val email = binding.emailEditText.text.toString().trim()
-            val password = binding.passEditText.text.toString().trim()
+            val email = loginViewModel.emailFlow.value
+            val password = loginViewModel.passwordFlow.value
 
             if (email == "" ) {
                 onSnackError("Mohon isi email")
             } else if (password == "") {
                 onSnackError("Mohon isi password")
             } else {
-                loginViewModel.loginAccount(email, password).observe(this) { result ->
+                loginViewModel.loginAccount().observe(this) { result ->
                     if (result != null) {
                         when (result) {
                             is Resource.Loading<*> -> {
@@ -131,14 +129,12 @@ class LoginActivity : AppCompatActivity() {
                                 Log.d("LoginActivity", "Success")
                                 startActivity(Intent(this,HomeActivity::class.java))
                                 finish()
-                                loginViewModel.loginAccount(email, password).removeObservers(this)
                             }
                             is Resource.Error<*> -> {
                                 binding.loginButton.visibility = View.VISIBLE
                                 binding.loadingLogo.visibility = View.GONE
                                 Log.d("LoginActivity", result.message.toString())
                                 onSnackError(result.message.toString())
-                                loginViewModel.loginAccount(email, password).removeObservers(this)
                             }
                         }
                     }

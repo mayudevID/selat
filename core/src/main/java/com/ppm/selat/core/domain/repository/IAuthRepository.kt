@@ -19,4 +19,5 @@ interface IAuthRepository {
     fun updatePhone(phone: String) : Flow<Resource<Boolean>>
     fun updatePhoto(photo: Uri) : Flow<Resource<String>>
     fun saveNewUserData(user: UserData): Flow<Resource<Boolean>>
+    fun resetPassword(email: String): Flow<Resource<Boolean>>
 }

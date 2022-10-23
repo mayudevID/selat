@@ -43,15 +43,26 @@ class AuthDataSource (private val firebaseAuth: FirebaseAuth){
         }
     }
 
-    suspend fun logoutFromFirebase() : Flow<Resource<Boolean>> {
+    suspend fun logoutFromFirebase() : Flow<FirebaseResponse<Boolean>> {
         return flow {
             try {
                 firebaseAuth.signOut()
-                emit(Resource.Success(true))
-            } catch (e: Exception){
-                emit(Resource.Error(e.message.toString()))
+                emit(FirebaseResponse.Success(true))
+            } catch (e: FirebaseAuthException){
+                emit(FirebaseResponse.Error(e.message.toString()))
             }
         }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun resetPassword(email: String) : Flow<FirebaseResponse<Boolean>> {
+        return flow {
+            try {
+                firebaseAuth.sendPasswordResetEmail(email).await()
+                emit(FirebaseResponse.Success(true))
+            } catch (e: FirebaseAuthException) {
+                emit(FirebaseResponse.Error(e.message.toString()))
+            }
+        }
     }
 
     fun getUidUser() : String {

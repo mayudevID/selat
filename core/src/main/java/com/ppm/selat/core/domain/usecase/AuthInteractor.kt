@@ -21,4 +21,5 @@ class AuthInteractor(private val authRepository: IAuthRepository): AuthUseCase {
     override fun updatePhone(phone: String) = authRepository.updatePhone(phone)
     override fun updatePhoto(photo: Uri) = authRepository.updatePhoto(photo)
     override fun saveNewUserData(user: UserData) = authRepository.saveNewUserData(user)
+    override fun resetPassword(email: String) = authRepository.resetPassword(email)
 }

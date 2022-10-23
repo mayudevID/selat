@@ -13,7 +13,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.ppm.selat.auth.LoginActivity
+import com.ppm.selat.auth.login.LoginActivity
 import com.ppm.selat.databinding.ActivityOnboardBinding
 import org.imaginativeworld.whynotimagecarousel.CarouselItem
 import org.imaginativeworld.whynotimagecarousel.CarouselOnScrollListener

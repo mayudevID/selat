@@ -1,7 +1,8 @@
 package com.ppm.selat.di
 
-import com.ppm.selat.auth.LoginViewModel
-import com.ppm.selat.auth.RegisterViewModel
+import com.ppm.selat.auth.login.LoginViewModel
+import com.ppm.selat.auth.register.RegisterViewModel
+import com.ppm.selat.auth.reset_password.ResetPasswordViewModel
 import com.ppm.selat.core.domain.usecase.AuthInteractor
 import com.ppm.selat.core.domain.usecase.AuthUseCase
 import com.ppm.selat.edit_profile.EditProfileViewModel
@@ -19,6 +20,7 @@ val viewModelModule = module {
     viewModel { SplashViewModel(get()) }
     viewModel { LoginViewModel(get()) }
     viewModel { RegisterViewModel(get()) }
+    viewModel { ResetPasswordViewModel(get()) }
     viewModel { HomeViewModel(get()) }
     viewModel { ProfileViewModel(get()) }
     viewModel { EditProfileViewModel(get()) }

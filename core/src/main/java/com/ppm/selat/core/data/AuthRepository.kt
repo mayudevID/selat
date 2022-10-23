@@ -149,17 +149,15 @@ class AuthRepository(
             when (val result = clearData.first()) {
                 is Resource.Success -> {
                     emit(Resource.Loading())
-                    val resultLogin = authDataSource.logoutFromFirebase()
-                    when (val result = resultLogin.first()) {
-                        is Resource.Success -> {
+                    val resultLogout = authDataSource.logoutFromFirebase()
+                    when (val result = resultLogout.first()) {
+                        is FirebaseResponse.Success -> {
                             emit(Resource.Success(true))
                         }
-                        is Resource.Error -> {
-                            emit(Resource.Error(result.message.toString()))
+                        is FirebaseResponse.Error -> {
+                            emit(Resource.Error(result.errorMessage))
                         }
-                        is Resource.Loading -> {
-                            emit(Resource.Loading())
-                        }
+                        is FirebaseResponse.Empty -> {}
                     }
                 }
                 is Resource.Error -> {
@@ -304,10 +302,6 @@ class AuthRepository(
         }
     }
 
-    override fun getUserStream(): MutableStateFlow<UserData> = userLocalDataSource.getDataStream()
-
-    override fun isUserSigned(): Flow<Boolean> = authDataSource.isUserSigned()
-
     override fun saveNewUserData(user: UserData): Flow<Resource<Boolean>> {
         return flow {
             emit(Resource.Loading())
@@ -325,4 +319,24 @@ class AuthRepository(
             }
         }
     }
+
+    override fun resetPassword(email: String): Flow<Resource<Boolean>> {
+        return flow {
+            emit(Resource.Loading())
+            val resetPassword = authDataSource.resetPassword(email)
+            when (val resetResult = resetPassword.first()) {
+                is FirebaseResponse.Success -> {
+                    emit(Resource.Success(true))
+                }
+                is FirebaseResponse.Error -> {
+                    emit(Resource.Error(resetResult.errorMessage))
+                }
+                is FirebaseResponse.Empty -> {}
+            }
+        }
+    }
+
+    override fun getUserStream(): MutableStateFlow<UserData> = userLocalDataSource.getDataStream()
+
+    override fun isUserSigned(): Flow<Boolean> = authDataSource.isUserSigned()
 }

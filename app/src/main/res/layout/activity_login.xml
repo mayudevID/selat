@@ -7,7 +7,7 @@
     android:background="#FDC500"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".auth.LoginActivity">
+    tools:context=".auth.login.LoginActivity">
 
     <TextView
         android:layout_width="match_parent"

@@ -1,9 +1,7 @@
-package com.ppm.selat.auth
+package com.ppm.selat.auth.register
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,21 +10,16 @@ import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
-import com.ppm.selat.MyApplication
 import com.ppm.selat.R
 import com.ppm.selat.core.data.Resource
 import com.ppm.selat.core.utils.emailPattern
 import com.ppm.selat.databinding.ActivityRegisterBinding
-import com.ppm.selat.home.HomeActivity
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.observeOn
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -154,12 +147,12 @@ class RegisterActivity : AppCompatActivity() {
                getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
            imm.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)
 
-           val name = binding.nameEditText.text.toString().trim()
-           val emailX = binding.emailEditText.text.toString().trim()
-           val passwordX = binding.passEditText.text.toString().trim()
-           val cPasswordX = binding.confirmPassEditText.text.toString().trim()
+           val nameX = registerViewModel.nameFlow.value
+           val emailX = registerViewModel.emailFlow.value
+           val passwordX = registerViewModel.passwordFlow.value
+           val cPasswordX = registerViewModel.cPasswordFlow.value
 
-           if (name == ""){
+           if (nameX == ""){
                onSnackError("Mohon isi nama")
            } else if (emailX == "" ) {
                onSnackError("Mohon isi email")
@@ -168,7 +161,7 @@ class RegisterActivity : AppCompatActivity() {
            } else if (cPasswordX == "") {
                onSnackError("Mohon konfirmasi password")
            } else {
-               registerViewModel.registerAccount(name, emailX, passwordX).observe(this) { result ->
+               registerViewModel.registerAccount().observe(this) { result ->
                    if (result != null) {
                        when (result) {
                            is Resource.Loading<*> -> {

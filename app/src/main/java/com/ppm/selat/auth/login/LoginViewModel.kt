@@ -1,4 +1,4 @@
-package com.ppm.selat.auth
+package com.ppm.selat.auth.login
 
 import androidx.lifecycle.*
 import com.ppm.selat.core.data.Resource
@@ -10,7 +10,5 @@ class LoginViewModel(private val authUseCase: AuthUseCase) : ViewModel() {
     val emailFlow = MutableStateFlow("")
     val passwordFlow = MutableStateFlow("")
 
-    fun loginAccount(email: String, password: String): LiveData<Resource<Boolean>> {
-        return authUseCase.loginToFirebase(email, password).asLiveData()
-    }
+    fun loginAccount() = authUseCase.loginToFirebase(emailFlow.value, passwordFlow.value).asLiveData()
 }
