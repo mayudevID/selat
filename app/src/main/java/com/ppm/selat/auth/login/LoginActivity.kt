@@ -18,6 +18,8 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.ppm.selat.R
 import com.ppm.selat.auth.register.RegisterActivity
+import com.ppm.selat.auth.reset_password.ResetPasswordActivity
+import com.ppm.selat.auth.reset_password.ResetPasswordViewModel
 import com.ppm.selat.core.data.Resource
 import com.ppm.selat.core.utils.emailPattern
 import com.ppm.selat.databinding.ActivityLoginBinding
@@ -148,7 +150,10 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        
+        binding.forgotPasswordText.setOnClickListener {
+            val intent = Intent(this, ResetPasswordActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun onSnackError(errorMessage: String){

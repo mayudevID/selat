@@ -60,7 +60,7 @@ class AuthDataSource (private val firebaseAuth: FirebaseAuth){
                 firebaseAuth.sendPasswordResetEmail(email).await()
                 emit(FirebaseResponse.Success(true))
             } catch (e: FirebaseAuthException) {
-                emit(FirebaseResponse.Error(e.message.toString()))
+                emit(FirebaseResponse.Error(e.errorCode))
             }
         }
     }

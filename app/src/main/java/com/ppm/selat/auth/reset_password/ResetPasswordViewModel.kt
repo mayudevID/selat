@@ -9,10 +9,7 @@ import kotlinx.coroutines.flow.flow
 
 class ResetPasswordViewModel(private val authUseCase: AuthUseCase) : ViewModel() {
     var emailInput = MutableStateFlow("")
-
-    val emailIsValid = flow {
-        emit(if (emailInput.value == "") true else emailPattern.matcher(emailInput.value).matches())
-    }
+    var emailIsValid = MutableStateFlow(true)
 
     fun resetPassword() = authUseCase.resetPassword(emailInput.value).asLiveData()
 }

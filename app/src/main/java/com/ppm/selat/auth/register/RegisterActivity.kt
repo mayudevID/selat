@@ -9,6 +9,7 @@ import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
@@ -208,6 +209,7 @@ class RegisterActivity : AppCompatActivity() {
         val customDialog = AlertDialog.Builder(this).setView(dialogView).create()
         customDialog.window?.decorView?.setBackgroundResource(R.drawable.bg_dialog_border)
         val btDismiss = dialogView.findViewById<TextView>(R.id.ok_button)
+        customDialog.window?.setLayout(850, WindowManager.LayoutParams.WRAP_CONTENT)
         customDialog.setCanceledOnTouchOutside(false)
         btDismiss.setOnClickListener {
             customDialog.dismiss()
