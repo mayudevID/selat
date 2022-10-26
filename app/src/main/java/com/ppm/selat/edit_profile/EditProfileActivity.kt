@@ -16,6 +16,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
@@ -24,6 +25,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageView
 import com.canhub.cropper.options
+import com.google.android.material.snackbar.Snackbar
 import com.ppm.selat.R
 import com.ppm.selat.core.data.Resource
 import com.ppm.selat.databinding.ActivityEditProfileBinding
@@ -141,28 +143,32 @@ class EditProfileActivity : AppCompatActivity() {
         }
         binding.saveFullNameButton.setOnClickListener {
             dismissKeyboard()
-            if (isNetworkAvailable()) {
-                val dialogLoading = startLoadingDialog("Simpan nama...")
-                editProfileViewModel.saveNewName().observe(this) { result ->
-                    if (result != null) {
-                        when (result) {
-                            is Resource.Loading -> {}
-                            is Resource.Success -> {
-                                Toast.makeText(this, "Nama diperbarui", Toast.LENGTH_SHORT).show()
-                                editProfileViewModel.nameInit = editProfileViewModel.nameFlow.value
-                                binding.editedFullName.visibility = View.GONE
-                                binding.cancelSaveFullName.visibility = View.GONE
-                                dialogLoading.dismiss()
-                            }
-                            is Resource.Error -> {
-                                Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
-                                dialogLoading.dismiss()
+            if (editProfileViewModel.nameFlow.value.length < 5 && editProfileViewModel.nameFlow.value == "") {
+                onSnackError("Nama tidak boleh kosong dan harus lebih dari 5 (lima) karakter")
+            } else {
+                if (isNetworkAvailable()) {
+                    val dialogLoading = startLoadingDialog("Simpan nama...")
+                    editProfileViewModel.saveNewName().observe(this) { result ->
+                        if (result != null) {
+                            when (result) {
+                                is Resource.Loading -> {}
+                                is Resource.Success -> {
+                                    Toast.makeText(this, "Nama diperbarui", Toast.LENGTH_SHORT).show()
+                                    editProfileViewModel.nameInit = editProfileViewModel.nameFlow.value
+                                    binding.editedFullName.visibility = View.GONE
+                                    binding.cancelSaveFullName.visibility = View.GONE
+                                    dialogLoading.dismiss()
+                                }
+                                is Resource.Error -> {
+                                    Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
+                                    dialogLoading.dismiss()
+                                }
                             }
                         }
                     }
+                } else {
+                    Toast.makeText(this, "Tidak dapat terhubung ke internet", Toast.LENGTH_SHORT).show()
                 }
-            } else {
-                Toast.makeText(this, "Tidak dapat terhubung ke internet", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -181,28 +187,32 @@ class EditProfileActivity : AppCompatActivity() {
         }
         binding.savePhoneButton.setOnClickListener {
             dismissKeyboard()
-            if (isNetworkAvailable()) {
-                val dialogLoading = startLoadingDialog("Simpan nomor...")
-                editProfileViewModel.saveNewPhone().observe(this) { result ->
-                    if (result != null) {
-                        when (result) {
-                            is Resource.Loading -> {}
-                            is Resource.Success -> {
-                                Toast.makeText(this, "Nomor diperbarui", Toast.LENGTH_SHORT).show()
-                                editProfileViewModel.phoneInit = editProfileViewModel.phoneFlow.value
-                                binding.editedPhone.visibility = View.GONE
-                                binding.cancelSavePhone.visibility = View.GONE
-                                dialogLoading.dismiss()
-                            }
-                            is Resource.Error -> {
-                                Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
-                                dialogLoading.dismiss()
+            if (editProfileViewModel.phoneFlow.value.length < 11 && editProfileViewModel.phoneFlow.value == "") {
+                onSnackError("Nomor tidak boleh kosong dan harus lebih dari 10 (sepuluh) karakter")
+            } else {
+                if (isNetworkAvailable()) {
+                    val dialogLoading = startLoadingDialog("Simpan nomor...")
+                    editProfileViewModel.saveNewPhone().observe(this) { result ->
+                        if (result != null) {
+                            when (result) {
+                                is Resource.Loading -> {}
+                                is Resource.Success -> {
+                                    Toast.makeText(this, "Nomor diperbarui", Toast.LENGTH_SHORT).show()
+                                    editProfileViewModel.phoneInit = editProfileViewModel.phoneFlow.value
+                                    binding.editedPhone.visibility = View.GONE
+                                    binding.cancelSavePhone.visibility = View.GONE
+                                    dialogLoading.dismiss()
+                                }
+                                is Resource.Error -> {
+                                    Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
+                                    dialogLoading.dismiss()
+                                }
                             }
                         }
                     }
+                } else {
+                    Toast.makeText(this, "Tidak dapat terhubung ke internet", Toast.LENGTH_SHORT).show()
                 }
-            } else {
-                Toast.makeText(this, "Tidak dapat terhubung ke internet", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -310,5 +320,36 @@ class EditProfileActivity : AppCompatActivity() {
         val imm =
             getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)
+    }
+
+    private fun onSnackError(errorMessage: String){
+        val snackbar = Snackbar.make(binding.root, convertCode(errorMessage),
+            Snackbar.LENGTH_LONG).setAction("Action", null)
+        val snackbarView = snackbar.view
+
+        val textView =
+            snackbarView.findViewById(com.google.android.material.R.id.snackbar_text) as TextView
+        textView.setTextColor(Color.WHITE)
+        val typeface = ResourcesCompat.getFont(applicationContext, R.font.montserrat_medium)
+        textView.typeface = typeface
+        textView.textSize = 12f
+        snackbar.show()
+    }
+
+    private fun convertCode(errorCode: String): String {
+        return when (errorCode) {
+            "ERROR_WRONG_PASSWORD", "ERROR_USER_NOT_FOUND" -> {
+                "Email atau password salah"
+            }
+            "ERROR_INVALID_EMAIL" -> {
+                "Email tidak valid"
+            }
+            "ERROR_EMAIL_ALREADY_IN_USE" -> {
+                "Email sudah terdaftar"
+            }
+            else -> {
+                errorCode
+            }
+        }
     }
 }

@@ -133,7 +133,7 @@ class HomeActivity : AppCompatActivity() {
 
         listSuvAdapter.setOnItemClickCallback(object : ListSuvAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Car) {
-                val intent = Intent(applicationContext, DetailCarActivity::class.java)
+                val intent = Intent(this@HomeActivity, DetailCarActivity::class.java)
                 intent.putExtra("CAR_DATA", data)
                 startActivity(intent)
             }
