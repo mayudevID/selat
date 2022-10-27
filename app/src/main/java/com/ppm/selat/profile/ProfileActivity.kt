@@ -9,6 +9,7 @@ import com.ppm.selat.auth.login.LoginActivity
 import com.ppm.selat.core.data.Resource
 import com.ppm.selat.databinding.ActivityProfileBinding
 import com.ppm.selat.edit_profile.EditProfileActivity
+import com.ppm.selat.set_pin.SetPinActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ProfileActivity : AppCompatActivity() {
@@ -42,6 +43,11 @@ class ProfileActivity : AppCompatActivity() {
 
         binding.backButton.setOnClickListener {
             finish()
+        }
+
+        binding.pinButton.setOnClickListener {
+            val intent = Intent(this@ProfileActivity, SetPinActivity::class.java)
+            startActivity(intent)
         }
 
         binding.editButton.setOnClickListener {

@@ -41,10 +41,7 @@ class EditProfileActivity : AppCompatActivity() {
     private val cropImage = registerForActivityResult(CropImageContract()) { result ->
         if (result.isSuccessful) {
             val uriContent = result.uriContent
-            val uriFilePath = result.getUriFilePath(this) // optional usage
             showPickDialog(uriContent!!)
-        } else {
-            val exception = result.error
         }
     }
 
@@ -143,7 +140,7 @@ class EditProfileActivity : AppCompatActivity() {
         }
         binding.saveFullNameButton.setOnClickListener {
             dismissKeyboard()
-            if (editProfileViewModel.nameFlow.value.length < 5 && editProfileViewModel.nameFlow.value == "") {
+            if (editProfileViewModel.nameFlow.value.length < 5 || editProfileViewModel.nameFlow.value == "") {
                 onSnackError("Nama tidak boleh kosong dan harus lebih dari 5 (lima) karakter")
             } else {
                 if (isNetworkAvailable()) {
@@ -187,7 +184,7 @@ class EditProfileActivity : AppCompatActivity() {
         }
         binding.savePhoneButton.setOnClickListener {
             dismissKeyboard()
-            if (editProfileViewModel.phoneFlow.value.length < 11 && editProfileViewModel.phoneFlow.value == "") {
+            if (editProfileViewModel.phoneFlow.value.length < 11 || editProfileViewModel.phoneFlow.value == "") {
                 onSnackError("Nomor tidak boleh kosong dan harus lebih dari 10 (sepuluh) karakter")
             } else {
                 if (isNetworkAvailable()) {
