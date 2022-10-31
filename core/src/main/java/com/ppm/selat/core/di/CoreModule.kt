@@ -5,12 +5,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.ppm.selat.core.data.AuthRepository
+import com.ppm.selat.core.data.CarRepository
 import com.ppm.selat.core.data.source.local.UserLocalDataSource
 import com.ppm.selat.core.data.source.remote.AuthDataSource
 import com.ppm.selat.core.data.source.remote.CarDataSource
-import com.ppm.selat.core.data.source.remote.FirestoreDataSource
+import com.ppm.selat.core.data.source.remote.UserFirestoreDataSource
 import com.ppm.selat.core.data.source.remote.StorageDataSource
 import com.ppm.selat.core.domain.repository.IAuthRepository
+import com.ppm.selat.core.domain.repository.ICarRepository
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
@@ -28,8 +30,8 @@ val networkModule = module {
 val repositoryModule = module {
     single { UserLocalDataSource(get()) }
     single { AuthDataSource(get()) }
-    //single { CarDataSource(get()) }
-    single { FirestoreDataSource(get()) }
+    single { CarDataSource(get()) }
+    single { UserFirestoreDataSource(get()) }
     single { StorageDataSource(get()) }
 
     single<IAuthRepository> {
@@ -38,6 +40,12 @@ val repositoryModule = module {
             get(),
             get(),
             get(),
+            get(),
+        )
+    }
+
+    single<ICarRepository> {
+        CarRepository(
             get(),
         )
     }

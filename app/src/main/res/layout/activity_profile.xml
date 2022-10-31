@@ -91,172 +91,354 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+
+    <!-- BARIS 1 -->
     
     <ImageView
-        android:src="@drawable/ic_bx_wallet"
+        android:src="@drawable/data_pribadi"
+        android:layout_marginTop="40dp"
+        app:layout_constraintTop_toBottomOf="@+id/free_user"
         app:layout_constraintStart_toStartOf="parent"
-        android:id="@+id/payment_icon"
         android:layout_marginStart="36dp"
-        android:layout_marginTop="70dp"
-        app:layout_constraintTop_toBottomOf="@id/free_user"
-        android:layout_width="31dp"
-        android:layout_height="29dp"/>
+        android:id="@+id/data_pribadi_icon"
+        android:layout_width="16dp"
+        android:layout_height="16dp"/>
 
     <TextView
-        android:text="Pembayaran"
-        android:id="@+id/payment_text"
         android:fontFamily="@font/montserrat_medium"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:layout_marginStart="18dp"
-        app:layout_constraintTop_toTopOf="@id/payment_icon"
-        app:layout_constraintBottom_toBottomOf="@id/payment_icon"
-        app:layout_constraintStart_toEndOf="@id/payment_icon"
+        android:textSize="12sp"
+        android:textColor="#FF5A5A5A"
+        app:layout_constraintTop_toTopOf="@+id/data_pribadi_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/data_pribadi_icon"
+        android:layout_marginStart="13dp"
+        app:layout_constraintStart_toEndOf="@id/data_pribadi_icon"
+        android:text="Data Pribadi"
+        android:id="@+id/data_pribadi_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-
+    
+    <ImageView
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="36dp"
+        app:layout_constraintTop_toTopOf="@id/data_pribadi_icon"
+        app:layout_constraintBottom_toBottomOf="@id/data_pribadi_icon"
+        android:id="@+id/data_pribadi_button"
+        android:src="@drawable/eva_arrow_ios_back_outline"
+        android:layout_width="16dp"
+        android:layout_height="16dp"/>
+    
     <View
         android:id="@+id/border_1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="15dp"
-        android:layout_marginHorizontal="36dp"
-        app:layout_constraintTop_toBottomOf="@id/payment_icon"
+        app:layout_constraintTop_toBottomOf="@id/data_pribadi_icon"
+        android:background="#FFBDBDBD"
+        android:layout_marginStart="65dp"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/black"/>
+        android:layout_height="1dp"/>
+
+    <!-- BARIS 2 -->
 
     <ImageView
-        android:src="@drawable/ic_bx_phone_call"
-        app:layout_constraintStart_toStartOf="parent"
-        android:id="@+id/call_icon"
-        android:layout_marginStart="36dp"
+        android:src="@drawable/fa6_solid_gear"
         android:layout_marginTop="15dp"
-        app:layout_constraintTop_toBottomOf="@id/border_1"
-        android:layout_width="31dp"
-        android:layout_height="29dp"/>
+        app:layout_constraintTop_toBottomOf="@+id/border_1"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="36dp"
+        android:id="@+id/keamanan_icon"
+        android:layout_width="16dp"
+        android:layout_height="16dp"/>
 
     <TextView
-        android:text="Kontak Kami"
-        android:id="@+id/call_text"
         android:fontFamily="@font/montserrat_medium"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:layout_marginStart="18dp"
-        app:layout_constraintTop_toTopOf="@id/call_icon"
-        app:layout_constraintBottom_toBottomOf="@id/call_icon"
-        app:layout_constraintStart_toEndOf="@id/call_icon"
+        android:textSize="12sp"
+        android:textColor="#FF5A5A5A"
+        app:layout_constraintTop_toTopOf="@+id/keamanan_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/keamanan_icon"
+        android:layout_marginStart="13dp"
+        app:layout_constraintStart_toEndOf="@id/keamanan_icon"
+        android:text="Keamanan"
+        android:id="@+id/keamanan_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
+    <ImageView
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="36dp"
+        app:layout_constraintTop_toTopOf="@id/keamanan_icon"
+        app:layout_constraintBottom_toBottomOf="@id/keamanan_icon"
+        android:id="@+id/keamanan_button"
+        android:src="@drawable/eva_arrow_ios_back_outline"
+        android:layout_width="16dp"
+        android:layout_height="16dp"/>
+    
     <View
-        android:id="@+id/border_2"
+        android:id="@+id/big_border_2"
         android:layout_marginTop="15dp"
-        android:layout_marginHorizontal="36dp"
-        app:layout_constraintTop_toBottomOf="@id/call_icon"
+        app:layout_constraintTop_toBottomOf="@id/keamanan_icon"
+        android:background="#FFC9C9C9"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/black"/>
+        android:layout_height="5dp"/>
+
+    <!-- BARIS 3 -->
 
     <ImageView
-        android:src="@drawable/ic_carbon_book"
-        app:layout_constraintStart_toStartOf="parent"
-        android:id="@+id/order_icon"
-        android:layout_marginStart="36dp"
+        android:src="@drawable/healthicons_money_bag"
         android:layout_marginTop="15dp"
-        app:layout_constraintTop_toBottomOf="@id/border_2"
-        android:layout_width="31dp"
-        android:layout_height="29dp"/>
+        app:layout_constraintTop_toBottomOf="@+id/big_border_2"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="36dp"
+        android:id="@+id/transaksi_icon"
+        android:layout_width="16dp"
+        android:layout_height="16dp"/>
 
     <TextView
-        android:text="Pemesanan"
-        android:id="@+id/order_text"
         android:fontFamily="@font/montserrat_medium"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:layout_marginStart="18dp"
-        app:layout_constraintTop_toTopOf="@id/order_icon"
-        app:layout_constraintBottom_toBottomOf="@id/order_icon"
-        app:layout_constraintStart_toEndOf="@id/order_icon"
+        android:textSize="12sp"
+        android:textColor="#FF5A5A5A"
+        app:layout_constraintTop_toTopOf="@+id/transaksi_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/transaksi_icon"
+        android:layout_marginStart="13dp"
+        app:layout_constraintStart_toEndOf="@id/transaksi_icon"
+        android:text="Transaksi"
+        android:id="@+id/transaksi_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+
+    <ImageView
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="36dp"
+        app:layout_constraintTop_toTopOf="@id/transaksi_icon"
+        app:layout_constraintBottom_toBottomOf="@id/transaksi_icon"
+        android:id="@+id/transaksi_button"
+        android:src="@drawable/eva_arrow_ios_back_outline"
+        android:layout_width="16dp"
+        android:layout_height="16dp"/>
 
     <View
         android:id="@+id/border_3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="15dp"
-        android:layout_marginHorizontal="36dp"
-        app:layout_constraintTop_toBottomOf="@id/order_icon"
+        app:layout_constraintTop_toBottomOf="@id/transaksi_icon"
+        android:background="#FFBDBDBD"
+        android:layout_marginStart="65dp"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/black"/>
+        android:layout_height="1dp"/>
+
+    <!-- BARIS 4 -->
 
     <ImageView
-        android:src="@drawable/ic_majesticons_paper_fold_text_line"
-        app:layout_constraintStart_toStartOf="parent"
-        android:id="@+id/tc_icon"
-        android:layout_marginStart="36dp"
+        android:src="@drawable/fluent_payment_20_filled"
         android:layout_marginTop="15dp"
-        app:layout_constraintTop_toBottomOf="@id/border_3"
-        android:layout_width="31dp"
-        android:layout_height="29dp"/>
+        app:layout_constraintTop_toBottomOf="@+id/border_3"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="36dp"
+        android:id="@+id/pembayaran_icon"
+        android:layout_width="16dp"
+        android:layout_height="16dp"/>
 
     <TextView
-        android:id="@+id/tc_text"
-        android:text="Syarat dan Ketentuan"
         android:fontFamily="@font/montserrat_medium"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:layout_marginStart="18dp"
-        app:layout_constraintTop_toTopOf="@id/tc_icon"
-        app:layout_constraintBottom_toBottomOf="@id/tc_icon"
-        app:layout_constraintStart_toEndOf="@id/tc_icon"
+        android:textSize="12sp"
+        android:textColor="#FF5A5A5A"
+        app:layout_constraintTop_toTopOf="@+id/pembayaran_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/pembayaran_icon"
+        android:layout_marginStart="13dp"
+        app:layout_constraintStart_toEndOf="@id/pembayaran_icon"
+        android:text="Pembayaran"
+        android:id="@+id/pembayaran_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+
+    <ImageView
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="36dp"
+        app:layout_constraintTop_toTopOf="@id/pembayaran_icon"
+        app:layout_constraintBottom_toBottomOf="@id/pembayaran_icon"
+        android:id="@+id/pembayaran_button"
+        android:src="@drawable/eva_arrow_ios_back_outline"
+        android:layout_width="16dp"
+        android:layout_height="16dp"/>
 
     <View
-        android:id="@+id/border_4"
+        android:id="@+id/big_border_4"
         android:layout_marginTop="15dp"
-        android:layout_marginHorizontal="36dp"
-        app:layout_constraintTop_toBottomOf="@id/tc_icon"
+        app:layout_constraintTop_toBottomOf="@id/pembayaran_icon"
+        android:background="#FFC9C9C9"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/black"/>
+        android:layout_height="5dp"/>
+
+    <!-- BARIS 5 -->
+
+    <ImageView
+        android:src="@drawable/ant_design_question_circle_filled"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/big_border_4"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="36dp"
+        android:id="@+id/sdank_icon"
+        android:layout_width="16dp"
+        android:layout_height="16dp"/>
 
     <TextView
-        android:id="@+id/set_pin_text"
-        android:text="Set PIN"
         android:fontFamily="@font/montserrat_medium"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="15dp"
-        app:layout_constraintTop_toBottomOf="@id/border_4"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="12sp"
+        android:textColor="#FF5A5A5A"
+        app:layout_constraintTop_toTopOf="@+id/sdank_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/sdank_icon"
+        android:layout_marginStart="13dp"
+        app:layout_constraintStart_toEndOf="@id/sdank_icon"
+        android:text="Syarat &amp; Ketentuan"
+        android:id="@+id/sdank_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    <TextView
-        android:id="@+id/logout_button"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:gravity="center"
-        android:text="Logout"
-        android:fontFamily="@font/montserrat_bold"
-        android:textSize="16sp"
-        android:textColor="@color/white"
-        android:background="@drawable/bg_button_logout"
-        android:layout_marginHorizontal="36dp"
-        android:layout_marginTop="40dp"
-        app:layout_constraintTop_toBottomOf="@+id/set_pin_text"
+    <ImageView
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="36dp"
+        app:layout_constraintTop_toTopOf="@id/sdank_icon"
+        app:layout_constraintBottom_toBottomOf="@id/sdank_icon"
+        android:id="@+id/sdank_button"
+        android:src="@drawable/eva_arrow_ios_back_outline"
+        android:layout_width="16dp"
+        android:layout_height="16dp"/>
+
+    <View
+        android:id="@+id/border_5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@id/sdank_icon"
+        android:background="#FFBDBDBD"
+        android:layout_marginStart="65dp"
         android:layout_width="match_parent"
-        android:layout_height="53dp"/>
+        android:layout_height="1dp"/>
+
+    <!-- BARIS 6 -->
 
     <ImageView
-        android:layout_marginRight="36dp"
-        android:id="@+id/pin_button"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:contentDescription="Back Button"
-        android:src="@drawable/expand_type"
+        android:src="@drawable/bi_book_fill"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/border_5"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="36dp"
+        android:id="@+id/kebijakan_privasi_icon"
+        android:layout_width="16dp"
+        android:layout_height="16dp"/>
+
+    <TextView
+        android:fontFamily="@font/montserrat_medium"
+        android:textSize="12sp"
+        android:textColor="#FF5A5A5A"
+        app:layout_constraintTop_toTopOf="@+id/kebijakan_privasi_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/kebijakan_privasi_icon"
+        android:layout_marginStart="13dp"
+        app:layout_constraintStart_toEndOf="@id/kebijakan_privasi_icon"
+        android:text="Kebijakan Privasi"
+        android:id="@+id/kebijakan_privasi_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/set_pin_text"
-        app:layout_constraintBottom_toBottomOf="@id/set_pin_text"/>
+        android:layout_marginEnd="36dp"
+        app:layout_constraintTop_toTopOf="@id/kebijakan_privasi_icon"
+        app:layout_constraintBottom_toBottomOf="@id/kebijakan_privasi_icon"
+        android:id="@+id/kebijakan_privasi_button"
+        android:src="@drawable/eva_arrow_ios_back_outline"
+        android:layout_width="16dp"
+        android:layout_height="16dp"/>
+
+    <View
+        android:id="@+id/border_6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@id/kebijakan_privasi_icon"
+        android:background="#FFBDBDBD"
+        android:layout_marginStart="65dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <!-- BARIS 7 -->
+
+    <ImageView
+
+        android:src="@drawable/bx_support"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/border_6"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="36dp"
+        android:id="@+id/pusat_bantuan_icon"
+        android:layout_width="16dp"
+        android:layout_height="16dp"/>
+
+    <TextView
+        android:fontFamily="@font/montserrat_medium"
+        android:textSize="12sp"
+        android:textColor="#FF5A5A5A"
+        app:layout_constraintTop_toTopOf="@+id/pusat_bantuan_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/pusat_bantuan_icon"
+        android:layout_marginStart="13dp"
+        app:layout_constraintStart_toEndOf="@id/pusat_bantuan_icon"
+        android:text="Pusat Bantuan"
+        android:id="@+id/pusat_bantuan_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="36dp"
+        app:layout_constraintTop_toTopOf="@id/pusat_bantuan_icon"
+        app:layout_constraintBottom_toBottomOf="@id/pusat_bantuan_icon"
+        android:id="@+id/pusat_bantuan_button"
+        android:src="@drawable/eva_arrow_ios_back_outline"
+        android:layout_width="16dp"
+        android:layout_height="16dp"/>
+
+    <View
+        android:id="@+id/big_border_7"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@id/pusat_bantuan_icon"
+        android:background="#FFC9C9C9"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"/>
+
+    <!-- BARIS 8 -->
+
+    <ImageView
+        android:src="@drawable/ri_shut_down_line"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@+id/big_border_7"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="36dp"
+        android:id="@+id/keluar_icon"
+        android:layout_width="16dp"
+        android:layout_height="16dp"/>
+
+    <TextView
+        android:fontFamily="@font/montserrat_medium"
+        android:textSize="12sp"
+        android:textColor="#FF5A5A5A"
+        app:layout_constraintTop_toTopOf="@+id/keluar_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/keluar_icon"
+        android:layout_marginStart="13dp"
+        app:layout_constraintStart_toEndOf="@id/keluar_icon"
+        android:text="Keluar"
+        android:id="@+id/keluar_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="36dp"
+        app:layout_constraintTop_toTopOf="@id/keluar_icon"
+        app:layout_constraintBottom_toBottomOf="@id/keluar_icon"
+        android:id="@+id/keluar_button"
+        android:src="@drawable/eva_arrow_ios_back_outline"
+        android:layout_width="16dp"
+        android:layout_height="16dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

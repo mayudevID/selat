@@ -3,13 +3,11 @@ package com.ppm.selat.core.data
 import android.content.ContentResolver
 import android.content.res.Resources
 import android.net.Uri
-import android.provider.ContactsContract.CommonDataKinds.Phone
 import android.util.Log
-import com.google.firebase.auth.FirebaseUser
 import com.ppm.selat.core.R
 import com.ppm.selat.core.data.source.local.UserLocalDataSource
 import com.ppm.selat.core.data.source.remote.AuthDataSource
-import com.ppm.selat.core.data.source.remote.FirestoreDataSource
+import com.ppm.selat.core.data.source.remote.UserFirestoreDataSource
 import com.ppm.selat.core.data.source.remote.StorageDataSource
 import com.ppm.selat.core.data.source.remote.response.FirebaseResponse
 import com.ppm.selat.core.domain.model.UserData
@@ -18,13 +16,11 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
-import javax.inject.Inject
-import javax.inject.Singleton
 
 class AuthRepository(
     private val authDataSource: AuthDataSource,
     private val userLocalDataSource: UserLocalDataSource,
-    private val firestoreDataSource: FirestoreDataSource,
+    private val userFirestoreDataSource: UserFirestoreDataSource,
     private val storageDataSource: StorageDataSource,
     private val resources: Resources,
 ) : IAuthRepository {
@@ -38,7 +34,7 @@ class AuthRepository(
                 is FirebaseResponse.Success -> {
                     emit(Resource.Loading())
                     val userData =
-                        firestoreDataSource.getUserDataFromFirestore(firebaseResponse.data.user!!.uid)
+                        userFirestoreDataSource.getUserDataFromFirestore(firebaseResponse.data.user!!.uid)
                     when (val dataResult = userData.first()) {
                         is FirebaseResponse.Success -> {
                             emit(Resource.Loading())
@@ -115,7 +111,7 @@ class AuthRepository(
                                 phone = "0"
                             )
                             // UserData to Firestore
-                            val save = firestoreDataSource.createUserDataToFirestore(newUserData)
+                            val save = userFirestoreDataSource.createUserDataToFirestore(newUserData)
                             when (val saveResult = save.first()) {
                                 is FirebaseResponse.Success -> {
                                     emit(Resource.Success(true))
@@ -174,7 +170,7 @@ class AuthRepository(
         return flow {
             emit(Resource.Loading())
             val uid = authDataSource.getUidUser()
-            val data = firestoreDataSource.updateName(name, uid)
+            val data = userFirestoreDataSource.updateName(name, uid)
             when (val result = data.first()) {
                 is FirebaseResponse.Success -> {
                     emit(Resource.Loading())
@@ -213,7 +209,7 @@ class AuthRepository(
         return flow {
             emit(Resource.Loading())
             val uid = authDataSource.getUidUser()
-            val data = firestoreDataSource.updatePhone(phone, uid)
+            val data = userFirestoreDataSource.updatePhone(phone, uid)
             when (val result = data.first()) {
                 is FirebaseResponse.Success -> {
                     emit(Resource.Loading())
@@ -258,7 +254,7 @@ class AuthRepository(
                     when (val resultUpload = uploadStorage.first()) {
                         is FirebaseResponse.Success -> {
                             emit(Resource.Loading())
-                            val dataRes = firestoreDataSource.updatePhoto(resultUpload.data, uid)
+                            val dataRes = userFirestoreDataSource.updatePhoto(resultUpload.data, uid)
                             when (val result = dataRes.first()) {
                                 is FirebaseResponse.Success -> {
                                     emit(Resource.Loading())

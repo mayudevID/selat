@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 
-class FirestoreDataSource (
+class UserFirestoreDataSource (
     private val firestore: FirebaseFirestore,
 ) {
     suspend fun getUserDataFromFirestore(uid: String): Flow<FirebaseResponse<DocumentSnapshot>> {

@@ -5,11 +5,13 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Car(
-    val id: Int?,
-    val carImage: String?,
-    val carName: String?,
-    val typeCar: String?,
-    val price: Int?,
-    val rating: Double?,
-    val yearProduction: Int?
+    val id: String,
+    val carImage: String,
+    val carManufacturer: String,
+    val carBrand: String,
+    val typeCar: String,
+    val price: Int,
+    val rating: Double,
+    val yearProduction: Int,
+    val available: Int,
 ) : Parcelable

@@ -5,5 +5,5 @@ import com.ppm.selat.core.domain.model.Car
 import kotlinx.coroutines.flow.Flow
 
 interface CarUseCase {
-    fun getCarByType() : Flow<Resource<List<Car>>>
+    fun getAllCars() : Flow<Resource<List<Car>>>
 }

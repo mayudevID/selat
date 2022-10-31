@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.google.android.gms.common.api.GoogleApi
+import com.ppm.selat.core.data.Resource
 import com.ppm.selat.core.ui.home.ListCarBrandsAdapter
 import com.ppm.selat.core.ui.home.ListSedanAdapter
 import com.ppm.selat.core.ui.home.ListSuvAdapter
@@ -66,51 +68,96 @@ class HomeActivity : AppCompatActivity() {
         listCarBrandsAdapter = ListCarBrandsAdapter(listBrands)
         binding.rvListCarBrands.adapter = listCarBrandsAdapter
 
-        //////////////////////////////////////////////////////
-
         val sedanLayoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.rvListSedan.layoutManager = sedanLayoutManager
         binding.rvListSedan.setHasFixedSize(true)
-
-        val sedanData = Car(
-            id = null,
-            typeCar = "SEDAN",
-            carImage = null,
-            carName = "Camry",
-            price = 200,
-            rating = 5.0,
-            yearProduction = 2022
-        )
-
-        val listSedan = ArrayList<Car>()
-        listSedan.addAll(listOf(sedanData, sedanData, sedanData))
-
-        listSedanAdapter = ListSedanAdapter(listSedan)
-        binding.rvListSedan.adapter = listSedanAdapter
-
-        //////////////////////////////////////////////////////
 
         val suvLayoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.rvListSuv.layoutManager = suvLayoutManager
         binding.rvListSuv.setHasFixedSize(true)
 
-        val suvData = Car(
-            id = null,
-            typeCar = "SUV",
-            carImage = null,
-            carName = "Avanza",
-            price = 200,
-            rating = 5.0,
-            yearProduction = 2022
-        )
+        homeViewModel.getAllCars.observe(this) { result ->
+            if (result != null) {
+                when(result) {
+                    is Resource.Success -> {
+                        val dataCar = result.data!!
+                        lateinit var sedanData : ArrayList<Car>
+                        lateinit var suvData : ArrayList<Car>
+                        for (data in dataCar) {
+                            if (data.typeCar == "SEDAN") {
+                                sedanData.add(data)
+                            } else {
+                                suvData.add(data)
+                            }
+                        }
+                        binding.loadSedanCar.visibility = View.GONE
+                        binding.loadSuvCar.visibility = View.GONE
+                        binding.errorMessage.visibility = View.GONE
+                        if (sedanData.isEmpty()) {
 
-        val listSuv = ArrayList<Car>()
-        listSuv.addAll(listOf(suvData, suvData, suvData))
+                        } else {
+                            listSedanAdapter = ListSedanAdapter(sedanData)
+                            binding.rvListSedan.adapter = listSedanAdapter
+                            binding.rvListSedan.visibility = View.GONE
+                        }
+                        if (suvData.isEmpty()) {
 
-        listSuvAdapter = ListSuvAdapter(listSuv)
-        binding.rvListSuv.adapter = listSuvAdapter
+                        } else {
+                            listSuvAdapter = ListSuvAdapter(suvData)
+                            binding.rvListSuv.adapter = listSuvAdapter
+                            binding.rvListSuv.visibility = View.GONE
+                        }
+                    }
+                    is Resource.Loading -> {
+                        binding.rvListSedan.visibility = View.GONE
+                        binding.rvListSuv.visibility = View.GONE
+                        binding.errorMessage.visibility = View.GONE
+                        binding.loadSedanCar.visibility = View.VISIBLE
+                        binding.loadSuvCar.visibility = View.VISIBLE
+                    }
+                    is Resource.Error -> {
+
+                    }
+                }
+            }
+
+        }
+//
+//        val sedanData = Car(
+//            id = null,
+//            typeCar = "SEDAN",
+//            carImage = null,
+//            carName = "Camry",
+//            price = 200,
+//            rating = 5.0,
+//            yearProduction = 2022
+//        )
+//
+//        val listSedan = ArrayList<Car>()
+//        listSedan.addAll(listOf(sedanData, sedanData, sedanData))
+//
+//        listSedanAdapter = ListSedanAdapter(listSedan)
+//        binding.rvListSedan.adapter = listSedanAdapter
+
+        //////////////////////////////////////////////////////
+//
+//        val suvData = Car(
+//            id = null,
+//            typeCar = "SUV",
+//            carImage = null,
+//            carName = "Avanza",
+//            price = 200,
+//            rating = 5.0,
+//            yearProduction = 2022
+//        )
+//
+//        val listSuv = ArrayList<Car>()
+//        listSuv.addAll(listOf(suvData, suvData, suvData))
+//
+//        listSuvAdapter = ListSuvAdapter(listSuv)
+//        binding.rvListSuv.adapter = listSuvAdapter
     }
 
     private fun setUpListener() {
@@ -164,19 +211,23 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setUpAnimation() {
-        val search = ObjectAnimator.ofFloat(binding.searchBar, View.ALPHA, 1F).setDuration(100)
+        val search = ObjectAnimator.ofFloat(binding.searchBar, View.ALPHA, 1F).setDuration(50)
         val profileBanner =
-            ObjectAnimator.ofFloat(binding.profileBanner, View.ALPHA, 1F).setDuration(100)
+            ObjectAnimator.ofFloat(binding.profileBanner, View.ALPHA, 1F).setDuration(50)
         val rvListCarBrands =
-            ObjectAnimator.ofFloat(binding.rvListCarBrands, View.ALPHA, 1F).setDuration(100)
-        val sedanText = ObjectAnimator.ofFloat(binding.sedanText, View.ALPHA, 1F).setDuration(100)
-        val suvText = ObjectAnimator.ofFloat(binding.suvText, View.ALPHA, 1F).setDuration(100)
+            ObjectAnimator.ofFloat(binding.rvListCarBrands, View.ALPHA, 1F).setDuration(50)
+        val sedanText = ObjectAnimator.ofFloat(binding.sedanText, View.ALPHA, 1F).setDuration(50)
+        val suvText = ObjectAnimator.ofFloat(binding.suvText, View.ALPHA, 1F).setDuration(50)
         val expandSedan =
-            ObjectAnimator.ofFloat(binding.expandSedan, View.ALPHA, 1F).setDuration(100)
-        val expandSuv = ObjectAnimator.ofFloat(binding.expandSuv, View.ALPHA, 1F).setDuration(100)
+            ObjectAnimator.ofFloat(binding.expandSedan, View.ALPHA, 1F).setDuration(50)
+        val expandSuv = ObjectAnimator.ofFloat(binding.expandSuv, View.ALPHA, 1F).setDuration(50)
         val rvListSedan =
-            ObjectAnimator.ofFloat(binding.rvListSedan, View.ALPHA, 1F).setDuration(100)
-        val rvListSuv = ObjectAnimator.ofFloat(binding.rvListSuv, View.ALPHA, 1F).setDuration(100)
+            ObjectAnimator.ofFloat(binding.rvListSedan, View.ALPHA, 1F).setDuration(50)
+        val rvListSuv = ObjectAnimator.ofFloat(binding.rvListSuv, View.ALPHA, 1F).setDuration(50)
+        val loadSuv = ObjectAnimator.ofFloat(binding.loadSuvCar, View.ALPHA, 1F).setDuration(50)
+        val loadSedan =
+            ObjectAnimator.ofFloat(binding.loadSedanCar, View.ALPHA, 1F).setDuration(50)
+        val errorLayout = ObjectAnimator.ofFloat(binding.errorMessage, View.ALPHA, 1F).setDuration(50)
 
         val together = AnimatorSet().apply {
             playTogether(sedanText, expandSedan)
@@ -186,15 +237,23 @@ class HomeActivity : AppCompatActivity() {
             playTogether(suvText, expandSuv)
         }
 
+        val loadSedanTogether = AnimatorSet().apply {
+            playTogether(rvListSedan, loadSedan, errorLayout)
+        }
+
+        val loadSuvTogether = AnimatorSet().apply {
+            playTogether(rvListSuv, loadSuv)
+        }
+
         AnimatorSet().apply {
             playSequentially(
                 search,
                 profileBanner,
                 rvListCarBrands,
                 together,
-                rvListSedan,
+                loadSedanTogether,
                 togetherSecond,
-                rvListSuv,
+                loadSuvTogether,
             )
             start()
         }

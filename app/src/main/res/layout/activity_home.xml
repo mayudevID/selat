@@ -164,6 +164,59 @@
                 app:recyclerview_overscroll_animation_size=".7"
                 app:recyclerview_stiffness="STIFFNESS_MEDIUM" />
 
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:alpha="0"
+                android:indeterminate="true"
+                app:trackColor="@color/black"
+                app:indicatorColor="@color/white"
+                android:id="@+id/load_sedan_car"
+                android:layout_marginTop="70dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sedan_text"
+                android:layout_width="24dp"
+                android:layout_height="24dp"/>
+
+            <LinearLayout
+                android:alpha="0"
+                android:id="@+id/error_message"
+                android:gravity="center"
+                android:layout_marginTop="70dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sedan_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:textColor="@color/black"
+                    android:text="Terjadi kesalahan"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/retry_button"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="#FFFDC500"
+                    app:cardCornerRadius="24dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp">
+                    <TextView
+                        android:textColor="@color/black"
+                        android:fontFamily="@font/montserrat_regular"
+                        android:text="Coba kembali"
+                        android:layout_gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+
+
             <TextView
                 android:alpha="0"
                 android:id="@+id/suv_text"
@@ -207,6 +260,19 @@
                 app:recyclerview_fling_animation_size=".7"
                 app:recyclerview_overscroll_animation_size=".7"
                 app:recyclerview_stiffness="STIFFNESS_MEDIUM" />
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:indeterminate="true"
+                android:alpha="0"
+                app:trackColor="@color/black"
+                app:indicatorColor="@color/white"
+                android:id="@+id/load_suv_car"
+                android:layout_marginTop="70dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/suv_text"
+                android:layout_width="24dp"
+                android:layout_height="24dp"/>
 
             <View
                 app:layout_constraintTop_toBottomOf="@id/rv_list_suv"

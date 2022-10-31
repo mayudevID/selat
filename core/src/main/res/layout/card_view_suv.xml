@@ -2,7 +2,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:cardBackgroundColor="#FF009FFF"
+    app:cardBackgroundColor="#FF333E45"
     app:cardCornerRadius="24dp"
     android:foreground="?android:attr/selectableItemBackground"
     app:cardElevation="0dp"
@@ -29,7 +29,7 @@
             android:layout_marginStart="3dp"
             app:layout_constraintStart_toEndOf="@id/star"
             android:text="5.0"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:fontFamily="@font/montserrat_bold"
             android:textSize="8sp"
             app:layout_constraintBottom_toBottomOf="@id/star"
@@ -45,7 +45,7 @@
             android:fontFamily="@font/montserrat_bold"
             android:text="Avanza"
             android:textSize="16sp"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -56,7 +56,7 @@
             android:fontFamily="@font/montserrat_bold"
             android:text="200K / Hari"
             android:textSize="11sp"
-            android:textColor="#FF767676"
+            android:textColor="#FFB1B1B1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 

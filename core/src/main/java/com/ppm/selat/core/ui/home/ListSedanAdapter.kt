@@ -36,7 +36,7 @@ class ListSedanAdapter(private val listSedan: ArrayList<Car>) : RecyclerView.Ada
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ListSedanViewHolder, position: Int) {
         val data = listSedan[position]
-        holder.carName.text = data.carName
+        holder.carName.text = data.carBrand
         holder.price.text = "${data.price.toString()}K / hari)"
         holder.rating.text = data.rating.toString()
         holder.itemView.setOnClickListener {
