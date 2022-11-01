@@ -24,7 +24,7 @@ val viewModelModule = module {
     viewModel { LoginViewModel(get()) }
     viewModel { RegisterViewModel(get()) }
     viewModel { ResetPasswordViewModel(get()) }
-    viewModel { HomeViewModel(get()) }
+    viewModel { HomeViewModel(get(), get()) }
     viewModel { ProfileViewModel(get()) }
     viewModel { EditProfileViewModel(get()) }
 }

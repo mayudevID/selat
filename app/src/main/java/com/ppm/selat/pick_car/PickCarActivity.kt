@@ -106,109 +106,109 @@ class PickCarActivity : AppCompatActivity() {
         binding.rvListAvailableCarToPick.setHasFixedSize(false)
         binding.rvListAvailableCarToPick.layoutManager = LinearLayoutManager(this)
 
-        val listData = arrayListOf<Car>(
-            Car(
-                id = null,
-                carImage = null,
-                typeCar = null,
-                carName = "Fortuner",
-                yearProduction = 2022,
-                price = 200,
-                rating = 4.8
-            ),
-            Car(
-                id = null,
-                carImage = null,
-                typeCar = null,
-                carName = "Fortuner",
-                yearProduction = 2022,
-                price = 200,
-                rating = 4.8
-            ),
-            Car(
-                id = null,
-                carImage = null,
-                typeCar = null,
-                carName = "Fortuner",
-                yearProduction = 2022,
-                price = 200,
-                rating = 4.8
-            ),
-            Car(
-                id = null,
-                carImage = null,
-                typeCar = null,
-                carName = "Fortuner",
-                yearProduction = 2022,
-                price = 200,
-                rating = 4.8
-            ),
-            Car(
-                id = null,
-                carImage = null,
-                typeCar = null,
-                carName = "Fortuner",
-                yearProduction = 2022,
-                price = 200,
-                rating = 4.8
-            ),
-            Car(
-                id = null,
-                carImage = null,
-                typeCar = null,
-                carName = "Fortuner",
-                yearProduction = 2022,
-                price = 200,
-                rating = 4.8
-            ),
-            Car(
-                id = null,
-                carImage = null,
-                typeCar = null,
-                carName = "Fortuner",
-                yearProduction = 2022,
-                price = 200,
-                rating = 4.8
-            ),
-            Car(
-                id = null,
-                carImage = null,
-                typeCar = null,
-                carName = "Fortuner",
-                yearProduction = 2022,
-                price = 200,
-                rating = 4.8
-            ),
-            Car(
-                id = null,
-                carImage = null,
-                typeCar = null,
-                carName = "Fortuner",
-                yearProduction = 2022,
-                price = 200,
-                rating = 4.8
-            ),
-            Car(
-                id = null,
-                carImage = null,
-                typeCar = null,
-                carName = "Fortuner",
-                yearProduction = 2022,
-                price = 200,
-                rating = 4.8
-            ),
-            Car(
-                id = null,
-                carImage = null,
-                typeCar = null,
-                carName = "Fortuner",
-                yearProduction = 2022,
-                price = 200,
-                rating = 4.8
-            ),
-        )
-
-        listAvailableCarAdapter = ListAvailableCarAdapter(listData)
-        binding.rvListAvailableCarToPick.adapter = listAvailableCarAdapter
+//        val listData = arrayListOf<Car>(
+//            Car(
+//                id = null,
+//                carImage = null,
+//                typeCar = null,
+//                carName = "Fortuner",
+//                yearProduction = 2022,
+//                price = 200,
+//                rating = 4.8
+//            ),
+//            Car(
+//                id = null,
+//                carImage = null,
+//                typeCar = null,
+//                carName = "Fortuner",
+//                yearProduction = 2022,
+//                price = 200,
+//                rating = 4.8
+//            ),
+//            Car(
+//                id = null,
+//                carImage = null,
+//                typeCar = null,
+//                carName = "Fortuner",
+//                yearProduction = 2022,
+//                price = 200,
+//                rating = 4.8
+//            ),
+//            Car(
+//                id = null,
+//                carImage = null,
+//                typeCar = null,
+//                carName = "Fortuner",
+//                yearProduction = 2022,
+//                price = 200,
+//                rating = 4.8
+//            ),
+//            Car(
+//                id = null,
+//                carImage = null,
+//                typeCar = null,
+//                carName = "Fortuner",
+//                yearProduction = 2022,
+//                price = 200,
+//                rating = 4.8
+//            ),
+//            Car(
+//                id = null,
+//                carImage = null,
+//                typeCar = null,
+//                carName = "Fortuner",
+//                yearProduction = 2022,
+//                price = 200,
+//                rating = 4.8
+//            ),
+//            Car(
+//                id = null,
+//                carImage = null,
+//                typeCar = null,
+//                carName = "Fortuner",
+//                yearProduction = 2022,
+//                price = 200,
+//                rating = 4.8
+//            ),
+//            Car(
+//                id = null,
+//                carImage = null,
+//                typeCar = null,
+//                carName = "Fortuner",
+//                yearProduction = 2022,
+//                price = 200,
+//                rating = 4.8
+//            ),
+//            Car(
+//                id = null,
+//                carImage = null,
+//                typeCar = null,
+//                carName = "Fortuner",
+//                yearProduction = 2022,
+//                price = 200,
+//                rating = 4.8
+//            ),
+//            Car(
+//                id = null,
+//                carImage = null,
+//                typeCar = null,
+//                carName = "Fortuner",
+//                yearProduction = 2022,
+//                price = 200,
+//                rating = 4.8
+//            ),
+//            Car(
+//                id = null,
+//                carImage = null,
+//                typeCar = null,
+//                carName = "Fortuner",
+//                yearProduction = 2022,
+//                price = 200,
+//                rating = 4.8
+//            ),
+//        )
+//
+//        listAvailableCarAdapter = ListAvailableCarAdapter(listData)
+//        binding.rvListAvailableCarToPick.adapter = listAvailableCarAdapter
     }
 }

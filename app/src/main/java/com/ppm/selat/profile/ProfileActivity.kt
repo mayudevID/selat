@@ -45,17 +45,17 @@ class ProfileActivity : AppCompatActivity() {
             finish()
         }
 
-        binding.pinButton.setOnClickListener {
-            val intent = Intent(this@ProfileActivity, SetPinActivity::class.java)
-            startActivity(intent)
-        }
+//        binding.pinButton.setOnClickListener {
+//            val intent = Intent(this@ProfileActivity, SetPinActivity::class.java)
+//            startActivity(intent)
+//        }
 
         binding.editButton.setOnClickListener {
             val intent = Intent(this@ProfileActivity, EditProfileActivity::class.java)
             startActivity(intent)
         }
 
-        binding.logoutButton.setOnClickListener {
+        binding.keluarButton.setOnClickListener {
             profileViewModel.logoutFromFirebase().observe(this) { result ->
                 if (result != null) {
                     when (result) {

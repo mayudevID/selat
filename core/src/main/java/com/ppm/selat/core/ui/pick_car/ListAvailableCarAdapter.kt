@@ -40,7 +40,7 @@ class ListAvailableCarAdapter(private val listAvailableCar: ArrayList<Car>) :
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val data = listAvailableCar[position]
-        holder.brand.text = data.carName
+        holder.brand.text = data.carBrand
         holder.imageCar.setImageResource(R.drawable.temp_car_fortuner)
         holder.price.text = data.price.toString()
         holder.yearProd.text = data.yearProduction.toString()

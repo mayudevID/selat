@@ -3,11 +3,14 @@ package com.ppm.selat.home
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Intent
+import android.opengl.Visibility
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -42,7 +45,6 @@ class HomeActivity : AppCompatActivity() {
 
         setUpProfile()
         setUpListCar()
-        setUpListener()
         Handler(Looper.getMainLooper()).postDelayed({
             setUpAnimation()
         }, 10)
@@ -83,14 +85,18 @@ class HomeActivity : AppCompatActivity() {
                 when(result) {
                     is Resource.Success -> {
                         val dataCar = result.data!!
-                        lateinit var sedanData : ArrayList<Car>
-                        lateinit var suvData : ArrayList<Car>
+                        val sedanData = ArrayList<Car>()
+                        val suvData = ArrayList<Car>()
                         for (data in dataCar) {
                             if (data.typeCar == "SEDAN") {
                                 sedanData.add(data)
                             } else {
                                 suvData.add(data)
                             }
+                        }
+                        binding.suvText.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                            topToBottom = binding.rvListSedan.id
+                            topMargin = 30
                         }
                         binding.loadSedanCar.visibility = View.GONE
                         binding.loadSuvCar.visibility = View.GONE
@@ -100,15 +106,16 @@ class HomeActivity : AppCompatActivity() {
                         } else {
                             listSedanAdapter = ListSedanAdapter(sedanData)
                             binding.rvListSedan.adapter = listSedanAdapter
-                            binding.rvListSedan.visibility = View.GONE
+                            binding.rvListSedan.visibility = View.VISIBLE
                         }
                         if (suvData.isEmpty()) {
 
                         } else {
                             listSuvAdapter = ListSuvAdapter(suvData)
                             binding.rvListSuv.adapter = listSuvAdapter
-                            binding.rvListSuv.visibility = View.GONE
+                            binding.rvListSuv.visibility = View.VISIBLE
                         }
+                        setUpListener()
                     }
                     is Resource.Loading -> {
                         binding.rvListSedan.visibility = View.GONE
@@ -116,48 +123,18 @@ class HomeActivity : AppCompatActivity() {
                         binding.errorMessage.visibility = View.GONE
                         binding.loadSedanCar.visibility = View.VISIBLE
                         binding.loadSuvCar.visibility = View.VISIBLE
+                        binding.suvText.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                            topToBottom = binding.loadSedanCar.id
+                            topMargin = 64
+                        }
                     }
                     is Resource.Error -> {
-
+                        binding.errorMessage.visibility = View.VISIBLE
                     }
                 }
             }
 
         }
-//
-//        val sedanData = Car(
-//            id = null,
-//            typeCar = "SEDAN",
-//            carImage = null,
-//            carName = "Camry",
-//            price = 200,
-//            rating = 5.0,
-//            yearProduction = 2022
-//        )
-//
-//        val listSedan = ArrayList<Car>()
-//        listSedan.addAll(listOf(sedanData, sedanData, sedanData))
-//
-//        listSedanAdapter = ListSedanAdapter(listSedan)
-//        binding.rvListSedan.adapter = listSedanAdapter
-
-        //////////////////////////////////////////////////////
-//
-//        val suvData = Car(
-//            id = null,
-//            typeCar = "SUV",
-//            carImage = null,
-//            carName = "Avanza",
-//            price = 200,
-//            rating = 5.0,
-//            yearProduction = 2022
-//        )
-//
-//        val listSuv = ArrayList<Car>()
-//        listSuv.addAll(listOf(suvData, suvData, suvData))
-//
-//        listSuvAdapter = ListSuvAdapter(listSuv)
-//        binding.rvListSuv.adapter = listSuvAdapter
     }
 
     private fun setUpListener() {
@@ -211,23 +188,23 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setUpAnimation() {
-        val search = ObjectAnimator.ofFloat(binding.searchBar, View.ALPHA, 1F).setDuration(50)
+        val search = ObjectAnimator.ofFloat(binding.searchBar, View.ALPHA, 1F).setDuration(100)
         val profileBanner =
-            ObjectAnimator.ofFloat(binding.profileBanner, View.ALPHA, 1F).setDuration(50)
+            ObjectAnimator.ofFloat(binding.profileBanner, View.ALPHA, 1F).setDuration(100)
         val rvListCarBrands =
-            ObjectAnimator.ofFloat(binding.rvListCarBrands, View.ALPHA, 1F).setDuration(50)
-        val sedanText = ObjectAnimator.ofFloat(binding.sedanText, View.ALPHA, 1F).setDuration(50)
-        val suvText = ObjectAnimator.ofFloat(binding.suvText, View.ALPHA, 1F).setDuration(50)
+            ObjectAnimator.ofFloat(binding.rvListCarBrands, View.ALPHA, 1F).setDuration(100)
+        val sedanText = ObjectAnimator.ofFloat(binding.sedanText, View.ALPHA, 1F).setDuration(100)
+        val suvText = ObjectAnimator.ofFloat(binding.suvText, View.ALPHA, 1F).setDuration(100)
         val expandSedan =
-            ObjectAnimator.ofFloat(binding.expandSedan, View.ALPHA, 1F).setDuration(50)
-        val expandSuv = ObjectAnimator.ofFloat(binding.expandSuv, View.ALPHA, 1F).setDuration(50)
+            ObjectAnimator.ofFloat(binding.expandSedan, View.ALPHA, 1F).setDuration(100)
+        val expandSuv = ObjectAnimator.ofFloat(binding.expandSuv, View.ALPHA, 1F).setDuration(100)
         val rvListSedan =
-            ObjectAnimator.ofFloat(binding.rvListSedan, View.ALPHA, 1F).setDuration(50)
-        val rvListSuv = ObjectAnimator.ofFloat(binding.rvListSuv, View.ALPHA, 1F).setDuration(50)
-        val loadSuv = ObjectAnimator.ofFloat(binding.loadSuvCar, View.ALPHA, 1F).setDuration(50)
+            ObjectAnimator.ofFloat(binding.rvListSedan, View.ALPHA, 1F).setDuration(100)
+        val rvListSuv = ObjectAnimator.ofFloat(binding.rvListSuv, View.ALPHA, 1F).setDuration(100)
+        val loadSuv = ObjectAnimator.ofFloat(binding.loadSuvCar, View.ALPHA, 1F).setDuration(100)
         val loadSedan =
-            ObjectAnimator.ofFloat(binding.loadSedanCar, View.ALPHA, 1F).setDuration(50)
-        val errorLayout = ObjectAnimator.ofFloat(binding.errorMessage, View.ALPHA, 1F).setDuration(50)
+            ObjectAnimator.ofFloat(binding.loadSedanCar, View.ALPHA, 1F).setDuration(100)
+        val errorLayout = ObjectAnimator.ofFloat(binding.errorMessage, View.ALPHA, 1F).setDuration(100)
 
         val together = AnimatorSet().apply {
             playTogether(sedanText, expandSedan)
