@@ -4,6 +4,7 @@ plugins {
     id "kotlin-parcelize"
     id 'com.google.gms.google-services'
     id "org.jetbrains.kotlin.plugin.serialization" version "1.7.20"
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 apply plugin: 'kotlin-kapt'
@@ -44,4 +45,7 @@ android {
 dependencies {
     implementation project(":core")
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 }

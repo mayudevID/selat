@@ -90,7 +90,6 @@
                         android:layout_width="77dp"
                         android:layout_height="61dp"
                         android:layout_marginStart="48dp"
-                        android:src="@drawable/logo_toyota_detail"
                         app:layout_constraintBottom_toBottomOf="@+id/year_production"
                         app:layout_constraintEnd_toStartOf="@id/type_brand"
                         app:layout_constraintStart_toStartOf="parent"

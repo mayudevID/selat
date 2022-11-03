@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ppm.selat.core.R
 import com.ppm.selat.margin
 
-class ListCarBrandsAdapter(private val listSedan: ArrayList<String>) : RecyclerView.Adapter <ListCarBrandsAdapter.ListCarBrandsViewHolder>() {
+class ListCarManufacturerAdapter(private val listSedan: ArrayList<String>) : RecyclerView.Adapter <ListCarManufacturerAdapter.ListCarBrandsViewHolder>() {
     private lateinit var onItemClickCallback: OnItemClickCallback
 
     interface OnItemClickCallback {
@@ -34,6 +34,9 @@ class ListCarBrandsAdapter(private val listSedan: ArrayList<String>) : RecyclerV
     override fun onBindViewHolder(holder: ListCarBrandsViewHolder, position: Int) {
         val data = listSedan[position]
         holder.brand.text = data
+        holder.itemView.setOnClickListener {
+            onItemClickCallback.onItemClicked(listSedan[holder.absoluteAdapterPosition])
+        }
         holder.itemView.margin(right = 5F)
         if (position == 0) {
             holder.itemView.margin(left = 36F)

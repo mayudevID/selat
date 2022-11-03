@@ -1,15 +1,18 @@
 package com.ppm.selat.core.ui.pick_car
 
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.ppm.selat.core.R
 import com.ppm.selat.margin
 
-class ListBrandsCarToPickAdapter(private val listBrand: ArrayList<Int>) :
-    RecyclerView.Adapter<ListBrandsCarToPickAdapter.ListViewHolder>() {
+class ListCarManufacturerToPickAdapter(private val listBrand: ArrayList<Int>, private var rowIndex: Int) :
+    RecyclerView.Adapter<ListCarManufacturerToPickAdapter.ListViewHolder>() {
     private lateinit var onItemClickCallback: OnItemClickCallback
 
     interface OnItemClickCallback {
@@ -31,14 +34,22 @@ class ListBrandsCarToPickAdapter(private val listBrand: ArrayList<Int>) :
         return ListViewHolder(view)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val data = listBrand[position]
         holder.brand.setImageResource(data)
         holder.itemView.setOnClickListener {
-            onItemClickCallback.onItemClicked(listBrand[holder.adapterPosition])
+            onItemClickCallback.onItemClicked(listBrand[holder.absoluteAdapterPosition])
+            rowIndex = holder.absoluteAdapterPosition
+            notifyDataSetChanged()
+        }
+        if (holder.absoluteAdapterPosition == rowIndex) {
+            (holder.itemView as CardView).setCardBackgroundColor(Color.parseColor("#FDC500"))
+        } else {
+            (holder.itemView as CardView).setCardBackgroundColor(Color.WHITE)
         }
         holder.itemView.margin(right = 18F)
-        if (position == 0) {
+        if (holder.absoluteAdapterPosition == 0) {
             holder.itemView.margin(left = 36F)
         }
     }

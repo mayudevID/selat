@@ -8,6 +8,7 @@ import android.os.Looper
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.ppm.selat.R
 import com.ppm.selat.core.data.Resource
 import com.ppm.selat.core.domain.model.Car
 import com.ppm.selat.databinding.ActivityDetailCarBinding
@@ -71,6 +72,16 @@ class DetailCarActivity : AppCompatActivity() {
             desc1.text = carData.spec.a
             desc2.text = carData.spec.b
             desc3.text = carData.spec.c
+
+            if (carData.carManufacturer == "Toyota") {
+                logoBrand.setImageResource(R.drawable.toyota_detail_logo)
+            } else if (carData.carManufacturer == "Hyundai") {
+                logoBrand.setImageResource(R.drawable.hyundai_detail_logo)
+            } else if (carData.carManufacturer == "Honda") {
+                logoBrand.setImageResource(R.drawable.honda_detail_logo)
+            } else if (carData.carManufacturer == "Suzuki") {
+                logoBrand.setImageResource(R.drawable.suzuki_detail_logo)
+            }
 
             detailCarViewModel.getAvailableCar(carData.id).observe(this@DetailCarActivity) {
                 result ->

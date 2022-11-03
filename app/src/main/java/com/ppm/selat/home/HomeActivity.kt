@@ -3,7 +3,6 @@ package com.ppm.selat.home
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Intent
-import android.opengl.Visibility
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -14,15 +13,17 @@ import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.google.android.gms.common.api.GoogleApi
+import com.ppm.selat.Manufacturer
+import com.ppm.selat.TypeCar
 import com.ppm.selat.core.data.Resource
-import com.ppm.selat.core.ui.home.ListCarBrandsAdapter
+import com.ppm.selat.core.ui.home.ListCarManufacturerAdapter
 import com.ppm.selat.core.ui.home.ListSedanAdapter
 import com.ppm.selat.core.ui.home.ListSuvAdapter
 import com.ppm.selat.databinding.ActivityHomeBinding
 import com.ppm.selat.core.domain.model.Car
 import com.ppm.selat.detail_car.DetailCarActivity
 import com.ppm.selat.profile.ProfileActivity
+import com.ppm.selat.putExtra
 import com.ppm.selat.ui.pick_car.PickCarActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -34,7 +35,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var listSedanAdapter: ListSedanAdapter
     private lateinit var listSuvAdapter: ListSuvAdapter
-    private lateinit var listCarBrandsAdapter: ListCarBrandsAdapter
+    private lateinit var listCarManufacturerAdapter: ListCarManufacturerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,10 +66,16 @@ class HomeActivity : AppCompatActivity() {
         binding.rvListCarBrands.layoutManager = linearLayoutManager
         binding.rvListCarBrands.setHasFixedSize(true)
 
-        val listBrands = arrayListOf("Toyota", "Honda", "Suzuki", "Nissan", "Hyundai")
+        val listBrands = arrayListOf(
+            "Toyota",
+            "Honda",
+            "Suzuki",
+            "Nissan",
+            "Hyundai",
+        )
 
-        listCarBrandsAdapter = ListCarBrandsAdapter(listBrands)
-        binding.rvListCarBrands.adapter = listCarBrandsAdapter
+        listCarManufacturerAdapter = ListCarManufacturerAdapter(listBrands)
+        binding.rvListCarBrands.adapter = listCarManufacturerAdapter
 
         val sedanLayoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
@@ -166,10 +173,13 @@ class HomeActivity : AppCompatActivity() {
             }
         })
 
-        listCarBrandsAdapter.setOnItemClickCallback(object :
-            ListCarBrandsAdapter.OnItemClickCallback {
+        listCarManufacturerAdapter.setOnItemClickCallback(object :
+            ListCarManufacturerAdapter.OnItemClickCallback {
             override fun onItemClicked(data: String) {
-
+                val intent = Intent(this@HomeActivity, PickCarActivity::class.java)
+                intent.putExtra(convertStringToManufacturer(data))
+                intent.putExtra(TypeCar.ALL)
+                startActivity(intent)
             }
 
             override fun onItemDeleted(data: String) {
@@ -178,12 +188,27 @@ class HomeActivity : AppCompatActivity() {
 
         binding.expandSedan.setOnClickListener {
             val intent = Intent(this, PickCarActivity::class.java)
+            intent.putExtra(Manufacturer.ALL)
+            intent.putExtra(TypeCar.SEDAN)
             startActivity(intent)
         }
 
         binding.expandSuv.setOnClickListener {
             val intent = Intent(this, PickCarActivity::class.java)
+            intent.putExtra(Manufacturer.ALL)
+            intent.putExtra(TypeCar.SUV)
             startActivity(intent)
+        }
+    }
+
+    private fun convertStringToManufacturer(data: String) : Manufacturer{
+        return when (data) {
+            "Toyota" -> Manufacturer.TOYOTA
+            "Hyundai" -> Manufacturer.HYUNDAI
+            "Suzuki" -> Manufacturer.SUZUKI
+            "Nissan" -> Manufacturer.NISSAN
+            "Honda" -> Manufacturer.HONDA
+            else -> Manufacturer.ALL
         }
     }
 

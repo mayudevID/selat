@@ -2,20 +2,30 @@ package com.ppm.selat.ui.pick_car
 
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ppm.selat.Manufacturer
 import com.ppm.selat.R
+import com.ppm.selat.TypeCar
 import com.ppm.selat.core.ui.pick_car.ListAvailableCarAdapter
-import com.ppm.selat.core.ui.pick_car.ListBrandsCarToPickAdapter
+import com.ppm.selat.core.ui.pick_car.ListCarManufacturerToPickAdapter
 import com.ppm.selat.databinding.ActivityPickCarBinding
-import com.ppm.selat.core.domain.model.Car
+import com.ppm.selat.getEnumExtra
+import com.ppm.selat.pick_car.PickCarViewModel
 
 
 class PickCarActivity : AppCompatActivity() {
 
+    private val pickCarViewModel: PickCarViewModel by viewModels()
     private lateinit var binding: ActivityPickCarBinding
     private lateinit var listAvailableCarAdapter: ListAvailableCarAdapter
-    private lateinit var listBrandsCarToPickAdapter: ListBrandsCarToPickAdapter
+    private lateinit var listCarManufacturerToPickAdapter: ListCarManufacturerToPickAdapter
+
+    companion object {
+        const val MANUFACTURER: String = "MANUFACTURER"
+        const val TYPECAR: String = "TYPE_CAR"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,9 +34,14 @@ class PickCarActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
+        pickCarViewModel.manufacturer.value = intent.getEnumExtra<Manufacturer>()!!
+        pickCarViewModel.typeCar.value = intent.getEnumExtra<TypeCar>()!!
+
         setAppBarTitle()
-        setUpAdapter()
+        setUpInitialAdapter()
         setUpListener()
+
+        getDataByParams()
     }
 
     private fun setAppBarTitle() {
@@ -55,8 +70,8 @@ class PickCarActivity : AppCompatActivity() {
     }
 
     private fun setUpListener() {
-        listBrandsCarToPickAdapter.setOnItemClickCallback(object :
-            ListBrandsCarToPickAdapter.OnItemClickCallback {
+        listCarManufacturerToPickAdapter.setOnItemClickCallback(object :
+            ListCarManufacturerToPickAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Int) {
 
             }
@@ -67,23 +82,23 @@ class PickCarActivity : AppCompatActivity() {
 
         })
 
-        listAvailableCarAdapter.setOnItemClickCallback(object :
-            ListAvailableCarAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: Car) {
-
-            }
-
-            override fun onItemDeleted(data: Car) {
-
-            }
-        })
+//        listAvailableCarAdapter.setOnItemClickCallback(object :
+//            ListAvailableCarAdapter.OnItemClickCallback {
+//            override fun onItemClicked(data: Car) {
+//
+//            }
+//
+//            override fun onItemDeleted(data: Car) {
+//
+//            }
+//        })
 
         binding.backButtonFromPick.setOnClickListener {
             finish()
         }
     }
 
-    private fun setUpAdapter() {
+    private fun setUpInitialAdapter() {
         binding.rvListBrandsCarToPick.setHasFixedSize(true)
         binding.rvListBrandsCarToPick.layoutManager = LinearLayoutManager(
             this,
@@ -96,119 +111,36 @@ class PickCarActivity : AppCompatActivity() {
             R.drawable.toyota_only_logo,
             R.drawable.honda_only_logo,
             R.drawable.nissan_only_logo,
+            R.drawable.hyundai_only_logo,
+            R.drawable.suzuki_only_logo,
         )
 
-        listBrandsCarToPickAdapter = ListBrandsCarToPickAdapter(listImage)
-        binding.rvListBrandsCarToPick.adapter = listBrandsCarToPickAdapter
-
-        //////////////////////////////////////////////////////
+        listCarManufacturerToPickAdapter = ListCarManufacturerToPickAdapter(
+            listImage,
+            convertManufacturerToInt(pickCarViewModel.manufacturer.value)
+        )
+        binding.rvListBrandsCarToPick.adapter = listCarManufacturerToPickAdapter
 
         binding.rvListAvailableCarToPick.setHasFixedSize(false)
         binding.rvListAvailableCarToPick.layoutManager = LinearLayoutManager(this)
 
-//        val listData = arrayListOf<Car>(
-//            Car(
-//                id = null,
-//                carImage = null,
-//                typeCar = null,
-//                carName = "Fortuner",
-//                yearProduction = 2022,
-//                price = 200,
-//                rating = 4.8
-//            ),
-//            Car(
-//                id = null,
-//                carImage = null,
-//                typeCar = null,
-//                carName = "Fortuner",
-//                yearProduction = 2022,
-//                price = 200,
-//                rating = 4.8
-//            ),
-//            Car(
-//                id = null,
-//                carImage = null,
-//                typeCar = null,
-//                carName = "Fortuner",
-//                yearProduction = 2022,
-//                price = 200,
-//                rating = 4.8
-//            ),
-//            Car(
-//                id = null,
-//                carImage = null,
-//                typeCar = null,
-//                carName = "Fortuner",
-//                yearProduction = 2022,
-//                price = 200,
-//                rating = 4.8
-//            ),
-//            Car(
-//                id = null,
-//                carImage = null,
-//                typeCar = null,
-//                carName = "Fortuner",
-//                yearProduction = 2022,
-//                price = 200,
-//                rating = 4.8
-//            ),
-//            Car(
-//                id = null,
-//                carImage = null,
-//                typeCar = null,
-//                carName = "Fortuner",
-//                yearProduction = 2022,
-//                price = 200,
-//                rating = 4.8
-//            ),
-//            Car(
-//                id = null,
-//                carImage = null,
-//                typeCar = null,
-//                carName = "Fortuner",
-//                yearProduction = 2022,
-//                price = 200,
-//                rating = 4.8
-//            ),
-//            Car(
-//                id = null,
-//                carImage = null,
-//                typeCar = null,
-//                carName = "Fortuner",
-//                yearProduction = 2022,
-//                price = 200,
-//                rating = 4.8
-//            ),
-//            Car(
-//                id = null,
-//                carImage = null,
-//                typeCar = null,
-//                carName = "Fortuner",
-//                yearProduction = 2022,
-//                price = 200,
-//                rating = 4.8
-//            ),
-//            Car(
-//                id = null,
-//                carImage = null,
-//                typeCar = null,
-//                carName = "Fortuner",
-//                yearProduction = 2022,
-//                price = 200,
-//                rating = 4.8
-//            ),
-//            Car(
-//                id = null,
-//                carImage = null,
-//                typeCar = null,
-//                carName = "Fortuner",
-//                yearProduction = 2022,
-//                price = 200,
-//                rating = 4.8
-//            ),
-//        )
-//
-//        listAvailableCarAdapter = ListAvailableCarAdapter(listData)
-//        binding.rvListAvailableCarToPick.adapter = listAvailableCarAdapter
+
+    }
+
+    private fun getDataByParams() {
+
+        //listAvailableCarAdapter = ListAvailableCarAdapter()
+        //binding.rvListAvailableCarToPick.adapter = listAvailableCarAdapter
+    }
+
+    private fun convertManufacturerToInt(manufacturer: Manufacturer): Int {
+        return when (manufacturer) {
+            Manufacturer.TOYOTA -> 1
+            Manufacturer.HONDA -> 2
+            Manufacturer.NISSAN -> 3
+            Manufacturer.HYUNDAI -> 4
+            Manufacturer.SUZUKI -> 5
+            Manufacturer.ALL -> 0
+        }
     }
 }
