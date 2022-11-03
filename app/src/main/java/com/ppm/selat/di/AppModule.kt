@@ -7,6 +7,7 @@ import com.ppm.selat.core.domain.usecase.AuthInteractor
 import com.ppm.selat.core.domain.usecase.AuthUseCase
 import com.ppm.selat.core.domain.usecase.CarInteractor
 import com.ppm.selat.core.domain.usecase.CarUseCase
+import com.ppm.selat.detail_car.DetailCarViewModel
 import com.ppm.selat.edit_profile.EditProfileViewModel
 import com.ppm.selat.home.HomeViewModel
 import com.ppm.selat.profile.ProfileViewModel
@@ -27,4 +28,5 @@ val viewModelModule = module {
     viewModel { HomeViewModel(get(), get()) }
     viewModel { ProfileViewModel(get()) }
     viewModel { EditProfileViewModel(get()) }
+    viewModel { DetailCarViewModel(get()) }
 }

@@ -41,4 +41,8 @@ class CarRepository(private val carDataSource: CarDataSource) : ICarRepository {
         }
     }
 
+    override fun getAvailableCar(carId: String): Flow<Int> {
+        return carDataSource.getAvailableCar(carId)
+    }
+
 }

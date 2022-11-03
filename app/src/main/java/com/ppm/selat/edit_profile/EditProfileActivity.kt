@@ -38,13 +38,6 @@ class EditProfileActivity : AppCompatActivity() {
     private val editProfileViewModel: EditProfileViewModel by viewModel()
     private lateinit var binding: ActivityEditProfileBinding
 
-    private val cropImage = registerForActivityResult(CropImageContract()) { result ->
-        if (result.isSuccessful) {
-            val uriContent = result.uriContent
-            showPickDialog(uriContent!!)
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEditProfileBinding.inflate(layoutInflater)
@@ -129,9 +122,6 @@ class EditProfileActivity : AppCompatActivity() {
         binding.backButton.setOnClickListener {
             finish()
         }
-        binding.editPhotoButton.setOnClickListener {
-            pickImageForProfilePicture()
-        }
 
         // full name changed handler
         binding.cancelFullNameButton.setOnClickListener {
@@ -214,20 +204,6 @@ class EditProfileActivity : AppCompatActivity() {
         }
     }
 
-    private fun pickImageForProfilePicture() {
-        cropImage.launch(
-            options {
-                setToolbarColor(Color.BLACK)
-                setImageSource(includeGallery = true, includeCamera = false)
-                setCropShape(CropImageView.CropShape.OVAL)
-                setGuidelines(CropImageView.Guidelines.ON)
-                setAspectRatio(1, 1)
-                setFixAspectRatio(true)
-                setOutputCompressFormat(Bitmap.CompressFormat.PNG)
-            }
-        )
-    }
-
     private fun isNetworkAvailable(): Boolean {
         val connectivityManager: ConnectivityManager =
             this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -254,63 +230,6 @@ class EditProfileActivity : AppCompatActivity() {
         dialog.show()
 
         return dialog
-    }
-
-    private fun showPickDialog(photo: Uri)  {
-        val dialog: AlertDialog
-        val builder = AlertDialog.Builder(this)
-        val inflater = this.layoutInflater
-        val dialogView = inflater.inflate(R.layout.dialog_pick_photo, null)
-
-        builder.setView(dialogView)
-
-        dialog = builder.create()
-        dialog.window?.decorView?.setBackgroundResource(R.drawable.bg_dialog_border)
-        dialog.window?.setLayout(800, WindowManager.LayoutParams.WRAP_CONTENT)
-        dialog.window?.setGravity(Gravity.CENTER)
-        dialog.setCanceledOnTouchOutside(false)
-
-        val cancelButton = dialogView.findViewById<TextView>(R.id.cancel_button)
-        cancelButton.setOnClickListener{
-            dialog.dismiss()
-        }
-        val okButton = dialogView.findViewById<TextView>(R.id.ok_button)
-        okButton.setOnClickListener{
-            dialog.dismiss()
-            changeProfilePicture(photo)
-        }
-        val imageView = dialogView.findViewById<ImageView>(R.id.image_temp)
-
-        Glide.with(dialogView)
-            .load(photo)
-            .into(imageView)
-
-        dialog.show()
-    }
-
-    private fun changeProfilePicture(photo: Uri) {
-        if (isNetworkAvailable()) {
-            val dialogLoading = startLoadingDialog("Simpan foto...")
-            editProfileViewModel.photoFlow.value = photo
-            editProfileViewModel.saveNewProfile().observe(this) { result ->
-                if (result != null) {
-                    when (result) {
-                        is Resource.Loading -> {}
-                        is Resource.Success -> {
-                            Toast.makeText(this, "Foto profil diperbarui", Toast.LENGTH_SHORT).show()
-                            dialogLoading.dismiss()
-                            finish()
-                        }
-                        is Resource.Error -> {
-                            Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
-                            dialogLoading.dismiss()
-                        }
-                    }
-                }
-            }
-        } else {
-            Toast.makeText(this, "Tidak dapat terhubung ke internet", Toast.LENGTH_SHORT).show()
-        }
     }
 
     private fun dismissKeyboard() {

@@ -17,6 +17,7 @@ data class Car(
     val rating: Double,
     val yearProduction: Int,
     val available: Int,
+    val location: String,
 ) : Parcelable
 
 @Parcelize
@@ -35,6 +36,7 @@ data class Spec(
 fun documentSnapshotToCar(data: DocumentSnapshot): Car {
      return Car(
         id = data.id,
+         location =  data["location"].toString(),
         carImage = documentSnapshotToCarImage(data),
         carManufacturer = data["manufacturer"].toString(),
         carBrand = data["brand"].toString(),

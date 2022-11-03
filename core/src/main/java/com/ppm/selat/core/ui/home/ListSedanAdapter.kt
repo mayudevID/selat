@@ -49,7 +49,7 @@ class ListSedanAdapter(private val listSedan: ArrayList<Car>) : RecyclerView.Ada
     override fun onBindViewHolder(holder: ListSedanViewHolder, position: Int) {
         val data = listSedan[position]
         holder.carName.text = data.carBrand
-        holder.price.text = "${data.price}K / hari)"
+        holder.price.text = "${data.price/1000.0}K / hari)"
         holder.rating.text = data.rating.toString()
         holder.itemView.setOnClickListener {
             onItemClickCallback.onItemClicked(listSedan[holder.adapterPosition])

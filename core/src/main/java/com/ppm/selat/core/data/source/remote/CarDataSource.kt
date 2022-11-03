@@ -1,18 +1,10 @@
 package com.ppm.selat.core.data.source.remote
 
-import android.util.Log
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreException
-import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.firestore.*
 import com.ppm.selat.core.data.source.remote.response.FirebaseResponse
-import com.ppm.selat.core.domain.model.Car
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.tasks.await
-import javax.inject.Inject
-import javax.inject.Singleton
 
 class CarDataSource (private val firestore: FirebaseFirestore){
     suspend fun getAllCars() : Flow<FirebaseResponse<QuerySnapshot>>{
@@ -25,4 +17,25 @@ class CarDataSource (private val firestore: FirebaseFirestore){
             }
         }
     }
+
+    fun getAvailableCar(carId: String) : Flow<Int> {
+        return firestore.collection("cars").document(carId).snapshotFlow().map {
+            it["available"].toString().toInt()
+        }
+    }
+
+    private fun DocumentReference.snapshotFlow(): Flow<DocumentSnapshot> = callbackFlow {
+        val listenerRegistration = addSnapshotListener { value, error ->
+            if (error != null) {
+                close()
+                return@addSnapshotListener
+            }
+            if (value != null)
+                trySend(value)
+        }
+        awaitClose {
+            listenerRegistration.remove()
+        }
+    }
+
 }

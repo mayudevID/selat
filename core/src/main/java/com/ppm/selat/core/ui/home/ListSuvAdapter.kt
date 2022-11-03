@@ -46,7 +46,7 @@ class ListSuvAdapter(private val listSuv: ArrayList<Car>) : RecyclerView.Adapter
     override fun onBindViewHolder(holder: ListSuvViewHolder, position: Int) {
         val data = listSuv[position]
         holder.carName.text = data.carBrand
-        holder.price.text = "${data.price}K / hari)"
+        holder.price.text = "${data.price/1000.0}K / hari)"
         holder.rating.text = data.rating.toString()
         holder.itemView.setOnClickListener {
             onItemClickCallback.onItemClicked(listSuv[holder.adapterPosition])

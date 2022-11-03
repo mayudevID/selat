@@ -1,15 +1,25 @@
 package com.ppm.selat.detail_car
 
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
+import com.ppm.selat.core.data.Resource
+import com.ppm.selat.core.domain.model.Car
 import com.ppm.selat.databinding.ActivityDetailCarBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 
 class DetailCarActivity : AppCompatActivity() {
 
+    private val detailCarViewModel: DetailCarViewModel by viewModel()
     private lateinit var binding: ActivityDetailCarBinding
+    private lateinit var carData: Car
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,8 +27,17 @@ class DetailCarActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         supportActionBar?.hide()
+        binding.payButton.isClickable = false
+        binding.payButton.alpha = 0.5F
+
+        carData = if (Build.VERSION.SDK_INT >= 33) {
+            intent.getParcelableExtra("CAR_DATA", Car::class.java)!!
+        } else {
+            intent.getParcelableExtra("CAR_DATA")!!
+        }
 
         setUpListener()
+        setUpPage()
 
         Handler(Looper.getMainLooper()).postDelayed({
             binding.motionTop.transitionToEnd()
@@ -30,6 +49,46 @@ class DetailCarActivity : AppCompatActivity() {
                 backFromPage()
             }
         })
+    }
+
+    private fun setUpPage() {
+        val kursIndonesia: DecimalFormat = DecimalFormat.getCurrencyInstance() as DecimalFormat
+        val formatRp = DecimalFormatSymbols()
+
+        formatRp.currencySymbol = "Rp";
+        formatRp.monetaryDecimalSeparator = ',';
+        formatRp.groupingSeparator = '.';
+
+        kursIndonesia.decimalFormatSymbols = formatRp
+
+        with(binding) {
+            Glide.with(this@DetailCarActivity)
+                .load(carData.carImage.primaryPhoto)
+                .into(this.bigImageCar)
+            typeBrand.text = carData.carBrand
+            yearProduction.text = "Th ${carData.yearProduction}"
+            priceData.text = kursIndonesia.format(carData.price)
+            desc1.text = carData.spec.a
+            desc2.text = carData.spec.b
+            desc3.text = carData.spec.c
+
+            detailCarViewModel.getAvailableCar(carData.id).observe(this@DetailCarActivity) {
+                result ->
+                if (result != null) {
+                    if (result > 0)   {
+                        binding.payButton.alpha = 1F
+                        availableStatus.text = "Tersedia"
+                        availableStatus.setTextColor(Color.parseColor("#228C22"))
+                        payButton.isClickable = true
+                    } else {
+                        binding.payButton.alpha = 0.4F
+                        availableStatus.text = "Kosong"
+                        availableStatus.setTextColor(Color.parseColor("#FF0000"))
+                        payButton.isClickable = false
+                    }
+                }
+            }
+        }
     }
 
     private fun setUpListener() {
