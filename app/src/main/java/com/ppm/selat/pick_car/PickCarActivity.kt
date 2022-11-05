@@ -1,41 +1,45 @@
-package com.ppm.selat.ui.pick_car
+package com.ppm.selat.pick_car
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.viewModels
+import android.view.View
+import android.widget.AdapterView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ppm.selat.Manufacturer
 import com.ppm.selat.R
-import com.ppm.selat.TypeCar
+import com.ppm.selat.core.data.Resource
+import com.ppm.selat.core.domain.model.Car
 import com.ppm.selat.core.ui.pick_car.ListAvailableCarAdapter
 import com.ppm.selat.core.ui.pick_car.ListCarManufacturerToPickAdapter
+import com.ppm.selat.core.utils.*
 import com.ppm.selat.databinding.ActivityPickCarBinding
-import com.ppm.selat.getEnumExtra
-import com.ppm.selat.pick_car.PickCarViewModel
+import com.ppm.selat.detail_car.DetailCarActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class PickCarActivity : AppCompatActivity() {
 
-    private val pickCarViewModel: PickCarViewModel by viewModels()
+    private val pickCarViewModel: PickCarViewModel by viewModel()
     private lateinit var binding: ActivityPickCarBinding
     private lateinit var listAvailableCarAdapter: ListAvailableCarAdapter
     private lateinit var listCarManufacturerToPickAdapter: ListCarManufacturerToPickAdapter
+    private var carDataList: ArrayList<Car> = ArrayList()
 
-    companion object {
-        const val MANUFACTURER: String = "MANUFACTURER"
-        const val TYPECAR: String = "TYPE_CAR"
-    }
+    private var manufacturer: Manufacturer? = null
+    private var typeCar : TypeCar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPickCarBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         supportActionBar?.hide()
 
-        pickCarViewModel.manufacturer.value = intent.getEnumExtra<Manufacturer>()!!
-        pickCarViewModel.typeCar.value = intent.getEnumExtra<TypeCar>()!!
+        typeCar = intent.getEnumExtra<TypeCar>()
+        manufacturer = intent.getEnumExtra<Manufacturer>()
+
+        binding.typeCarRecent.text = convertTypeCarToString(typeCar!!)
+        Log.d("PickCarActivity", binding.typeCarRecent.text.toString())
 
         setAppBarTitle()
         setUpInitialAdapter()
@@ -48,20 +52,17 @@ class PickCarActivity : AppCompatActivity() {
         var isShow = true
         var scrollRange = -1
         binding.appBarLayout.addOnOffsetChangedListener { barLayout, verticalOffset ->
-            Log.d("PickCarActivity", "vo: $verticalOffset")
 
             if (scrollRange == -1) {
                 scrollRange = barLayout?.totalScrollRange!!
             }
-
-            Log.d("PickCarActivity", "sr: $scrollRange")
 
             if (scrollRange + verticalOffset == 0) {
                 binding.collapisngToolbar.title = "Mobil yang tersedia"
                 isShow = true
             } else if (isShow) {
                 binding.collapisngToolbar.title =
-                    " " //careful there should a space between double quote otherwise it wont work
+                    " "
                 isShow = false
             }
         }
@@ -70,10 +71,29 @@ class PickCarActivity : AppCompatActivity() {
     }
 
     private fun setUpListener() {
+
+        val adapter = CustomTypeCarAdapter(this, arrayListOf("ALL", "SEDAN", "SUV"))
+
+        binding.filterButton.adapter = adapter
+        binding.filterButton.setSelection(0, false)
+        binding.filterButton.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                typeCar = convertStringToTypeCar(p0?.selectedItem.toString())
+                binding.typeCarRecent.text = p0?.selectedItem.toString()
+                getDataByParams()
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+
+        }
+
         listCarManufacturerToPickAdapter.setOnItemClickCallback(object :
             ListCarManufacturerToPickAdapter.OnItemClickCallback {
             override fun onItemClicked(data: Int) {
-
+                manufacturer = convertIntToManufacturer(data)
+                getDataByParams()
             }
 
             override fun onItemDeleted(data: Int) {
@@ -82,16 +102,18 @@ class PickCarActivity : AppCompatActivity() {
 
         })
 
-//        listAvailableCarAdapter.setOnItemClickCallback(object :
-//            ListAvailableCarAdapter.OnItemClickCallback {
-//            override fun onItemClicked(data: Car) {
-//
-//            }
-//
-//            override fun onItemDeleted(data: Car) {
-//
-//            }
-//        })
+        listAvailableCarAdapter.setOnItemClickCallback(object :
+            ListAvailableCarAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: Car) {
+                val intent = Intent(this@PickCarActivity, DetailCarActivity::class.java)
+                intent.putExtra("CAR_DATA", data)
+                startActivity(intent)
+            }
+
+            override fun onItemDeleted(data: Car) {
+
+            }
+        })
 
         binding.backButtonFromPick.setOnClickListener {
             finish()
@@ -99,14 +121,7 @@ class PickCarActivity : AppCompatActivity() {
     }
 
     private fun setUpInitialAdapter() {
-        binding.rvListBrandsCarToPick.setHasFixedSize(true)
-        binding.rvListBrandsCarToPick.layoutManager = LinearLayoutManager(
-            this,
-            LinearLayoutManager.HORIZONTAL,
-            false,
-        )
-
-        val listImage = arrayListOf<Int>(
+        val listImage = arrayListOf(
             R.drawable.all_brands_pick,
             R.drawable.toyota_only_logo,
             R.drawable.honda_only_logo,
@@ -117,30 +132,45 @@ class PickCarActivity : AppCompatActivity() {
 
         listCarManufacturerToPickAdapter = ListCarManufacturerToPickAdapter(
             listImage,
-            convertManufacturerToInt(pickCarViewModel.manufacturer.value)
+            convertManufacturerToInt(manufacturer!!)
         )
-        binding.rvListBrandsCarToPick.adapter = listCarManufacturerToPickAdapter
+        binding.rvListManufacturerCarToPick.layoutManager = LinearLayoutManager(
+            this,
+            LinearLayoutManager.HORIZONTAL,
+            false,
+        )
+        binding.rvListManufacturerCarToPick.setHasFixedSize(true)
+        binding.rvListManufacturerCarToPick.adapter = listCarManufacturerToPickAdapter
 
-        binding.rvListAvailableCarToPick.setHasFixedSize(false)
+        listAvailableCarAdapter = ListAvailableCarAdapter(carDataList)
         binding.rvListAvailableCarToPick.layoutManager = LinearLayoutManager(this)
-
-
+        binding.rvListAvailableCarToPick.setHasFixedSize(false)
+        binding.rvListAvailableCarToPick.adapter = listAvailableCarAdapter
     }
 
     private fun getDataByParams() {
+        pickCarViewModel.getCarDataByParams(manufacturer!!, typeCar!!)
+            .observe(this) { result ->
+                if (result != null) {
+                    when (result) {
+                        is Resource.Loading -> {
+                            binding.nsvDataLoad.visibility = View.GONE
+                            binding.nsvDataLoading.visibility = View.VISIBLE
+                            Log.d("PickCarActivity", "Loading")
+                        }
+                        is Resource.Success -> {
+                            val newList: ArrayList<Car> = ArrayList(result.data!!)
+                            listAvailableCarAdapter.refreshList(newList)
+                            binding.nsvDataLoading.visibility = View.GONE
+                            binding.nsvDataLoad.visibility = View.VISIBLE
+                            Log.d("PickCarActivity", "Success: ${result.data!!.size}")
 
-        //listAvailableCarAdapter = ListAvailableCarAdapter()
-        //binding.rvListAvailableCarToPick.adapter = listAvailableCarAdapter
-    }
-
-    private fun convertManufacturerToInt(manufacturer: Manufacturer): Int {
-        return when (manufacturer) {
-            Manufacturer.TOYOTA -> 1
-            Manufacturer.HONDA -> 2
-            Manufacturer.NISSAN -> 3
-            Manufacturer.HYUNDAI -> 4
-            Manufacturer.SUZUKI -> 5
-            Manufacturer.ALL -> 0
-        }
+                        }
+                        is Resource.Error -> {
+                            Log.e("PickCarActivity", result.message.toString())
+                        }
+                    }
+                }
+            }
     }
 }

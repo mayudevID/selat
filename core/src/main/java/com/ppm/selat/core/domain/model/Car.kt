@@ -2,12 +2,16 @@ package com.ppm.selat.core.domain.model
 
 import android.os.Parcelable
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.GeoPoint
+import com.google.type.LatLng
 import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 import kotlinx.serialization.Serializable
 
 @Parcelize
 data class Car(
     val id: String,
+    val latLng: List<Double>,
     val carImage: CarImage,
     val carManufacturer: String,
     val carBrand: String,
@@ -46,6 +50,7 @@ fun documentSnapshotToCar(data: DocumentSnapshot): Car {
         yearProduction = Integer.parseInt(data["year_prod"].toString()),
         available = Integer.parseInt(data["price"].toString()),
         spec = documentSnapshotToSpec(data),
+         latLng = convertGeoPointToListDouble(data.getGeoPoint("latlng")!!),
      )
 }
 
@@ -64,4 +69,8 @@ fun documentSnapshotToSpec(data: DocumentSnapshot) : Spec {
         b = dataSpec["b"].toString(),
         c = dataSpec["c"].toString(),
     )
+}
+
+fun convertGeoPointToListDouble(geoPoint: GeoPoint) : List<Double> {
+    return listOf(geoPoint.latitude, geoPoint.longitude)
 }

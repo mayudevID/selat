@@ -1,4 +1,4 @@
-package com.ppm.selat
+package com.ppm.selat.core.utils
 
 import android.content.Intent
 

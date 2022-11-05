@@ -1,13 +1,18 @@
 package com.ppm.selat.core.data.source.remote
 
+import android.util.Log
 import com.google.firebase.firestore.*
+import com.ppm.selat.core.utils.Manufacturer
+import com.ppm.selat.core.utils.TypeCar
 import com.ppm.selat.core.data.source.remote.response.FirebaseResponse
+import com.ppm.selat.core.utils.convertManufacturerToString
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.tasks.await
 
-class CarDataSource (private val firestore: FirebaseFirestore){
-    suspend fun getAllCars() : Flow<FirebaseResponse<QuerySnapshot>>{
+class CarDataSource(private val firestore: FirebaseFirestore) {
+    suspend fun getAllCars(): Flow<FirebaseResponse<QuerySnapshot>> {
         return flow {
             try {
                 val response = firestore.collection("cars").get().await()
@@ -18,7 +23,27 @@ class CarDataSource (private val firestore: FirebaseFirestore){
         }
     }
 
-    fun getAvailableCar(carId: String) : Flow<Int> {
+    suspend fun getCarDataByParam(
+        manufacturer: Manufacturer,
+    ): Flow<FirebaseResponse<QuerySnapshot>> {
+        return flow {
+            try {
+                val query: Query
+                val response = firestore.collection("cars")
+                query = if (manufacturer != Manufacturer.ALL) {
+                    response.whereEqualTo("manufacturer", convertManufacturerToString(manufacturer))
+                } else {
+                    response.whereNotEqualTo("manufacturer", convertManufacturerToString(manufacturer))
+                }
+                val result = query.get().await()
+                emit(FirebaseResponse.Success(result))
+            } catch (e: FirebaseFirestoreException) {
+                emit(FirebaseResponse.Error(e.message.toString()))
+            }
+        }
+    }
+
+    fun getAvailableCar(carId: String): Flow<Int> {
         return firestore.collection("cars").document(carId).snapshotFlow().map {
             it["available"].toString().toInt()
         }
@@ -37,5 +62,4 @@ class CarDataSource (private val firestore: FirebaseFirestore){
             listenerRegistration.remove()
         }
     }
-
 }

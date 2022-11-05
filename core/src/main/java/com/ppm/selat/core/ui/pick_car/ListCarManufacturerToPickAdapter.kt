@@ -39,17 +39,17 @@ class ListCarManufacturerToPickAdapter(private val listBrand: ArrayList<Int>, pr
         val data = listBrand[position]
         holder.brand.setImageResource(data)
         holder.itemView.setOnClickListener {
-            onItemClickCallback.onItemClicked(listBrand[holder.absoluteAdapterPosition])
-            rowIndex = holder.absoluteAdapterPosition
+            onItemClickCallback.onItemClicked(position)
+            rowIndex = holder.adapterPosition
             notifyDataSetChanged()
         }
-        if (holder.absoluteAdapterPosition == rowIndex) {
+        if (holder.adapterPosition == rowIndex) {
             (holder.itemView as CardView).setCardBackgroundColor(Color.parseColor("#FDC500"))
         } else {
             (holder.itemView as CardView).setCardBackgroundColor(Color.WHITE)
         }
         holder.itemView.margin(right = 18F)
-        if (holder.absoluteAdapterPosition == 0) {
+        if (holder.adapterPosition == 0) {
             holder.itemView.margin(left = 36F)
         }
     }

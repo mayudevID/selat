@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:background="#FFE9E9E9"
     android:layout_height="match_parent"
-    tools:context=".ui.pick_car.PickCarActivity">
+    tools:context=".pick_car.PickCarActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -80,15 +80,16 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/pilih_mobil_text" />
 
-                    <com.factor.bouncy.BouncyRecyclerView
-                        android:id="@+id/rv_list_brands_car_to_pick"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="26dp"
-                        android:orientation="horizontal"
-                        app:layout_constraintTop_toBottomOf="@id/merek_text" />
+                <com.factor.bouncy.BouncyRecyclerView
+                    android:id="@+id/rv_list_manufacturer_car_to_pick"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@id/merek_text"
+                    tools:layout_editor_absoluteX="0dp" />
 
-                    <TextView
+                <TextView
                         android:id="@+id/mobil_yang_tersedia_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -99,18 +100,44 @@
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/rv_list_brands_car_to_pick" />
+                        app:layout_constraintTop_toBottomOf="@id/rv_list_manufacturer_car_to_pick" />
 
-                    <ImageButton
-                        android:background="@null"
+
+
+                    <FrameLayout
                         android:layout_marginEnd="36dp"
-                        android:id="@+id/filter_button"
                         app:layout_constraintTop_toTopOf="@id/mobil_yang_tersedia_text"
                         app:layout_constraintBottom_toBottomOf="@id/mobil_yang_tersedia_text"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:src="@drawable/ic_clarity_filter_line"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"/>
+                        android:layout_width="80dp"
+                        android:layout_height="35dp">
+
+                        <TextView
+                            android:layout_gravity="center_vertical"
+                            android:fontFamily="@font/montserrat_regular"
+                            android:layout_marginEnd="10dp"
+                            android:text="All"
+                            android:textColor="@color/black"
+                            android:id="@+id/type_car_recent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                        <ImageButton
+                            android:layout_gravity="center|end"
+                            android:background="@drawable/ic_clarity_filter_line"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"/>
+
+                        <Spinner
+                            android:alpha="0"
+                            android:background="@null"
+                            android:id="@+id/filter_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"/>
+
+                    </FrameLayout>
+
+
 
                 <View
                     app:layout_constraintStart_toStartOf="parent"
@@ -135,23 +162,98 @@
     <androidx.core.widget.NestedScrollView
         app:fling_animation_size=".7"
         app:overscroll_animation_size=".7"
-        android:id="@+id/nestedScrollView"
+        android:id="@+id/nsv_data_load"
         android:layout_width="match_parent"
         android:fillViewport="true"
         android:layout_height="match_parent"
-        app:layout_anchor="@+id/nestedScrollView"
+        app:layout_anchor="@+id/nsv_data_load"
         app:layout_anchorGravity="top|center"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:overScrollMode="never"
-                android:nestedScrollingEnabled="false"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                android:id="@+id/rv_list_available_car_to_pick"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_list_available_car_to_pick"
+            android:overScrollMode="never"
+            android:nestedScrollingEnabled="false"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </androidx.core.widget.NestedScrollView>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_marginTop="48dp"
+        app:fling_animation_size=".7"
+        app:overscroll_animation_size=".7"
+        android:id="@+id/nsv_data_loading"
+        android:layout_width="match_parent"
+        android:fillViewport="true"
+        android:layout_height="wrap_content"
+        app:layout_anchor="@+id/nsv_data_loading"
+        app:layout_anchorGravity="top|center"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            app:trackColor="#FFE9E9E9"
+            app:indicatorColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_marginTop="48dp"
+        app:fling_animation_size=".7"
+        app:overscroll_animation_size=".7"
+        android:id="@+id/nsv_data_missing"
+        android:layout_width="match_parent"
+        android:fillViewport="true"
+        android:layout_height="wrap_content"
+        app:layout_anchor="@+id/nsv_data_missing"
+        app:layout_anchorGravity="top|center"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:fontFamily="@font/montserrat_bold"
+                android:textColor="@color/black"
+                android:text="Toyota"
+                android:id="@+id/manufacturer_target"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:fontFamily="@font/montserrat_regular"
+                android:textColor="@color/black"
+                android:text=" dengan tipe "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:fontFamily="@font/montserrat_bold"
+                android:textColor="@color/black"
+                android:text="SUV"
+                android:id="@+id/type_target"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:fontFamily="@font/montserrat_regular"
+                android:textColor="@color/black"
+                android:text=" belum tersedia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

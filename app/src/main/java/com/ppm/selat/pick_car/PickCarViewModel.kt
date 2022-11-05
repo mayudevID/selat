@@ -1,11 +1,13 @@
 package com.ppm.selat.pick_car
 
 import androidx.lifecycle.ViewModel
-import com.ppm.selat.Manufacturer
-import com.ppm.selat.TypeCar
-import kotlinx.coroutines.flow.MutableStateFlow
+import androidx.lifecycle.asLiveData
+import com.ppm.selat.core.utils.Manufacturer
+import com.ppm.selat.core.utils.TypeCar
+import com.ppm.selat.core.domain.usecase.CarUseCase
+import kotlinx.coroutines.flow.*
 
-class PickCarViewModel : ViewModel() {
-    val manufacturer = MutableStateFlow(Manufacturer.ALL)
-    val typeCar = MutableStateFlow(TypeCar.ALL)
+class PickCarViewModel(private val carUseCase: CarUseCase) : ViewModel() {
+    fun getCarDataByParams(manufacturer: Manufacturer, typeCar: TypeCar) =
+        carUseCase.getCarDataByParams(manufacturer, typeCar).asLiveData()
 }

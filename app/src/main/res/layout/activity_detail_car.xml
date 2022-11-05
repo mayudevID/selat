@@ -285,11 +285,13 @@
                 app:layout_constraintTop_toTopOf="@+id/icon_4"
                 app:layout_constraintBottom_toBottomOf="@+id/icon_4"
                 app:layout_constraintStart_toEndOf="@+id/icon_4"
-                android:layout_width="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"/>
             
             <androidx.cardview.widget.CardView
-
+                android:foreground="?android:attr/selectableItemBackground"
                 app:cardElevation="0dp"
                 android:layout_marginTop="20dp"
                 app:cardCornerRadius="16dp"

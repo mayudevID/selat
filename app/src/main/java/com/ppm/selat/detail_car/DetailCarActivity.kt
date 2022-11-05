@@ -1,5 +1,6 @@
 package com.ppm.selat.detail_car
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -12,6 +13,7 @@ import com.ppm.selat.R
 import com.ppm.selat.core.data.Resource
 import com.ppm.selat.core.domain.model.Car
 import com.ppm.selat.databinding.ActivityDetailCarBinding
+import com.ppm.selat.location_car.LocationCarActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -105,6 +107,12 @@ class DetailCarActivity : AppCompatActivity() {
     private fun setUpListener() {
         binding.backButton.setOnClickListener {
             backFromPage()
+        }
+
+        binding.mapsDisplay.setOnClickListener {
+            val intent = Intent(this, LocationCarActivity::class.java)
+            intent.putExtra("CAR_DATA", carData)
+            startActivity(intent)
         }
     }
 

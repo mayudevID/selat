@@ -87,7 +87,7 @@
             android:name=".profile.ProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.pick_car.PickCarActivity"
+            android:name=".pick_car.PickCarActivity"
             android:exported="false" />
         <activity
             android:name=".splash.SplashActivity"

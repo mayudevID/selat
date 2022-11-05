@@ -13,18 +13,19 @@ import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.ppm.selat.Manufacturer
-import com.ppm.selat.TypeCar
+import com.ppm.selat.core.utils.Manufacturer
+import com.ppm.selat.core.utils.TypeCar
 import com.ppm.selat.core.data.Resource
 import com.ppm.selat.core.ui.home.ListCarManufacturerAdapter
 import com.ppm.selat.core.ui.home.ListSedanAdapter
 import com.ppm.selat.core.ui.home.ListSuvAdapter
 import com.ppm.selat.databinding.ActivityHomeBinding
 import com.ppm.selat.core.domain.model.Car
+import com.ppm.selat.core.utils.convertStringToManufacturer
 import com.ppm.selat.detail_car.DetailCarActivity
 import com.ppm.selat.profile.ProfileActivity
-import com.ppm.selat.putExtra
-import com.ppm.selat.ui.pick_car.PickCarActivity
+import com.ppm.selat.core.utils.putExtra
+import com.ppm.selat.pick_car.PickCarActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -187,28 +188,17 @@ class HomeActivity : AppCompatActivity() {
         })
 
         binding.expandSedan.setOnClickListener {
-            val intent = Intent(this, PickCarActivity::class.java)
+            val intent = Intent(this@HomeActivity, PickCarActivity::class.java)
             intent.putExtra(Manufacturer.ALL)
             intent.putExtra(TypeCar.SEDAN)
             startActivity(intent)
         }
 
         binding.expandSuv.setOnClickListener {
-            val intent = Intent(this, PickCarActivity::class.java)
+            val intent = Intent(this@HomeActivity, PickCarActivity::class.java)
             intent.putExtra(Manufacturer.ALL)
             intent.putExtra(TypeCar.SUV)
             startActivity(intent)
-        }
-    }
-
-    private fun convertStringToManufacturer(data: String) : Manufacturer{
-        return when (data) {
-            "Toyota" -> Manufacturer.TOYOTA
-            "Hyundai" -> Manufacturer.HYUNDAI
-            "Suzuki" -> Manufacturer.SUZUKI
-            "Nissan" -> Manufacturer.NISSAN
-            "Honda" -> Manufacturer.HONDA
-            else -> Manufacturer.ALL
         }
     }
 

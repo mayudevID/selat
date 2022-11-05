@@ -1,15 +1,17 @@
 package com.ppm.selat.core.ui.pick_car
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.ppm.selat.core.R
 import com.ppm.selat.core.domain.model.Car
 
-class ListAvailableCarAdapter(private val listAvailableCar: ArrayList<Car>) :
+class ListAvailableCarAdapter(private var listAvailableCar: ArrayList<Car>) :
     RecyclerView.Adapter<ListAvailableCarAdapter.ListViewHolder>() {
     private lateinit var onItemClickCallback: OnItemClickCallback
 
@@ -41,7 +43,9 @@ class ListAvailableCarAdapter(private val listAvailableCar: ArrayList<Car>) :
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val data = listAvailableCar[position]
         holder.brand.text = data.carBrand
-        holder.imageCar.setImageResource(R.drawable.temp_car_fortuner)
+        Glide.with(holder.itemView)
+            .load(data.carImage.primaryPhoto).
+            into(holder.imageCar)
         holder.price.text = data.price.toString()
         holder.yearProd.text = data.yearProduction.toString()
         holder.itemView.setOnClickListener {
@@ -54,5 +58,12 @@ class ListAvailableCarAdapter(private val listAvailableCar: ArrayList<Car>) :
 
     override fun getItemCount(): Int {
         return listAvailableCar.size
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun refreshList(newList : ArrayList<Car>) {
+        listAvailableCar.clear()
+        listAvailableCar = newList
+        notifyDataSetChanged()
     }
 }
