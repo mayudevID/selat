@@ -105,18 +105,19 @@
 
 
                     <FrameLayout
+                        android:id="@+id/list_type_car_expand_button"
                         android:layout_marginEnd="36dp"
                         app:layout_constraintTop_toTopOf="@id/mobil_yang_tersedia_text"
                         app:layout_constraintBottom_toBottomOf="@id/mobil_yang_tersedia_text"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:layout_width="80dp"
-                        android:layout_height="35dp">
+                        android:layout_width="100dp"
+                        android:layout_height="30dp">
 
                         <TextView
-                            android:layout_gravity="center_vertical"
+                            android:layout_gravity="end|center_vertical"
                             android:fontFamily="@font/montserrat_regular"
-                            android:layout_marginEnd="10dp"
-                            android:text="All"
+                            android:text="SEDAN"
+                            android:layout_marginEnd="32dp"
                             android:textColor="@color/black"
                             android:id="@+id/type_car_recent"
                             android:layout_width="wrap_content"

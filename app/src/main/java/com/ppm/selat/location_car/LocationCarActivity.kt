@@ -1,13 +1,18 @@
 package com.ppm.selat.location_car
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.Drawable
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -49,35 +54,40 @@ class LocationCarActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.uiSettings.isCompassEnabled = true
         mMap.uiSettings.isMapToolbarEnabled = true
 
-        //  Add a marker in Sydney and move the camera
-        //  val sydney = LatLng(-34.0, 151.0)
-        //  mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        //  mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
-
         val locationCar = LatLng(carData.latLng[0], carData.latLng[1])
 
         val poiMarker = mMap.addMarker(
             MarkerOptions()
                 .position(locationCar)
                 .title("${carData.carManufacturer} - ${carData.carBrand}")
+                .icon(bitmapFromVector(this@LocationCarActivity, R.drawable.car_marker))
         )
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locationCar, 15f))
 
         poiMarker?.showInfoWindow()
-//        mMap.setOnPoiClickListener { pointOfInterest ->
-//            val poiMarker = mMap.addMarker(
-//                MarkerOptions()
-//                    .position(pointOfInterest.latLng)
-//                    .title(pointOfInterest.name)
-//                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA))
-//            )
-//            poiMarker?.showInfoWindow()
-//        }
     }
 
     private fun setUpListener() {
         binding.backButton.setOnClickListener {
             finish()
         }
+    }
+
+    private fun bitmapFromVector(context: Context, vectorResId: Int): BitmapDescriptor {
+        val vectorDrawable: Drawable? = ContextCompat.getDrawable(context, vectorResId)
+        vectorDrawable!!.setBounds(
+            0,
+            0,
+            vectorDrawable.intrinsicWidth,
+            vectorDrawable.intrinsicHeight
+        )
+        val bitmap: Bitmap = Bitmap.createBitmap(
+            vectorDrawable.intrinsicWidth,
+            vectorDrawable.intrinsicHeight,
+            Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(bitmap)
+        vectorDrawable.draw(canvas)
+        return BitmapDescriptorFactory.fromBitmap(bitmap)
     }
 }

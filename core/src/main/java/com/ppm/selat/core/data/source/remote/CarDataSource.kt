@@ -7,15 +7,18 @@ import com.ppm.selat.core.utils.TypeCar
 import com.ppm.selat.core.data.source.remote.response.FirebaseResponse
 import com.ppm.selat.core.utils.convertManufacturerToString
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.tasks.await
 
 class CarDataSource(private val firestore: FirebaseFirestore) {
+    private var carDb: CollectionReference = firestore.collection("cars")
+
     suspend fun getAllCars(): Flow<FirebaseResponse<QuerySnapshot>> {
         return flow {
             try {
-                val response = firestore.collection("cars").get().await()
+                val response = carDb.get().await()
                 emit(FirebaseResponse.Success(response))
             } catch (e: FirebaseFirestoreException) {
                 emit(FirebaseResponse.Error(e.message.toString()))
@@ -23,17 +26,15 @@ class CarDataSource(private val firestore: FirebaseFirestore) {
         }
     }
 
-    suspend fun getCarDataByParam(
+    suspend fun getCarDataByParams(
         manufacturer: Manufacturer,
     ): Flow<FirebaseResponse<QuerySnapshot>> {
         return flow {
             try {
-                val query: Query
-                val response = firestore.collection("cars")
-                query = if (manufacturer != Manufacturer.ALL) {
-                    response.whereEqualTo("manufacturer", convertManufacturerToString(manufacturer))
+                val query: Query = if (manufacturer != Manufacturer.ALL) {
+                    carDb.whereEqualTo("manufacturer", convertManufacturerToString(manufacturer))
                 } else {
-                    response.whereNotEqualTo("manufacturer", convertManufacturerToString(manufacturer))
+                    carDb.whereNotEqualTo("manufacturer", convertManufacturerToString(manufacturer))
                 }
                 val result = query.get().await()
                 emit(FirebaseResponse.Success(result))
@@ -43,8 +44,20 @@ class CarDataSource(private val firestore: FirebaseFirestore) {
         }
     }
 
+    suspend fun getCarBySearch(carName: String): Flow<FirebaseResponse<QuerySnapshot>> {
+        return flow {
+            try {
+                val response =
+                    carDb.orderBy("brand").startAt(carName).endAt(carName + "\uf8ff").get().await()
+                emit(FirebaseResponse.Success(response))
+            } catch (e: FirebaseFirestoreException) {
+                emit(FirebaseResponse.Error(e.message.toString()))
+            }
+        }
+    }
+
     fun getAvailableCar(carId: String): Flow<Int> {
-        return firestore.collection("cars").document(carId).snapshotFlow().map {
+        return carDb.document(carId).snapshotFlow().map {
             it["available"].toString().toInt()
         }
     }

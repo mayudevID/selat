@@ -10,4 +10,5 @@ interface ICarRepository {
     fun getAllCars() : Flow<Resource<List<Car>>>
     fun getCarDataByParams(manufacturer: Manufacturer, typeCar: TypeCar) : Flow<Resource<List<Car>>>
     fun getAvailableCar(carId: String) : Flow<Int>
+    fun getCarBySearch(carName: String) : Flow<Resource<List<Car>>>
 }

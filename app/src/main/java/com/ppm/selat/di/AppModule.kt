@@ -12,6 +12,7 @@ import com.ppm.selat.edit_profile.EditProfileViewModel
 import com.ppm.selat.home.HomeViewModel
 import com.ppm.selat.pick_car.PickCarViewModel
 import com.ppm.selat.profile.ProfileViewModel
+import com.ppm.selat.search_car.SearchCarViewModel
 import com.ppm.selat.splash.SplashViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -31,4 +32,5 @@ val viewModelModule = module {
     viewModel { EditProfileViewModel(get()) }
     viewModel { DetailCarViewModel(get()) }
     viewModel { PickCarViewModel(get()) }
+    viewModel { SearchCarViewModel(get()) }
 }

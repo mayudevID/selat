@@ -18,7 +18,7 @@ import com.ppm.selat.core.R
 import com.ppm.selat.margin
 import com.ppm.selat.core.domain.model.Car
 
-class ListSuvAdapter(private val listSuv: ArrayList<Car>) : RecyclerView.Adapter <ListSuvAdapter.ListSuvViewHolder>() {
+class ListSuvAdapter(private var listSuv: ArrayList<Car>) : RecyclerView.Adapter <ListSuvAdapter.ListSuvViewHolder>() {
     private lateinit var onItemClickCallback: OnItemClickCallback
 
     interface OnItemClickCallback {
@@ -62,5 +62,12 @@ class ListSuvAdapter(private val listSuv: ArrayList<Car>) : RecyclerView.Adapter
 
     override fun getItemCount(): Int {
         return listSuv.size
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun setData(newData: ArrayList<Car>) {
+        listSuv.clear()
+        listSuv = newData
+        notifyDataSetChanged()
     }
 }

@@ -44,7 +44,7 @@ class DetailCarActivity : AppCompatActivity() {
 
         Handler(Looper.getMainLooper()).postDelayed({
             binding.motionTop.transitionToEnd()
-        }, 0)
+        }, 50)
 
         //BackSystemPressed
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {

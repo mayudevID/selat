@@ -6,9 +6,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.PointerIconCompat.TYPE_NULL
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -26,17 +28,19 @@ import com.ppm.selat.detail_car.DetailCarActivity
 import com.ppm.selat.profile.ProfileActivity
 import com.ppm.selat.core.utils.putExtra
 import com.ppm.selat.pick_car.PickCarActivity
+import com.ppm.selat.search_car.SearchCarActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class HomeActivity : AppCompatActivity() {
 
     private val homeViewModel: HomeViewModel by viewModel()
-
     private lateinit var binding: ActivityHomeBinding
     private lateinit var listSedanAdapter: ListSedanAdapter
     private lateinit var listSuvAdapter: ListSuvAdapter
     private lateinit var listCarManufacturerAdapter: ListCarManufacturerAdapter
+    private val sedanData = ArrayList<Car>()
+    private val suvData = ArrayList<Car>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,9 +48,13 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         supportActionBar?.hide()
+        binding.searchBar.inputType = TYPE_NULL
 
+        setUpAdapterInit()
+        setUpListener()
         setUpProfile()
-        setUpListCar()
+        getDataSedanSUV()
+
         Handler(Looper.getMainLooper()).postDelayed({
             setUpAnimation()
         }, 10)
@@ -62,7 +70,7 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    private fun setUpListCar() {
+    private fun setUpAdapterInit() {
         val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.rvListCarBrands.layoutManager = linearLayoutManager
         binding.rvListCarBrands.setHasFixedSize(true)
@@ -81,98 +89,37 @@ class HomeActivity : AppCompatActivity() {
         val sedanLayoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.rvListSedan.layoutManager = sedanLayoutManager
-        binding.rvListSedan.setHasFixedSize(true)
+        binding.rvListSedan.setHasFixedSize(false)
 
         val suvLayoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.rvListSuv.layoutManager = suvLayoutManager
-        binding.rvListSuv.setHasFixedSize(true)
+        binding.rvListSuv.setHasFixedSize(false)
 
-        homeViewModel.getAllCars.observe(this) { result ->
-            if (result != null) {
-                when(result) {
-                    is Resource.Success -> {
-                        val dataCar = result.data!!
-                        val sedanData = ArrayList<Car>()
-                        val suvData = ArrayList<Car>()
-                        for (data in dataCar) {
-                            if (data.typeCar == "SEDAN") {
-                                sedanData.add(data)
-                            } else {
-                                suvData.add(data)
-                            }
-                        }
-                        binding.suvText.updateLayoutParams<ConstraintLayout.LayoutParams> {
-                            topToBottom = binding.rvListSedan.id
-                            topMargin = 30
-                        }
-                        binding.loadSedanCar.visibility = View.GONE
-                        binding.loadSuvCar.visibility = View.GONE
-                        binding.errorMessage.visibility = View.GONE
-                        if (sedanData.isEmpty()) {
 
-                        } else {
-                            listSedanAdapter = ListSedanAdapter(sedanData)
-                            binding.rvListSedan.adapter = listSedanAdapter
-                            binding.rvListSedan.visibility = View.VISIBLE
-                        }
-                        if (suvData.isEmpty()) {
-
-                        } else {
-                            listSuvAdapter = ListSuvAdapter(suvData)
-                            binding.rvListSuv.adapter = listSuvAdapter
-                            binding.rvListSuv.visibility = View.VISIBLE
-                        }
-                        setUpListener()
-                    }
-                    is Resource.Loading -> {
-                        binding.rvListSedan.visibility = View.GONE
-                        binding.rvListSuv.visibility = View.GONE
-                        binding.errorMessage.visibility = View.GONE
-                        binding.loadSedanCar.visibility = View.VISIBLE
-                        binding.loadSuvCar.visibility = View.VISIBLE
-                        binding.suvText.updateLayoutParams<ConstraintLayout.LayoutParams> {
-                            topToBottom = binding.loadSedanCar.id
-                            topMargin = 64
-                        }
-                    }
-                    is Resource.Error -> {
-                        binding.errorMessage.visibility = View.VISIBLE
-                    }
-                }
-            }
-
-        }
     }
 
     private fun setUpListener() {
+        binding.layoutSearchBar.setOnClickListener {
+            val intent = Intent(
+                this,
+                SearchCarActivity::class.java
+            ).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            startActivity(intent)
+        }
+
+        binding.searchBar.setOnClickListener {
+            val intent = Intent(
+                this,
+                SearchCarActivity::class.java
+            ).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            startActivity(intent)
+        }
+
         binding.profileBanner.setOnClickListener {
             val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
         }
-
-
-        listSedanAdapter.setOnItemClickCallback(object : ListSedanAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: Car) {
-                val intent = Intent(this@HomeActivity, DetailCarActivity::class.java)
-                intent.putExtra("CAR_DATA", data)
-                startActivity(intent)
-            }
-
-            override fun onItemDeleted(data: Car) {
-            }
-        })
-
-        listSuvAdapter.setOnItemClickCallback(object : ListSuvAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: Car) {
-                val intent = Intent(this@HomeActivity, DetailCarActivity::class.java)
-                intent.putExtra("CAR_DATA", data)
-                startActivity(intent)
-            }
-
-            override fun onItemDeleted(data: Car) {
-            }
-        })
 
         listCarManufacturerAdapter.setOnItemClickCallback(object :
             ListCarManufacturerAdapter.OnItemClickCallback {
@@ -202,8 +149,95 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
+    private fun getDataSedanSUV() {
+        homeViewModel.getAllCars.observe(this) { result ->
+            if (result != null) {
+                when (result) {
+                    is Resource.Success -> {
+                        val dataCar = result.data!!
+                        sedanData.clear()
+                        suvData.clear()
+
+                        for (data in dataCar) {
+                            if (data.typeCar == "SEDAN") {
+                                sedanData.add(data)
+                            } else {
+                                suvData.add(data)
+                            }
+                        }
+                        binding.suvText.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                            topToBottom = binding.rvListSedan.id
+                            topMargin = 30
+                        }
+
+
+                        binding.errorMessage.visibility = View.GONE
+                        if (sedanData.isEmpty()) {
+                            Log.d("HomeActivity", "SEDAN KOSONG")
+                        } else {
+                            Log.d("HomeActivity", sedanData.size.toString())
+                            listSedanAdapter = ListSedanAdapter(sedanData)
+                            binding.rvListSedan.adapter = listSedanAdapter
+                            binding.loadSedanCar.visibility = View.GONE
+                            binding.rvListSedan.visibility = View.VISIBLE
+                        }
+                        if (suvData.isEmpty()) {
+                            Log.d("HomeActivity", "SUV KOSONG")
+                        } else {
+                            Log.d("HomeActivity", suvData.size.toString())
+                            listSuvAdapter = ListSuvAdapter(suvData)
+                            binding.rvListSuv.adapter = listSuvAdapter
+                            binding.loadSuvCar.visibility = View.GONE
+                            binding.rvListSuv.visibility = View.VISIBLE
+                        }
+                        setUpAdapterNext()
+                    }
+                    is Resource.Loading -> {
+                        binding.rvListSedan.visibility = View.GONE
+                        binding.rvListSuv.visibility = View.GONE
+                        binding.errorMessage.visibility = View.GONE
+                        binding.loadSedanCar.visibility = View.VISIBLE
+                        binding.loadSuvCar.visibility = View.VISIBLE
+                        binding.suvText.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                            topToBottom = binding.loadSedanCar.id
+                            topMargin = 64
+                        }
+                    }
+                    is Resource.Error -> {
+                        binding.errorMessage.visibility = View.VISIBLE
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setUpAdapterNext() {
+        listSedanAdapter.setOnItemClickCallback(object : ListSedanAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: Car) {
+                val intent = Intent(this@HomeActivity, DetailCarActivity::class.java)
+                intent.putExtra("CAR_DATA", data)
+                startActivity(intent)
+            }
+
+            override fun onItemDeleted(data: Car) {
+            }
+        })
+
+        listSuvAdapter.setOnItemClickCallback(object : ListSuvAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: Car) {
+                val intent = Intent(this@HomeActivity, DetailCarActivity::class.java)
+                intent.putExtra("CAR_DATA", data)
+                startActivity(intent)
+            }
+
+            override fun onItemDeleted(data: Car) {
+            }
+        })
+    }
+
     private fun setUpAnimation() {
-        val search = ObjectAnimator.ofFloat(binding.searchBar, View.ALPHA, 1F).setDuration(100)
+        val search =
+            ObjectAnimator.ofFloat(binding.layoutSearchBar, View.ALPHA, 1F).setDuration(100)
         val profileBanner =
             ObjectAnimator.ofFloat(binding.profileBanner, View.ALPHA, 1F).setDuration(100)
         val rvListCarBrands =
@@ -219,7 +253,8 @@ class HomeActivity : AppCompatActivity() {
         val loadSuv = ObjectAnimator.ofFloat(binding.loadSuvCar, View.ALPHA, 1F).setDuration(100)
         val loadSedan =
             ObjectAnimator.ofFloat(binding.loadSedanCar, View.ALPHA, 1F).setDuration(100)
-        val errorLayout = ObjectAnimator.ofFloat(binding.errorMessage, View.ALPHA, 1F).setDuration(100)
+        val errorLayout =
+            ObjectAnimator.ofFloat(binding.errorMessage, View.ALPHA, 1F).setDuration(100)
 
         val together = AnimatorSet().apply {
             playTogether(sedanText, expandSedan)

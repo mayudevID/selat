@@ -43,7 +43,7 @@ class CarRepository(private val carDataSource: CarDataSource) : ICarRepository {
     ): Flow<Resource<List<Car>>> {
         return flow {
             emit(Resource.Loading())
-            val response = carDataSource.getCarDataByParam(manufacturer)
+            val response = carDataSource.getCarDataByParams(manufacturer)
             when (val result = response.first()) {
                 is FirebaseResponse.Success -> {
                     val querySnapshot = result.data
@@ -61,7 +61,29 @@ class CarRepository(private val carDataSource: CarDataSource) : ICarRepository {
                     emit(Resource.Error(result.errorMessage))
                 }
                 is FirebaseResponse.Empty -> {
-                    emit(Resource.Success(arrayListOf()))
+
+                }
+            }
+        }
+    }
+
+    override fun getCarBySearch(carName: String) : Flow<Resource<List<Car>>>{
+        return flow {
+            emit(Resource.Loading())
+            val response = carDataSource.getCarBySearch(carName)
+            when (val result = response.first()) {
+                is FirebaseResponse.Success -> {
+                    val querySnapshot = result.data
+                    val listCar = querySnapshot.documents.map {
+                            data -> documentSnapshotToCar(data)
+                    }
+                    emit(Resource.Success(listCar))
+                }
+                is FirebaseResponse.Error -> {
+                    emit(Resource.Error(result.errorMessage))
+                }
+                is FirebaseResponse.Empty -> {
+
                 }
             }
         }

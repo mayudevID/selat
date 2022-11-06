@@ -15,8 +15,8 @@
             android:textColor="@color/black"
             android:fontFamily="@font/montserrat_medium"
             android:text="All"
-            android:layout_gravity="center"
-            android:gravity="center"
+            android:paddingStart="10dp"
+            android:gravity="left|center"
             android:layout_width="80dp"
             android:layout_height="35dp"/>
 

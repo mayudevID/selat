@@ -27,7 +27,7 @@ class PickCarActivity : AppCompatActivity() {
     private var carDataList: ArrayList<Car> = ArrayList()
 
     private var manufacturer: Manufacturer? = null
-    private var typeCar : TypeCar? = null
+    private var typeCar: TypeCar? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +52,6 @@ class PickCarActivity : AppCompatActivity() {
         var isShow = true
         var scrollRange = -1
         binding.appBarLayout.addOnOffsetChangedListener { barLayout, verticalOffset ->
-
             if (scrollRange == -1) {
                 scrollRange = barLayout?.totalScrollRange!!
             }
@@ -154,17 +153,26 @@ class PickCarActivity : AppCompatActivity() {
                 if (result != null) {
                     when (result) {
                         is Resource.Loading -> {
+                            binding.nsvDataMissing.visibility = View.GONE
                             binding.nsvDataLoad.visibility = View.GONE
                             binding.nsvDataLoading.visibility = View.VISIBLE
                             Log.d("PickCarActivity", "Loading")
                         }
                         is Resource.Success -> {
-                            val newList: ArrayList<Car> = ArrayList(result.data!!)
-                            listAvailableCarAdapter.refreshList(newList)
-                            binding.nsvDataLoading.visibility = View.GONE
-                            binding.nsvDataLoad.visibility = View.VISIBLE
+                            carDataList.clear()
+                            carDataList = ArrayList(result.data!!)
+                            if (carDataList.isEmpty() || carDataList.size == 0) {
+                                binding.manufacturerTarget.text =
+                                    convertManufacturerToString(manufacturer!!)
+                                binding.typeTarget.text = convertTypeCarToString(typeCar!!)
+                                binding.nsvDataLoading.visibility = View.GONE
+                                binding.nsvDataMissing.visibility = View.VISIBLE
+                            } else {
+                                listAvailableCarAdapter.refreshList(carDataList)
+                                binding.nsvDataLoading.visibility = View.GONE
+                                binding.nsvDataLoad.visibility = View.VISIBLE
+                            }
                             Log.d("PickCarActivity", "Success: ${result.data!!.size}")
-
                         }
                         is Resource.Error -> {
                             Log.e("PickCarActivity", result.message.toString())

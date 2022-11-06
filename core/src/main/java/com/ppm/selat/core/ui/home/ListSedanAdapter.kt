@@ -21,7 +21,7 @@ import com.ppm.selat.core.R
 import com.ppm.selat.margin
 import com.ppm.selat.core.domain.model.Car
 
-class ListSedanAdapter(private val listSedan: ArrayList<Car>) : RecyclerView.Adapter <ListSedanAdapter.ListSedanViewHolder>() {
+class ListSedanAdapter(private var listSedan: ArrayList<Car>) : RecyclerView.Adapter <ListSedanAdapter.ListSedanViewHolder>() {
     private lateinit var onItemClickCallback: OnItemClickCallback
 
     interface OnItemClickCallback {
@@ -65,5 +65,12 @@ class ListSedanAdapter(private val listSedan: ArrayList<Car>) : RecyclerView.Ada
 
     override fun getItemCount(): Int {
         return listSedan.size
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun setData(newData: ArrayList<Car>) {
+        listSedan.clear()
+        listSedan = newData
+        notifyDataSetChanged()
     }
 }
