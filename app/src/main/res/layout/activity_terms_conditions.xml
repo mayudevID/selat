@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="#FFE9E9E9"
+    android:layout_height="match_parent"
+    tools:context=".terms_conditions.TermsConditionsActivity">
+
+    <ImageView
+        android:src="@drawable/expand_type"
+        android:rotation="180"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="47dp"
+        android:layout_marginStart="36dp"
+        android:id="@+id/back_button_tc"
+        android:layout_width="24dp"
+        android:layout_height="24dp"/>
+
+    <TextView
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:fontFamily="@font/montserrat_bold"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="@id/back_button_tc"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/back_button_tc"
+        android:text="Syarat &amp; Ketentuan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_marginTop="44dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/back_button_tc"
+        android:layout_marginHorizontal="36dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_marginBottom="12dp"
+            android:text="Terms &amp; Conditions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_semibold"
+            android:textSize="12sp"
+            android:textColor="@color/black"/>
+
+        <com.codesgood.views.JustifiedTextView
+            android:layout_marginBottom="15dp"
+            android:text="@string/tnc"
+            android:fontFamily="@font/montserrat_regular"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_marginBottom="12dp"
+            android:text="Accuracy of Information"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_semibold"
+            android:textSize="12sp"
+            android:textColor="@color/black"/>
+
+        <com.codesgood.views.JustifiedTextView
+            android:layout_marginBottom="15dp"
+            android:text="@string/tnc"
+            android:fontFamily="@font/montserrat_regular"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_marginBottom="12dp"
+            android:text="Use of Cookies and Tracking Technologies"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_semibold"
+            android:textSize="12sp"
+            android:textColor="@color/black"/>
+
+        <com.codesgood.views.JustifiedTextView
+            android:layout_marginBottom="15dp"
+            android:text="@string/uoc_tt"
+            android:fontFamily="@font/montserrat_regular"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_marginBottom="12dp"
+            android:text="Contact Us"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_semibold"
+            android:textSize="12sp"
+            android:textColor="@color/black"/>
+
+        <com.codesgood.views.JustifiedTextView
+            android:layout_marginBottom="15dp"
+            android:text="@string/cu"
+            android:fontFamily="@font/montserrat_regular"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

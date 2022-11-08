@@ -23,6 +23,7 @@ import com.ppm.selat.R
 import com.ppm.selat.auth.login.LoginActivity
 import com.ppm.selat.core.data.Resource
 import com.ppm.selat.databinding.ActivityProfileBinding
+import com.ppm.selat.terms_conditions.TermsConditionsActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ProfileActivity : AppCompatActivity() {
@@ -70,6 +71,11 @@ class ProfileActivity : AppCompatActivity() {
 
         binding.keluarButton.setOnClickListener {
             showExitDialog()
+        }
+
+        binding.sdankButton.setOnClickListener {
+            val intent = Intent(this@ProfileActivity, TermsConditionsActivity::class.java)
+            startActivity(intent)
         }
     }
 

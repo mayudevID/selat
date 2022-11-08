@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Selat</string>
     <string name="title_activity_location_car">LocationCarActivity</string>
+    <string name="tnc"><![CDATA[SELAT is a limited company registered in Depok (Number: 05179829), whose registered address Pangkalan Jati, Depok , EC4V 6JA. These terms & conditions, together with our privacy notice and cookie statement, constitute our agreement with you, for the services we provide in arranging for the supply of car hire. For the avoidance of doubt, ‘you’ refers to the main driver, the person paying for the rental and/or the person making the booking.]]></string>
+    <string name="uoc_tt">We may use cookies and other technologies to facilitate and track your use of services offered on this website and in connection with our email communications.</string>
+    <string name="cu">Please email us at selat mobile app@gmail.com or call +62 8125435353 with any questions.</string>
 </resources>
