@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingHorizontal="36dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFE9E9E9"
+    tools:context=".detail_profile.DetailProfileActivity">
+
+    <ImageView
+        android:src="@drawable/expand_type"
+        android:rotation="180"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="47dp"
+        android:id="@+id/back_button_trans"
+        android:layout_width="24dp"
+        android:layout_height="24dp"/>
+
+    <TextView
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:fontFamily="@font/montserrat_bold"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="@id/back_button_trans"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/back_button_trans"
+        android:text="Data Pribadi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!-- Nama -->
+
+    <TextView
+        android:id="@+id/nama_lengkap"
+        android:text="Nama Lengkap"
+        android:layout_marginTop="44dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/back_button_trans"
+        android:fontFamily="@font/montserrat_regular"
+        android:textSize="12sp"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/nama_lengkap_data"
+        android:fontFamily="@font/montserrat_semibold"
+        android:textSize="12sp"
+        android:textColor="@color/black"
+        android:text="Firman Utina"
+        android:layout_marginTop="7dp"
+        app:layout_constraintTop_toBottomOf="@id/nama_lengkap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/nama_lengkap_edit"
+        app:layout_constraintTop_toTopOf="@id/nama_lengkap"
+        app:layout_constraintBottom_toBottomOf="@id/nama_lengkap_data"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_baseline_edit_24"
+        android:layout_width="24dp"
+        android:layout_height="24dp"/>
+
+    <!-- Tempat, Tanggal lahir -->
+
+    <TextView
+        android:id="@+id/ttl"
+        android:text="Tempat, Tanggal Lahir"
+        android:layout_marginTop="44dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nama_lengkap_data"
+        android:fontFamily="@font/montserrat_regular"
+        android:textSize="12sp"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/ttl_data"
+        android:fontFamily="@font/montserrat_semibold"
+        android:textSize="12sp"
+        android:textColor="@color/black"
+        android:text="Jakarta, 08 Oktober 2022"
+        android:layout_marginTop="7dp"
+        app:layout_constraintTop_toBottomOf="@id/ttl"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/ttl_edit"
+        app:layout_constraintTop_toTopOf="@id/ttl"
+        app:layout_constraintBottom_toBottomOf="@id/ttl_data"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_baseline_edit_24"
+        android:layout_width="24dp"
+        android:layout_height="24dp"/>
+
+    <!-- Email -->
+
+    <TextView
+        android:id="@+id/email"
+        android:text="Email"
+        android:layout_marginTop="44dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ttl_data"
+        android:fontFamily="@font/montserrat_regular"
+        android:textSize="12sp"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/email_data"
+        android:fontFamily="@font/montserrat_semibold"
+        android:textSize="12sp"
+        android:textColor="@color/black"
+        android:text="firmanutina15@gmail.com"
+        android:layout_marginTop="7dp"
+        app:layout_constraintTop_toBottomOf="@id/email"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/email_edit"
+        app:layout_constraintTop_toTopOf="@id/email"
+        app:layout_constraintBottom_toBottomOf="@id/email_data"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_baseline_edit_24"
+        android:layout_width="24dp"
+        android:layout_height="24dp"/>
+
+    <!-- Nomor Telpon -->
+
+    <TextView
+        android:id="@+id/nomor_telpon"
+        android:text="Nomor Telpon"
+        android:layout_marginTop="44dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/email_data"
+        android:fontFamily="@font/montserrat_regular"
+        android:textSize="12sp"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/nomor_telpon_data"
+        android:fontFamily="@font/montserrat_semibold"
+        android:textSize="12sp"
+        android:textColor="@color/black"
+        android:text="081288446520"
+        android:layout_marginTop="7dp"
+        app:layout_constraintTop_toBottomOf="@id/nomor_telpon"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/nomor_telpon_edit"
+        app:layout_constraintTop_toTopOf="@id/nomor_telpon"
+        app:layout_constraintBottom_toBottomOf="@id/nomor_telpon_data"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_baseline_edit_24"
+        android:layout_width="24dp"
+        android:layout_height="24dp"/>
+
+    <!-- Pekerjaan -->
+
+    <TextView
+        android:id="@+id/pekerjaan"
+        android:text="Pekerjaan"
+        android:layout_marginTop="44dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nomor_telpon_data"
+        android:fontFamily="@font/montserrat_regular"
+        android:textSize="12sp"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/pekerjaan_data"
+        android:fontFamily="@font/montserrat_semibold"
+        android:textSize="12sp"
+        android:textColor="@color/black"
+        android:text="Pelajar/Mahasiswa"
+        android:layout_marginTop="7dp"
+        app:layout_constraintTop_toBottomOf="@id/pekerjaan"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/pekerjaan_edit"
+        app:layout_constraintTop_toTopOf="@id/pekerjaan"
+        app:layout_constraintBottom_toBottomOf="@id/pekerjaan_data"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_baseline_edit_24"
+        android:layout_width="24dp"
+        android:layout_height="24dp"/>
+
+    <!-- Alamat -->
+
+    <TextView
+        android:id="@+id/alamat"
+        android:text="Alamat"
+        android:layout_marginTop="44dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/pekerjaan_data"
+        android:fontFamily="@font/montserrat_regular"
+        android:textSize="12sp"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/alamat_data"
+        android:fontFamily="@font/montserrat_semibold"
+        android:textSize="12sp"
+        android:textColor="@color/black"
+        android:text="Jl. R.S Fatmawati No. 1, Cilandak, Jakarta Selatan 12450"
+        android:layout_marginTop="7dp"
+        app:layout_constraintTop_toBottomOf="@id/alamat"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="285dp"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/alamat_edit"
+        app:layout_constraintTop_toTopOf="@id/alamat"
+        app:layout_constraintBottom_toBottomOf="@id/alamat_data"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/ic_baseline_edit_24"
+        android:layout_width="24dp"
+        android:layout_height="24dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

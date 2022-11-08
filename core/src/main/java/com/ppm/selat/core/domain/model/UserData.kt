@@ -9,7 +9,11 @@ import kotlinx.serialization.*
 data class UserData(
     val id: String?,
     val name: String?,
+    val placeDateOfBirth: String?,
     val email: String?,
+    val job: String?,
+    val address: String?,
     val photoUrl: String?,
-    val phone: String?
+    val phone: String?,
+
 ) : Parcelable

@@ -17,6 +17,15 @@ enum class TypeCar {
     SUV,
 }
 
+enum class TypeDataEdit {
+    NAME,
+    PDOB,
+    EMAIL,
+    PHONE,
+    JOB,
+    ADDRESS,
+}
+
 inline fun <reified T : Enum<T>> Intent.putExtra(victim: T): Intent =
     putExtra(T::class.java.name, victim.ordinal)
 

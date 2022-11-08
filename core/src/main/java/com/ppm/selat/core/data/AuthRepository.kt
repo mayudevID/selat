@@ -3,7 +3,9 @@ package com.ppm.selat.core.data
 import android.content.ContentResolver
 import android.content.res.Resources
 import android.net.Uri
+import android.text.InputType
 import android.util.Log
+import android.view.View
 import com.ppm.selat.core.R
 import com.ppm.selat.core.data.source.local.UserLocalDataSource
 import com.ppm.selat.core.data.source.remote.AuthDataSource
@@ -12,6 +14,7 @@ import com.ppm.selat.core.data.source.remote.StorageDataSource
 import com.ppm.selat.core.data.source.remote.response.FirebaseResponse
 import com.ppm.selat.core.domain.model.UserData
 import com.ppm.selat.core.domain.repository.IAuthRepository
+import com.ppm.selat.core.utils.TypeDataEdit
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
@@ -43,7 +46,10 @@ class AuthRepository(
                                 name = dataResult.data["name"].toString(),
                                 email = dataResult.data["email"].toString(),
                                 photoUrl = dataResult.data["photoUrl"].toString(),
-                                phone = dataResult.data["phone"].toString()
+                                phone = dataResult.data["phone"].toString(),
+                                placeDateOfBirth = dataResult.data["pdob"].toString(),
+                                address = dataResult.data["address"].toString(),
+                                job = dataResult.data["job"].toString()
                             )
                             Log.d("LoginActivity", dataTemp.toString())
                             val saveResult = userLocalDataSource.saveUserData(dataTemp)
@@ -108,7 +114,10 @@ class AuthRepository(
                                 name = name,
                                 email = email,
                                 photoUrl = resultUpload.data,
-                                phone = "0"
+                                phone = "Tidak ada data",
+                                placeDateOfBirth = "Tidak ada data",
+                                address = "Tidak ada data",
+                                job = "Tidak ada data"
                             )
                             // UserData to Firestore
                             val save = userFirestoreDataSource.createUserDataToFirestore(newUserData)
@@ -166,60 +175,24 @@ class AuthRepository(
         }
     }
 
-    override fun updateName(name: String): Flow<Resource<Boolean>> {
+    override fun updateProfile(typeDataEdit: TypeDataEdit, data: String): Flow<Resource<Boolean>> {
         return flow {
             emit(Resource.Loading())
             val uid = authDataSource.getUidUser()
-            val data = userFirestoreDataSource.updateName(name, uid)
-            when (val result = data.first()) {
+            val dataRes = userFirestoreDataSource.updateProfile(typeDataEdit, data, uid)
+            when (val result = dataRes.first()) {
                 is FirebaseResponse.Success -> {
                     emit(Resource.Loading())
                     val oldUserData = userLocalDataSource.getSingleUserData()
                     val newUserData = UserData(
                         id = oldUserData.id,
-                        name = name,
-                        email = oldUserData.email,
+                        name = if (typeDataEdit == TypeDataEdit.NAME) data else oldUserData.name,
+                        email = if (typeDataEdit == TypeDataEdit.EMAIL) data else oldUserData.email,
                         photoUrl = oldUserData.photoUrl,
-                        phone = oldUserData.phone,
-                    )
-                    val saveLocal = userLocalDataSource.saveUserData(newUserData)
-                    when (val resultSaveLocal = saveLocal.first()) {
-                        is Resource.Success -> {
-                            emit(Resource.Success(true))
-                        }
-                        is Resource.Error -> {
-                            emit(Resource.Error(resultSaveLocal.message.toString()))
-                        }
-                        is Resource.Loading -> {}
-                    }
-                }
-                is FirebaseResponse.Error -> {
-                    emit(Resource.Error(result.errorMessage))
-                }
-                is FirebaseResponse.Empty -> {}
-            }
-        }
-    }
-
-    override fun updateEmail(email: String): Flow<Resource<Boolean>> {
-        TODO()
-    }
-
-    override fun updatePhone(phone: String): Flow<Resource<Boolean>> {
-        return flow {
-            emit(Resource.Loading())
-            val uid = authDataSource.getUidUser()
-            val data = userFirestoreDataSource.updatePhone(phone, uid)
-            when (val result = data.first()) {
-                is FirebaseResponse.Success -> {
-                    emit(Resource.Loading())
-                    val oldUserData = userLocalDataSource.getSingleUserData()
-                    val newUserData = UserData(
-                        id = oldUserData.id,
-                        name = oldUserData.name,
-                        email = oldUserData.email,
-                        photoUrl = oldUserData.photoUrl,
-                        phone = phone,
+                        phone = if (typeDataEdit == TypeDataEdit.PHONE) data else oldUserData.phone,
+                        placeDateOfBirth = if (typeDataEdit == TypeDataEdit.PDOB) data else oldUserData.placeDateOfBirth,
+                        address = if (typeDataEdit == TypeDataEdit.ADDRESS) data else oldUserData.address,
+                        job = if (typeDataEdit == TypeDataEdit.JOB) data else oldUserData.job,
                     )
                     val saveLocal = userLocalDataSource.saveUserData(newUserData)
                     when (val resultSaveLocal = saveLocal.first()) {
@@ -245,7 +218,6 @@ class AuthRepository(
             emit(Resource.Loading())
             val uid = authDataSource.getUidUser()
             val userDataTemp = userLocalDataSource.getSingleUserData()
-
             val deletePhoto = storageDataSource.deleteProfilePicture(userDataTemp.photoUrl!!, uid)
             when (val resultDelete = deletePhoto.first()) {
                 is FirebaseResponse.Success -> {
@@ -265,6 +237,9 @@ class AuthRepository(
                                         email = oldUserData.email,
                                         photoUrl = resultUpload.data,
                                         phone = oldUserData.phone,
+                                        placeDateOfBirth = oldUserData.placeDateOfBirth,
+                                        address = oldUserData.placeDateOfBirth,
+                                        job = oldUserData.job
                                     )
                                     val saveLocal = userLocalDataSource.saveUserData(newUserData)
                                     when (val resultSaveLocal = saveLocal.first()) {
@@ -332,7 +307,9 @@ class AuthRepository(
         }
     }
 
-    override fun getUserStream(): MutableStateFlow<UserData> = userLocalDataSource.getDataStream()
+    override fun disablePersistence() = userFirestoreDataSource.disablePersistence()
 
-    override fun isUserSigned(): Flow<Boolean> = authDataSource.isUserSigned()
+    override fun getUserStream() = userLocalDataSource.getDataStream()
+
+    override fun isUserSigned() = authDataSource.isUserSigned()
 }

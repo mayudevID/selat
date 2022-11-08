@@ -12,5 +12,7 @@ class TermsConditionsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityTermsConditionsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        supportActionBar?.hide()
     }
 }

@@ -35,14 +35,6 @@ class AuthDataSource (private val firebaseAuth: FirebaseAuth){
         }
     }
 
-    fun isUserSigned() : Flow<Boolean> = flow {
-        if (firebaseAuth.currentUser != null) {
-            emit(true)
-        } else {
-            emit(false)
-        }
-    }
-
     suspend fun logoutFromFirebase() : Flow<FirebaseResponse<Boolean>> {
         return flow {
             try {
@@ -65,7 +57,13 @@ class AuthDataSource (private val firebaseAuth: FirebaseAuth){
         }
     }
 
-    fun getUidUser() : String {
-        return firebaseAuth.currentUser!!.uid
+    fun isUserSigned() : Flow<Boolean> = flow {
+        if (firebaseAuth.currentUser != null) {
+            emit(true)
+        } else {
+            emit(false)
+        }
     }
+
+    fun getUidUser() = firebaseAuth.currentUser!!.uid
 }

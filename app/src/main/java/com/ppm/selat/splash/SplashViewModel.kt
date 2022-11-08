@@ -7,5 +7,6 @@ import com.google.firebase.auth.FirebaseUser
 import com.ppm.selat.core.domain.usecase.AuthUseCase
 
 class SplashViewModel(private val authUseCase: AuthUseCase) : ViewModel() {
-    fun isUserSigned() : LiveData<Boolean> = authUseCase.isUserSigned().asLiveData()
+    fun disablePersistence() = authUseCase.disablePersistence()
+    fun isUserSigned() = authUseCase.isUserSigned().asLiveData()
 }

@@ -12,7 +12,7 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.tasks.await
 
-class CarDataSource(private val firestore: FirebaseFirestore) {
+class CarDataSource(firestore: FirebaseFirestore) {
     private var carDb: CollectionReference = firestore.collection("cars")
 
     suspend fun getAllCars(): Flow<FirebaseResponse<QuerySnapshot>> {

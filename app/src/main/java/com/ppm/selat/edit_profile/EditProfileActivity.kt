@@ -2,36 +2,32 @@ package com.ppm.selat.edit_profile
 
 import android.app.AlertDialog
 import android.content.Context
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.ConnectivityManager
-import android.net.Uri
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
+import android.text.InputType
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
-import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doAfterTextChanged
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.canhub.cropper.CropImageContract
-import com.canhub.cropper.CropImageView
-import com.canhub.cropper.options
 import com.google.android.material.snackbar.Snackbar
 import com.ppm.selat.R
 import com.ppm.selat.core.data.Resource
+import com.ppm.selat.core.domain.model.UserData
+import com.ppm.selat.core.utils.TypeDataEdit
+import com.ppm.selat.core.utils.emailPattern
+import com.ppm.selat.core.utils.getEnumExtra
 import com.ppm.selat.databinding.ActivityEditProfileBinding
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.lang.reflect.Type
+import java.util.*
 
 class EditProfileActivity : AppCompatActivity() {
 
@@ -45,162 +41,163 @@ class EditProfileActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        initDataAndValidForm()
+        editProfileViewModel.editMode = intent.getEnumExtra<TypeDataEdit>()!!
+        editProfileViewModel.oldUserData = if (Build.VERSION.SDK_INT >= 33) {
+            intent.getParcelableExtra("DATA", UserData::class.java)!!
+        } else {
+            intent.getParcelableExtra("DATA")!!
+        }
+
+        setUpData()
         setUpListener()
     }
 
-    private fun initDataAndValidForm() {
-        binding.editedFullName.visibility = View.GONE
-        binding.editedEmail.visibility = View.GONE
-
-        editProfileViewModel.userDataStream.asLiveData().observe(this) {
-            binding.userName.text = it.name
-        }
-
-        lifecycleScope.launch {
-            val data = editProfileViewModel.userDataStream.first()
-
-            editProfileViewModel.nameInit = data.name.toString()
-            editProfileViewModel.nameFlow.value = data.name.toString()
-            binding.editTextFullName.setText(data.name.toString())
-
-            editProfileViewModel.emailInit = data.email.toString()
-            editProfileViewModel.emailFlow.value = data.email.toString()
-            binding.editTextEmail.setText(data.email.toString())
-            // PLAN
-            binding.editTextEmail.isFocusable = false
-            binding.editTextEmail.isEnabled = false
-
-            editProfileViewModel.phoneInit = data.phone.toString()
-            editProfileViewModel.phoneFlow.value = data.phone.toString()
-            binding.editTextPhone.setText(data.phone.toString())
-
-            Glide.with(this@EditProfileActivity)
-                .load(data.photoUrl)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(binding.circleImageView)
-        }
-
-        with(binding) {
-            editTextFullName.doAfterTextChanged {
-                editProfileViewModel.nameFlow.value = it.toString().trim()
-                if (editProfileViewModel.checkNameIsChanged()) {
-                    binding.editedFullName.visibility = View.VISIBLE
-                    binding.cancelSaveFullName.visibility = View.VISIBLE
-                } else {
-                    binding.editedFullName.visibility = View.GONE
-                    binding.cancelSaveFullName.visibility = View.GONE
-                }
-                Log.d("EditProfileActivity", editProfileViewModel.checkNameIsChanged().toString())
+    private fun setUpData() {
+        when (editProfileViewModel.editMode) {
+            TypeDataEdit.NAME -> {
+                binding.title.text = "Ubah Nama Lengkap"
+                binding.textBase.text = "Nama Lengkap"
+                binding.editTextBase.hint = "Nama Lengkap"
+                binding.editTextBase.inputType = InputType.TYPE_TEXT_VARIATION_PERSON_NAME
             }
-            editTextEmail.doAfterTextChanged {
-                editProfileViewModel.emailFlow.value = it.toString().trim()
-//                if (editProfileViewModel.checkEmailIsChanged()) {
-//                    binding.editedEmail.visibility = View.VISIBLE
-//                    binding.cancelSaveEmail.visibility = View.VISIBLE
-//                } else {
-//                    binding.editedEmail.visibility = View.GONE
-//                    binding.cancelSaveEmail.visibility = View.GONE
-//                }
-                Log.d("EditProfileActivity", editProfileViewModel.checkEmailIsChanged().toString())
+            TypeDataEdit.PDOB -> {
+                binding.title.text = "Ubah Tempat Tanggal Lahir"
+                binding.textBase.text = "Tempat Tanggal Lahir"
+                binding.editTextBase.visibility = View.GONE
+                binding.editPlaceTextBaseLayout.visibility = View.VISIBLE
+                binding.editPlaceTextBase.hint = "Tempat lahir"
             }
-            editTextPhone.doAfterTextChanged {
-                editProfileViewModel.phoneFlow.value = it.toString().trim()
-                if (editProfileViewModel.checkPhoneIsChanged()) {
-                    binding.editedPhone.visibility = View.VISIBLE
-                    binding.cancelSavePhone.visibility = View.VISIBLE
-                } else {
-                    binding.editedPhone.visibility = View.GONE
-                    binding.cancelSavePhone.visibility = View.GONE
-                }
-                Log.d("EditProfileActivity", editProfileViewModel.checkEmailIsChanged().toString())
+            TypeDataEdit.EMAIL -> {
+                binding.title.text = "Ubah Email"
+                binding.textBase.text = "Email"
+                binding.editTextBase.hint = "Email"
+                binding.editTextBase.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
             }
+            TypeDataEdit.PHONE -> {
+                binding.title.text = "Ubah No Telpon"
+                binding.textBase.text = "No Telpon"
+                binding.editTextBase.hint = "No Telpon"
+                binding.editTextBase.inputType = InputType.TYPE_CLASS_PHONE
+            }
+            TypeDataEdit.JOB -> {
+                binding.title.text = "Ubah Pekerjaan"
+                binding.textBase.text = "Pekerjaan"
+                binding.editTextBase.hint = "Pekerjaan"
+                binding.editTextBase.inputType = InputType.TYPE_CLASS_TEXT
+            }
+            else -> {}
         }
     }
 
     private fun setUpListener() {
-        binding.backButton.setOnClickListener {
-            finish()
-        }
-
-        // full name changed handler
-        binding.cancelFullNameButton.setOnClickListener {
-            dismissKeyboard()
-            binding.editTextFullName.setText(editProfileViewModel.nameInit)
-        }
-        binding.saveFullNameButton.setOnClickListener {
-            dismissKeyboard()
-            if (editProfileViewModel.nameFlow.value.length < 5 || editProfileViewModel.nameFlow.value == "") {
-                onSnackError("Nama tidak boleh kosong dan harus lebih dari 5 (lima) karakter")
-            } else {
-                if (isNetworkAvailable()) {
-                    val dialogLoading = startLoadingDialog("Simpan nama...")
-                    editProfileViewModel.saveNewName().observe(this) { result ->
-                        if (result != null) {
-                            when (result) {
-                                is Resource.Loading -> {}
-                                is Resource.Success -> {
-                                    Toast.makeText(this, "Nama diperbarui", Toast.LENGTH_SHORT).show()
-                                    editProfileViewModel.nameInit = editProfileViewModel.nameFlow.value
-                                    binding.editedFullName.visibility = View.GONE
-                                    binding.cancelSaveFullName.visibility = View.GONE
-                                    dialogLoading.dismiss()
-                                }
-                                is Resource.Error -> {
-                                    Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
-                                    dialogLoading.dismiss()
-                                }
-                            }
-                        }
+        binding.editTextBase.doAfterTextChanged {
+            val value = it.toString().trim()
+            when (editProfileViewModel.editMode) {
+                TypeDataEdit.NAME -> {
+                    if (value.length > 4 || value == "") {
+                        binding.errorText.text = ""
+                        binding.saveButton.isClickable = true
+                        editProfileViewModel.textValue = value
+                    } else {
+                        binding.errorText.text = "Nama harus lebih dari 4 (empat) karakter"
+                        binding.saveButton.isClickable = false
                     }
-                } else {
-                    Toast.makeText(this, "Tidak dapat terhubung ke internet", Toast.LENGTH_SHORT).show()
                 }
+                TypeDataEdit.EMAIL -> {
+                    if (emailPattern.matcher(value).matches() || value == "") {
+                        binding.errorText.text = ""
+                        binding.saveButton.isClickable = true
+                        editProfileViewModel.textValue = value
+                    } else {
+                        binding.errorText.text = "Email tidak valid"
+                        binding.saveButton.isClickable = false
+                    }
+                }
+                TypeDataEdit.PHONE -> {
+                    if (value.length > 10 || value == "") {
+                        binding.errorText.text = ""
+                        binding.saveButton.isClickable = true
+                        editProfileViewModel.textValue = value
+                    } else {
+                        binding.errorText.text = "No telpon tidak valid"
+                        binding.saveButton.isClickable = false
+                    }
+                }
+                TypeDataEdit.JOB -> {
+                    editProfileViewModel.textValue = value
+                }
+                else -> {}
             }
         }
 
-        // email changed handler
-//        binding.cancelEmailButton.setOnClickListener {
-//            dismissKeyboard()
-//            binding.editTextEmail.setText(editProfileViewModel.emailInit)
-//        }
-//        binding.saveEmailButton.setOnClickListener {
-//        }
-
-        // phone changed handler
-        binding.cancelPhoneButton.setOnClickListener {
-            dismissKeyboard()
-            binding.editTextPhone.setText(editProfileViewModel.phoneInit)
-        }
-        binding.savePhoneButton.setOnClickListener {
-            dismissKeyboard()
-            if (editProfileViewModel.phoneFlow.value.length < 11 || editProfileViewModel.phoneFlow.value == "") {
-                onSnackError("Nomor tidak boleh kosong dan harus lebih dari 10 (sepuluh) karakter")
+        binding.editPlaceTextBase.doAfterTextChanged {
+            val value = it.toString().trim()
+            if (value.isEmpty() || value == "") {
+                binding.errorText.text = "Mohon isi nama tempat lahir"
+                binding.saveButton.isClickable = false
             } else {
-                if (isNetworkAvailable()) {
-                    val dialogLoading = startLoadingDialog("Simpan nomor...")
-                    editProfileViewModel.saveNewPhone().observe(this) { result ->
-                        if (result != null) {
-                            when (result) {
-                                is Resource.Loading -> {}
-                                is Resource.Success -> {
-                                    Toast.makeText(this, "Nomor diperbarui", Toast.LENGTH_SHORT).show()
-                                    editProfileViewModel.phoneInit = editProfileViewModel.phoneFlow.value
-                                    binding.editedPhone.visibility = View.GONE
-                                    binding.cancelSavePhone.visibility = View.GONE
-                                    dialogLoading.dismiss()
-                                }
-                                is Resource.Error -> {
-                                    Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
-                                    dialogLoading.dismiss()
-                                }
-                            }
-                        }
+                binding.errorText.text = ""
+                binding.saveButton.isClickable = true
+                editProfileViewModel.textValue = value
+            }
+        }
+
+        binding.saveButton.setOnClickListener {
+            dismissKeyboard()
+            if (editProfileViewModel.textValue.isEmpty() || editProfileViewModel.textValue == "") {
+                when (editProfileViewModel.editMode) {
+                    TypeDataEdit.NAME -> {
+                        onSnackError("Mohon isi data")
+                    }
+                    TypeDataEdit.EMAIL -> {
+                        onSnackError("Mohon isi data")
+                    }
+                    TypeDataEdit.ADDRESS -> {
+                        onSnackError("Mohon isi data")
+                    }
+                    else -> {
+                        sendData()
+                    }
+                }
+            } else {
+                if (editProfileViewModel.editMode == TypeDataEdit.ADDRESS) {
+                    val dateTemp = binding.dateTemp.text.toString()
+                    if (dateTemp.isEmpty() || dateTemp == "") {
+                        onSnackError("Mohon isi data tempat dan tanggal lahir")
+                    } else {
+                        sendData()
                     }
                 } else {
-                    Toast.makeText(this, "Tidak dapat terhubung ke internet", Toast.LENGTH_SHORT).show()
+                    sendData()
+                }
+
+            }
+        }
+
+
+    }
+
+    private fun sendData() {
+        if (isNetworkAvailable()) {
+            editProfileViewModel.updateProfile.observe(this) { result ->
+                if (result != null) {
+                    val dialog = startLoadingDialog("Simpan...")
+                    when (result) {
+                        is Resource.Loading -> {}
+                        is Resource.Success -> {
+                            dialog.dismiss()
+                            Snackbar.make(binding.root, "Sukses disimpan", Snackbar.LENGTH_SHORT)
+                                .show()
+                            finish()
+                        }
+                        is Resource.Error -> {
+                            onSnackError(result.message!!)
+                        }
+                    }
                 }
             }
+        } else {
+            onSnackError("Tidak dapat terhubung ke internet")
         }
     }
 
@@ -211,7 +208,7 @@ class EditProfileActivity : AppCompatActivity() {
             .isConnected()
     }
 
-    private fun startLoadingDialog(textDesc: String) : AlertDialog {
+    private fun startLoadingDialog(textDesc: String): AlertDialog {
         val dialog: AlertDialog
         val builder = AlertDialog.Builder(this)
         val inflater = this.layoutInflater
@@ -238,9 +235,11 @@ class EditProfileActivity : AppCompatActivity() {
         imm.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)
     }
 
-    private fun onSnackError(errorMessage: String){
-        val snackbar = Snackbar.make(binding.root, convertCode(errorMessage),
-            Snackbar.LENGTH_LONG).setAction("Action", null)
+    private fun onSnackError(errorMessage: String) {
+        val snackbar = Snackbar.make(
+            binding.root, convertCode(errorMessage),
+            Snackbar.LENGTH_LONG
+        ).setAction("Action", null)
         val snackbarView = snackbar.view
 
         val textView =

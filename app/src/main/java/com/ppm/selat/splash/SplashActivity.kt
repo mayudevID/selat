@@ -21,6 +21,7 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
 
         supportActionBar?.hide()
+        splashViewModel.disablePersistence()
 
         Handler(Looper.getMainLooper()).postDelayed({
             splashViewModel.isUserSigned().observe(this) {
