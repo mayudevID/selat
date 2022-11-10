@@ -17,7 +17,7 @@ class UserLocalDataSource (private val sharedPreferences: SharedPreferences) {
     }
 
     private val userData = UserData(
-        id = "NULL", name = "NULL", email = "NULL", photoUrl = "NULL", phone = "String"
+        id = "NULL", name = "NULL", email = "NULL", photoUrl = "NULL", phone = "String", placeDateOfBirth = "NULL", address = "NULL", job = "NULL"
     )
 
     private val userDataStream = MutableStateFlow(userData)
@@ -56,6 +56,7 @@ class UserLocalDataSource (private val sharedPreferences: SharedPreferences) {
             try {
                 val editor = sharedPreferences.edit()
                 editor.clear()
+                editor.apply()
                 emit(Resource.Success(true))
             } catch (e: Exception) {
                 emit(Resource.Error(e.message.toString()))

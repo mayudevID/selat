@@ -14,7 +14,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="47dp"
         android:layout_marginStart="36dp"
-        android:id="@+id/back_button_trans"
+        android:id="@+id/back_button_transaction"
         android:layout_width="24dp"
         android:layout_height="24dp"/>
 
@@ -23,17 +23,17 @@
         android:textSize="16sp"
         android:fontFamily="@font/montserrat_bold"
         android:gravity="center"
-        app:layout_constraintTop_toTopOf="@id/back_button_trans"
+        app:layout_constraintTop_toTopOf="@id/back_button_transaction"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/back_button_trans"
+        app:layout_constraintBottom_toBottomOf="@id/back_button_transaction"
         android:text="Transaksi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <View
         android:id="@+id/border"
-        app:layout_constraintTop_toBottomOf="@id/back_button_trans"
+        app:layout_constraintTop_toBottomOf="@id/back_button_transaction"
         android:layout_width="match_parent"
         android:layout_height="28dp"/>
 

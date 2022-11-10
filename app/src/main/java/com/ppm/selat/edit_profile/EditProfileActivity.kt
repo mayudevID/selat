@@ -24,6 +24,7 @@ import com.ppm.selat.core.utils.TypeDataEdit
 import com.ppm.selat.core.utils.emailPattern
 import com.ppm.selat.core.utils.getEnumExtra
 import com.ppm.selat.databinding.ActivityEditProfileBinding
+import com.ppm.selat.startLoadingDialog
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.lang.reflect.Type
@@ -181,7 +182,7 @@ class EditProfileActivity : AppCompatActivity() {
         if (isNetworkAvailable()) {
             editProfileViewModel.updateProfile.observe(this) { result ->
                 if (result != null) {
-                    val dialog = startLoadingDialog("Simpan...")
+                    val dialog = startLoadingDialog("Simpan...", this)
                     when (result) {
                         is Resource.Loading -> {}
                         is Resource.Success -> {
@@ -206,27 +207,6 @@ class EditProfileActivity : AppCompatActivity() {
             this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo()!!
             .isConnected()
-    }
-
-    private fun startLoadingDialog(textDesc: String): AlertDialog {
-        val dialog: AlertDialog
-        val builder = AlertDialog.Builder(this)
-        val inflater = this.layoutInflater
-        val dialogView = inflater.inflate(R.layout.dialog_loading, null)
-
-        builder.setView(dialogView)
-
-        dialog = builder.create()
-        dialog.window?.decorView?.setBackgroundResource(R.drawable.bg_dialog_border)
-        dialog.window?.setLayout(600, WindowManager.LayoutParams.WRAP_CONTENT)
-        dialog.window?.setGravity(Gravity.CENTER)
-        dialog.setCanceledOnTouchOutside(false)
-
-        val textLoading = dialogView.findViewById<TextView>(R.id.text_desc_cpi)
-        textLoading.text = textDesc
-        dialog.show()
-
-        return dialog
     }
 
     private fun dismissKeyboard() {

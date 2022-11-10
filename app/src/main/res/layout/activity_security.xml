@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="36dp"
+    android:background="#FFE9E9E9"
+    tools:context=".security.SecurityActivity">
+
+    <ImageView
+        android:src="@drawable/expand_type"
+        android:rotation="180"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="47dp"
+        android:id="@+id/back_button_security"
+        android:layout_width="24dp"
+        android:layout_height="24dp"/>
+
+    <TextView
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:fontFamily="@font/montserrat_bold"
+        android:gravity="center"
+        android:layout_marginEnd="36dp"
+        app:layout_constraintTop_toTopOf="@id/back_button_security"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/back_button_security"
+        android:text="Keamanan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <!-- Keamanan dua lapis -->
+
+    <TextView
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/text_1"
+        android:layout_marginTop="49dp"
+        android:textColor="#FF5A5A5A"
+        android:fontFamily="@font/montserrat_medium"
+        android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@id/back_button_security"
+        android:text="Keamanan Dua Lapis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/switch_2fa"
+        android:layout_marginEnd="36dp"
+        app:layout_constraintTop_toTopOf="@id/text_1"
+        app:layout_constraintBottom_toBottomOf="@id/text_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/line_md_switch_filled"
+        android:layout_width="45dp"
+        android:layout_height="45dp"/>
+
+    <View
+        android:id="@+id/border_1"
+        android:layout_marginTop="13dp"
+        app:layout_constraintTop_toBottomOf="@id/text_1"
+        android:background="#FFBDBDBD"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <!-- Ubah Password -->
+
+    <TextView
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/text_2"
+        android:layout_marginTop="13dp"
+        android:textColor="#FF5A5A5A"
+        android:fontFamily="@font/montserrat_medium"
+        android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@id/border_1"
+        android:text="Ubah Password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/text_2"
+        app:layout_constraintBottom_toBottomOf="@id/text_2"
+        android:layout_marginEnd="36dp"
+        android:id="@+id/text_2_button"
+        android:src="@drawable/eva_arrow_ios_back_outline"
+        android:layout_width="16dp"
+        android:layout_height="16dp"/>
+
+    <View
+        android:id="@id/border_2"
+        android:layout_marginTop="13dp"
+        app:layout_constraintTop_toBottomOf="@id/text_2"
+        android:background="#FFBDBDBD"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <!-- Riwayat Login -->
+
+    <TextView
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/text_3"
+        android:layout_marginTop="13dp"
+        android:textColor="#FF5A5A5A"
+        android:fontFamily="@font/montserrat_medium"
+        android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@id/border_2"
+        android:text="Riwayat Login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/text_3"
+        app:layout_constraintBottom_toBottomOf="@id/text_3"
+        android:layout_marginEnd="36dp"
+        android:id="@+id/data_pribadi_button"
+        android:src="@drawable/eva_arrow_ios_back_outline"
+        android:layout_width="16dp"
+        android:layout_height="16dp"/>
+
+    <View
+        android:id="@id/border_3"
+        android:layout_marginTop="13dp"
+        app:layout_constraintTop_toBottomOf="@id/text_3"
+        android:background="#FFBDBDBD"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <!-- Set PIN -->
+
+    <TextView
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/text_4"
+        android:layout_marginTop="13dp"
+        android:textColor="#FF5A5A5A"
+        android:fontFamily="@font/montserrat_medium"
+        android:textSize="12sp"
+        app:layout_constraintTop_toBottomOf="@id/border_3"
+        android:text="Set PIN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/text_4"
+        app:layout_constraintBottom_toBottomOf="@id/text_4"
+        android:layout_marginEnd="36dp"
+        android:id="@+id/text_4_button"
+        android:src="@drawable/eva_arrow_ios_back_outline"
+        android:layout_width="16dp"
+        android:layout_height="16dp"/>
+
+    <View
+        android:id="@+id/border_4"
+        android:layout_marginTop="13dp"
+        app:layout_constraintTop_toBottomOf="@id/text_4"
+        android:background="#FFBDBDBD"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

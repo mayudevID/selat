@@ -12,5 +12,13 @@ class TransactionActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityTransactionBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setUpListener()
+    }
+
+    private fun setUpListener() {
+        binding.backButtonTransaction.setOnClickListener {
+            finish()
+        }
     }
 }

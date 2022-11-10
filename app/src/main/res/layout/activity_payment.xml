@@ -375,11 +375,12 @@
                     android:background="#FF979797"
                     app:layout_constraintTop_toBottomOf="@id/detail_1" />
 
-                <FrameLayout
+                <androidx.cardview.widget.CardView
                     android:id="@+id/pay_now_button"
                     android:layout_width="match_parent"
                     android:layout_height="53dp"
                     android:layout_gravity="center"
+                    app:cardBackgroundColor="#FFFDC500"
                     android:layout_marginHorizontal="36dp"
                     android:layout_marginTop="26dp"
                     android:foreground="?android:attr/selectableItemBackground"
@@ -390,14 +391,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
-                        android:background="@drawable/bg_pay"
                         android:fontFamily="@font/montserrat_bold"
                         android:gravity="center"
                         android:text="Bayar Sekarang"
                         android:textColor="@color/black"
                         android:textSize="16sp" />
 
-                </FrameLayout>
+                </androidx.cardview.widget.CardView>
 
                 <View
                     app:layout_constraintStart_toStartOf="parent"

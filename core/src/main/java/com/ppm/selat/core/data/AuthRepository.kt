@@ -12,6 +12,7 @@ import com.ppm.selat.core.data.source.remote.AuthDataSource
 import com.ppm.selat.core.data.source.remote.UserFirestoreDataSource
 import com.ppm.selat.core.data.source.remote.StorageDataSource
 import com.ppm.selat.core.data.source.remote.response.FirebaseResponse
+import com.ppm.selat.core.domain.model.RegisterData
 import com.ppm.selat.core.domain.model.UserData
 import com.ppm.selat.core.domain.repository.IAuthRepository
 import com.ppm.selat.core.utils.TypeDataEdit
@@ -81,14 +82,12 @@ class AuthRepository(
         }
     }
 
-    override fun registerToFirebase(
-        name: String,
-        email: String,
-        password: String
-    ): Flow<Resource<Boolean>> {
+    override fun registerToFirebase(registerData: RegisterData): Flow<Resource<Boolean>> {
         return flow {
             emit(Resource.Loading())
-            val result = authDataSource.registerToFirebase(email, password)
+            Log.d("RegisterActivity","Data Register: $registerData")
+            val result =
+                authDataSource.registerToFirebase(registerData.email, registerData.password)
             when (val firebaseResponse = result.first()) {
                 is FirebaseResponse.Success -> {
                     emit(Resource.Loading())
@@ -111,8 +110,8 @@ class AuthRepository(
                             // Make UserData
                             val newUserData = UserData(
                                 id = firebaseResponse.data.user!!.uid,
-                                name = name,
-                                email = email,
+                                name = registerData.name,
+                                email = registerData.email,
                                 photoUrl = resultUpload.data,
                                 phone = "Tidak ada data",
                                 placeDateOfBirth = "Tidak ada data",
@@ -120,7 +119,11 @@ class AuthRepository(
                                 job = "Tidak ada data"
                             )
                             // UserData to Firestore
-                            val save = userFirestoreDataSource.createUserDataToFirestore(newUserData)
+                            val save =
+                                userFirestoreDataSource.createUserDataToFirestore(
+                                    newUserData,
+                                    registerData.PIN
+                                )
                             when (val saveResult = save.first()) {
                                 is FirebaseResponse.Success -> {
                                     emit(Resource.Success(true))
@@ -226,7 +229,8 @@ class AuthRepository(
                     when (val resultUpload = uploadStorage.first()) {
                         is FirebaseResponse.Success -> {
                             emit(Resource.Loading())
-                            val dataRes = userFirestoreDataSource.updatePhoto(resultUpload.data, uid)
+                            val dataRes =
+                                userFirestoreDataSource.updatePhoto(resultUpload.data, uid)
                             when (val result = dataRes.first()) {
                                 is FirebaseResponse.Success -> {
                                     emit(Resource.Loading())

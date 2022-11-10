@@ -5,6 +5,8 @@ import android.content.Context
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
@@ -15,11 +17,14 @@ import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
+import com.chaos.view.PinView
 import com.google.android.material.snackbar.Snackbar
 import com.ppm.selat.R
 import com.ppm.selat.core.data.Resource
+import com.ppm.selat.core.utils.AESEncyption
 import com.ppm.selat.core.utils.emailPattern
 import com.ppm.selat.databinding.ActivityRegisterBinding
+import com.ppm.selat.startLoadingDialog
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -162,40 +167,7 @@ class RegisterActivity : AppCompatActivity() {
            } else if (cPasswordX == "") {
                onSnackError("Mohon konfirmasi password")
            } else {
-               registerViewModel.registerAccount().observe(this) { result ->
-                   if (result != null) {
-                       when (result) {
-                           is Resource.Loading<*> -> {
-                               Log.d("RegisterActivity", "Loading")
-                               binding.registerButton.visibility = View.GONE
-                               binding.loadingLogo.visibility = View.VISIBLE
-                           }
-                           is Resource.Success<*> -> {
-                               Log.d("RegisterActivity", "Success")
-                               registerViewModel.logoutForLogin().observe(this) {
-                                   resultD ->
-                                    if (resultD != null) {
-                                        when (resultD) {
-                                            is Resource.Loading -> {}
-                                            is Resource.Success -> {
-                                                showCustomAlert()
-                                            }
-                                            is Resource.Error -> {
-                                                onSnackError("Kesalahan: Harap hapus cache data atau reinstall kembali aplikasi")
-                                            }
-                                        }
-                                    }
-                               }
-                           }
-                           is Resource.Error<*> -> {
-                               binding.registerButton.visibility = View.VISIBLE
-                               binding.loadingLogo.visibility = View.GONE
-                               Log.d("RegisterActivity", result.message.toString())
-                               onSnackError(result.message.toString())
-                           }
-                       }
-                   }
-               }
+               showCreatePin()
            }
         }
 
@@ -204,7 +176,131 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun showCustomAlert() {
+    private fun sendData() {
+        val dialogLoading = startLoadingDialog("Registrasi...", this)
+        registerViewModel.registerAccount().observe(this) { result ->
+            if (result != null) {
+                when (result) {
+                    is Resource.Loading<*> -> {
+                    }
+                    is Resource.Success<*> -> {
+                        Log.d("RegisterActivity", "Success")
+                        registerViewModel.logoutForLogin().observe(this) {
+                                resultD ->
+                            if (resultD != null) {
+                                when (resultD) {
+                                    is Resource.Loading -> {}
+                                    is Resource.Success -> {
+                                        dialogLoading.dismiss()
+                                        showFinishCustomAlert()
+                                    }
+                                    is Resource.Error -> {
+                                        dialogLoading.dismiss()
+                                        onSnackError("Kesalahan: Harap hapus cache data atau reinstall kembali aplikasi")
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    is Resource.Error<*> -> {
+                        dialogLoading.dismiss()
+                        Log.d("RegisterActivity", result.message.toString())
+                        onSnackError(result.message.toString())
+                    }
+                }
+            }
+        }
+    }
+
+    private fun showCreatePin() {
+        var step = 0
+        var PIN_FIRST: String? = null
+        var PIN_SECOND: String? = null
+        var pinEmpty = true
+
+        val dialogView = layoutInflater.inflate(R.layout.dialog_set_pin, null)
+        val customDialog = AlertDialog.Builder(this).setView(dialogView).create()
+
+        customDialog.window?.decorView?.setBackgroundResource(R.drawable.bg_dialog_border)
+        customDialog.window?.setLayout(950, WindowManager.LayoutParams.WRAP_CONTENT)
+        customDialog.setCanceledOnTouchOutside(false)
+
+        val firstPin = dialogView.findViewById<PinView>(R.id.firstPinView)
+        val title = dialogView.findViewById<TextView>(R.id.title_dialog)
+        val subTitle = dialogView.findViewById<TextView>(R.id.subtitle_dialog)
+        val errorMessage = dialogView.findViewById<TextView>(R.id.error_text)
+        val okButton = dialogView.findViewById<TextView>(R.id.ok_button)
+        val cancelButton = dialogView.findViewById<TextView>(R.id.cancel_button)
+
+        customDialog.show()
+
+        fun initFocus() {
+            val imm =
+                getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            Handler(Looper.getMainLooper()).postDelayed({
+                firstPin.requestFocus();
+                imm.showSoftInput(firstPin, 0);
+            }, 100)
+        }
+
+        okButton.isClickable = false
+        firstPin.isPasswordHidden = true
+        firstPin.setAnimationEnable(true)
+        initFocus()
+        firstPin.doOnTextChanged { text, start, before, count ->
+            val stringTemp = text.toString().trim()
+            pinEmpty = stringTemp == "" || stringTemp.isEmpty()
+
+            if (text.toString().trim().length < 6) {
+                errorMessage.text = "PIN Tidak Lengkap"
+                errorMessage.alpha = 1F
+                okButton.isClickable = false
+            } else {
+                errorMessage.alpha = 0F
+                okButton.isClickable = true
+                if (step == 0) {
+                    PIN_FIRST = AESEncyption.encrypt(text.toString().trim())
+                    Log.d("ReqisterActivity", PIN_FIRST!!)
+                } else {
+                    PIN_SECOND = AESEncyption.encrypt(text.toString().trim())
+                    Log.d("ReqisterActivity", PIN_SECOND!!)
+                }
+            }
+        }
+
+        okButton.setOnClickListener {
+            if (pinEmpty) {
+                errorMessage.text = "Harap isi PIN"
+                errorMessage.alpha = 1F
+                okButton.isClickable = false
+            } else {
+                if (step == 0) {
+                    step = 1
+                    pinEmpty = true
+                    firstPin.text?.clear()
+                    title.text = "Konfirmasi PIN"
+                    subTitle.text = "Masukkan PIN yang sebelumnya diinput"
+                } else {
+                    if (PIN_FIRST != PIN_SECOND) {
+                        errorMessage.text = "PIN Tidak Cocok"
+                        errorMessage.alpha = 1F
+                        okButton.isClickable = false
+                    } else {
+                        registerViewModel.PIN.value = PIN_FIRST!!
+                        customDialog.dismiss()
+                        dismissKeyboard()
+                        sendData()
+                    }
+                }
+            }
+        }
+
+        cancelButton.setOnClickListener {
+            customDialog.dismiss()
+        }
+    }
+
+    private fun showFinishCustomAlert() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_finish_register, null)
         val customDialog = AlertDialog.Builder(this).setView(dialogView).create()
         customDialog.window?.decorView?.setBackgroundResource(R.drawable.bg_dialog_border)
@@ -230,6 +326,12 @@ class RegisterActivity : AppCompatActivity() {
         textView.typeface = typeface
         textView.textSize = 12f
         snackbar.show()
+    }
+
+    private fun dismissKeyboard() {
+        val imm =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)
     }
 
     private fun convertCode(errorCode: String): String {

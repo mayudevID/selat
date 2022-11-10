@@ -10,7 +10,8 @@ import kotlinx.coroutines.tasks.await
 
 
 class UserFirestoreDataSource(private val firestore: FirebaseFirestore) {
-    private var userDb: CollectionReference = firestore.collection("users")
+    private lateinit var userDb: CollectionReference
+    private lateinit var pinDB: CollectionReference
 
     suspend fun getUserDataFromFirestore(uid: String): Flow<FirebaseResponse<DocumentSnapshot>> {
         return flow {
@@ -23,8 +24,12 @@ class UserFirestoreDataSource(private val firestore: FirebaseFirestore) {
         }
     }
 
-    suspend fun createUserDataToFirestore(user: UserData): Flow<FirebaseResponse<Boolean>> {
+    suspend fun createUserDataToFirestore(
+        user: UserData,
+        PIN: String
+    ): Flow<FirebaseResponse<Boolean>> {
         return flow {
+            val id = user.id!!
             try {
                 val userData = hashMapOf(
                     "name" to user.name,
@@ -35,7 +40,8 @@ class UserFirestoreDataSource(private val firestore: FirebaseFirestore) {
                     "job" to user.job,
                     "address" to user.address
                 )
-                userDb.document(user.id as String).set(userData).await()
+                userDb.document(id).set(userData).await()
+                pinDB.document(id).set(mapOf("PIN" to PIN)).await()
                 emit(FirebaseResponse.Success(true))
             } catch (e: FirebaseFirestoreException) {
                 emit(FirebaseResponse.Error(e.message.toString()))
@@ -43,10 +49,14 @@ class UserFirestoreDataSource(private val firestore: FirebaseFirestore) {
         }
     }
 
-    suspend fun updateProfile(typeDataEdit: TypeDataEdit, dataChange: String, uid: String): Flow<FirebaseResponse<Boolean>> {
+    suspend fun updateProfile(
+        typeDataEdit: TypeDataEdit,
+        dataChange: String,
+        uid: String
+    ): Flow<FirebaseResponse<Boolean>> {
         return flow {
             try {
-                lateinit var dataMap : Map<String, String>
+                lateinit var dataMap: Map<String, String>
                 when (typeDataEdit) {
                     TypeDataEdit.NAME -> {
                         dataMap = mapOf(
@@ -101,9 +111,11 @@ class UserFirestoreDataSource(private val firestore: FirebaseFirestore) {
         }
     }
 
-    fun disablePersistence() : Boolean {
+    fun disablePersistence(): Boolean {
         val settings = FirebaseFirestoreSettings.Builder().setPersistenceEnabled(false).build()
         firestore.firestoreSettings = settings
+        userDb = firestore.collection("users")
+        pinDB = firestore.collection("PIN")
         return true
     }
 }

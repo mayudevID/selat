@@ -23,6 +23,7 @@ import com.ppm.selat.R
 import com.ppm.selat.auth.login.LoginActivity
 import com.ppm.selat.core.data.Resource
 import com.ppm.selat.databinding.ActivityProfileBinding
+import com.ppm.selat.startLoadingDialog
 import com.ppm.selat.terms_conditions.TermsConditionsActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -95,7 +96,7 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun changeProfilePicture(photo: Uri) {
         if (isNetworkAvailable()) {
-            val dialogLoading = startLoadingDialog("Simpan foto...")
+            val dialogLoading = startLoadingDialog("Simpan foto...", this)
             profileViewModel.photoFlow.value = photo
             profileViewModel.saveNewProfile().observe(this) { result ->
                 if (result != null) {
@@ -171,7 +172,7 @@ class ProfileActivity : AppCompatActivity() {
         val okButton = dialogView.findViewById<TextView>(R.id.ok_button)
         okButton.setOnClickListener{
             dialog.dismiss()
-            val dialogLoading = startLoadingDialog("Proses keluar...")
+            val dialogLoading = startLoadingDialog("Proses keluar...", this)
             profileViewModel.logoutFromFirebase().observe(this) { result ->
                 if (result != null) {
                     when (result) {
@@ -192,27 +193,6 @@ class ProfileActivity : AppCompatActivity() {
             }
         }
         dialog.show()
-    }
-
-    private fun startLoadingDialog(textDesc: String) : AlertDialog {
-        val dialog: AlertDialog
-        val builder = AlertDialog.Builder(this)
-        val inflater = this.layoutInflater
-        val dialogView = inflater.inflate(R.layout.dialog_loading, null)
-
-        builder.setView(dialogView)
-
-        dialog = builder.create()
-        dialog.window?.decorView?.setBackgroundResource(R.drawable.bg_dialog_border)
-        dialog.window?.setLayout(600, WindowManager.LayoutParams.WRAP_CONTENT)
-        dialog.window?.setGravity(Gravity.CENTER)
-        dialog.setCanceledOnTouchOutside(false)
-
-        val textLoading = dialogView.findViewById<TextView>(R.id.text_desc_cpi)
-        textLoading.text = textDesc
-        dialog.show()
-
-        return dialog
     }
 
     private fun isNetworkAvailable(): Boolean {

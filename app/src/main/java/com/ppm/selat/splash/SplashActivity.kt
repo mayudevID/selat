@@ -24,7 +24,7 @@ class SplashActivity : AppCompatActivity() {
         splashViewModel.disablePersistence()
 
         Handler(Looper.getMainLooper()).postDelayed({
-            splashViewModel.isUserSigned().observe(this) {
+            splashViewModel.isUserSigned.observe(this) {
                 if (it == true) {
                     val intent = Intent(this, HomeActivity::class.java)
                     startActivity(intent)

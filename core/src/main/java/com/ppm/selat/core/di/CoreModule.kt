@@ -16,6 +16,8 @@ import com.ppm.selat.core.domain.repository.ICarRepository
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
+
+
 val databaseModule = module {
     single { androidContext().resources }
     single { androidContext().getSharedPreferences("APP_DATA", Context.MODE_PRIVATE) }

@@ -7,13 +7,12 @@ import kotlinx.serialization.*
 @Serializable
 @Parcelize
 data class UserData(
-    val id: String?,
-    val name: String?,
-    val placeDateOfBirth: String?,
-    val email: String?,
-    val job: String?,
-    val address: String?,
-    val photoUrl: String?,
-    val phone: String?,
-
+    val id: String? = null,
+    val name: String? = null,
+    val placeDateOfBirth: String? = null,
+    val email: String? = null,
+    val job: String? = null,
+    val address: String? = null,
+    val photoUrl: String? = null,
+    val phone: String? = null,
 ) : Parcelable
