@@ -10,7 +10,6 @@ import android.os.Looper
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.util.Log
-import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
@@ -21,7 +20,7 @@ import com.chaos.view.PinView
 import com.google.android.material.snackbar.Snackbar
 import com.ppm.selat.R
 import com.ppm.selat.core.data.Resource
-import com.ppm.selat.core.utils.AESEncyption
+import com.ppm.selat.core.utils.AESEncryption
 import com.ppm.selat.core.utils.emailPattern
 import com.ppm.selat.databinding.ActivityRegisterBinding
 import com.ppm.selat.startLoadingDialog
@@ -260,10 +259,10 @@ class RegisterActivity : AppCompatActivity() {
                 errorMessage.alpha = 0F
                 okButton.isClickable = true
                 if (step == 0) {
-                    PIN_FIRST = AESEncyption.encrypt(text.toString().trim())
+                    PIN_FIRST = AESEncryption.encrypt(text.toString().trim())
                     Log.d("ReqisterActivity", PIN_FIRST!!)
                 } else {
-                    PIN_SECOND = AESEncyption.encrypt(text.toString().trim())
+                    PIN_SECOND = AESEncryption.encrypt(text.toString().trim())
                     Log.d("ReqisterActivity", PIN_SECOND!!)
                 }
             }

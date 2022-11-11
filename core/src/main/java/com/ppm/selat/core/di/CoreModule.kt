@@ -8,7 +8,7 @@ import com.ppm.selat.core.data.AuthRepository
 import com.ppm.selat.core.data.CarRepository
 import com.ppm.selat.core.data.source.local.UserLocalDataSource
 import com.ppm.selat.core.data.source.remote.AuthDataSource
-import com.ppm.selat.core.data.source.remote.CarDataSource
+import com.ppm.selat.core.data.source.remote.CarFirestoreDataSource
 import com.ppm.selat.core.data.source.remote.UserFirestoreDataSource
 import com.ppm.selat.core.data.source.remote.StorageDataSource
 import com.ppm.selat.core.domain.repository.IAuthRepository
@@ -32,7 +32,7 @@ val networkModule = module {
 val repositoryModule = module {
     single { UserLocalDataSource(get()) }
     single { AuthDataSource(get()) }
-    single { CarDataSource(get()) }
+    single { CarFirestoreDataSource(get()) }
     single { UserFirestoreDataSource(get()) }
     single { StorageDataSource(get()) }
 

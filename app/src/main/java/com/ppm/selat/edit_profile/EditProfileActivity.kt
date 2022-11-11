@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
 import android.net.ConnectivityManager
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -19,13 +18,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doAfterTextChanged
-import androidx.core.widget.doOnTextChanged
-import com.chaos.view.PinView
 import com.google.android.material.snackbar.Snackbar
 import com.ppm.selat.R
 import com.ppm.selat.core.data.Resource
-import com.ppm.selat.core.domain.model.UserData
-import com.ppm.selat.core.utils.AESEncyption
 import com.ppm.selat.core.utils.TypeDataEdit
 import com.ppm.selat.core.utils.emailPattern
 import com.ppm.selat.core.utils.getEnumExtra

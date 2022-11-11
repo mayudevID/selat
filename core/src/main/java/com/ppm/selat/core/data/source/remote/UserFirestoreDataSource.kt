@@ -2,21 +2,44 @@ package com.ppm.selat.core.data.source.remote
 
 import com.google.firebase.firestore.*
 import com.ppm.selat.core.data.source.remote.response.FirebaseResponse
+import com.ppm.selat.core.data.source.snapshotFlow
+import com.ppm.selat.core.domain.model.LoginData
 import com.ppm.selat.core.domain.model.UserData
 import com.ppm.selat.core.utils.TypeDataEdit
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
+import java.time.Instant
 
 
 class UserFirestoreDataSource(private val firestore: FirebaseFirestore) {
     private lateinit var userDb: CollectionReference
-    private lateinit var pinDB: CollectionReference
+    private lateinit var pinDb: CollectionReference
+    private lateinit var passwordDb: CollectionReference
+    private lateinit var historyLoginDb: CollectionReference
 
-    suspend fun getUserDataFromFirestore(uid: String): Flow<FirebaseResponse<DocumentSnapshot>> {
+    private fun initFirestore() {
+        userDb = firestore.collection("users")
+        pinDb = firestore.collection("PIN")
+        passwordDb = firestore.collection("password")
+        historyLoginDb = firestore.collection("history_login")
+    }
+
+    suspend fun getUserDataFromFirestore(
+        uid: String, loginData: LoginData
+    ): Flow<FirebaseResponse<DocumentSnapshot>> {
         return flow {
             try {
                 val user = userDb.document(uid).get().await()
+                passwordDb.document(uid).set(mapOf("password" to loginData.password)).await()
+                historyLoginDb.document(uid).set(
+                    mapOf(
+                        System.currentTimeMillis() to listOf(
+                            loginData.lastLogin, loginData.deviceData
+                        )
+                    )
+                ).await()
                 emit(FirebaseResponse.Success(user))
             } catch (e: FirebaseFirestoreException) {
                 emit(FirebaseResponse.Error(e.message.toString()))
@@ -25,13 +48,12 @@ class UserFirestoreDataSource(private val firestore: FirebaseFirestore) {
     }
 
     suspend fun createUserDataToFirestore(
-        user: UserData,
-        PIN: String
+        user: UserData, PIN: String
     ): Flow<FirebaseResponse<Boolean>> {
         return flow {
             val id = user.id!!
             try {
-                val userData = hashMapOf(
+                val userData = mapOf(
                     "name" to user.name,
                     "email" to user.email,
                     "photoUrl" to user.photoUrl,
@@ -41,7 +63,7 @@ class UserFirestoreDataSource(private val firestore: FirebaseFirestore) {
                     "address" to user.address
                 )
                 userDb.document(id).set(userData).await()
-                pinDB.document(id).set(mapOf("PIN" to PIN)).await()
+                pinDb.document(id).set(mapOf("PIN" to PIN)).await()
                 emit(FirebaseResponse.Success(true))
             } catch (e: FirebaseFirestoreException) {
                 emit(FirebaseResponse.Error(e.message.toString()))
@@ -50,9 +72,7 @@ class UserFirestoreDataSource(private val firestore: FirebaseFirestore) {
     }
 
     suspend fun updateProfile(
-        typeDataEdit: TypeDataEdit,
-        dataChange: String,
-        uid: String
+        typeDataEdit: TypeDataEdit, dataChange: String, uid: String
     ): Flow<FirebaseResponse<Boolean>> {
         return flow {
             try {
@@ -114,11 +134,32 @@ class UserFirestoreDataSource(private val firestore: FirebaseFirestore) {
         }
     }
 
+    suspend fun getPassword(uid: String): Flow<FirebaseResponse<String>> {
+        return flow {
+            try {
+                val result = passwordDb.document(uid).get().await()
+                emit(FirebaseResponse.Success(result["password"].toString()))
+            } catch (e: FirebaseFirestoreException) {
+                emit(FirebaseResponse.Error(e.message.toString()))
+            }
+        }
+    }
+
+    suspend fun getPIN(uid: String): Flow<FirebaseResponse<String>> {
+        return flow {
+            try {
+                val result = pinDb.document(uid).get().await()
+                emit(FirebaseResponse.Success(result["PIN"].toString()))
+            } catch (e: FirebaseFirestoreException) {
+                emit(FirebaseResponse.Error(e.message.toString()))
+            }
+        }
+    }
+
     fun disablePersistence(): Boolean {
         val settings = FirebaseFirestoreSettings.Builder().setPersistenceEnabled(false).build()
         firestore.firestoreSettings = settings
-        userDb = firestore.collection("users")
-        pinDB = firestore.collection("PIN")
+        initFirestore()
         return true
     }
 }

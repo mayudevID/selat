@@ -2,7 +2,7 @@ package com.ppm.selat.core.data
 
 import com.ppm.selat.core.utils.Manufacturer
 import com.ppm.selat.core.utils.TypeCar
-import com.ppm.selat.core.data.source.remote.CarDataSource
+import com.ppm.selat.core.data.source.remote.CarFirestoreDataSource
 import com.ppm.selat.core.data.source.remote.response.FirebaseResponse
 import com.ppm.selat.core.domain.model.Car
 import com.ppm.selat.core.domain.model.documentSnapshotToCar
@@ -13,12 +13,12 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 
 
-class CarRepository(private val carDataSource: CarDataSource) : ICarRepository {
+class CarRepository(private val carFirestoreDataSource: CarFirestoreDataSource) : ICarRepository {
 
     override fun getAllCars(): Flow<Resource<List<Car>>> {
         return flow {
             emit(Resource.Loading())
-            val response = carDataSource.getAllCars()
+            val response = carFirestoreDataSource.getAllCars()
             when (val result = response.first()) {
                 is FirebaseResponse.Success -> {
                     val querySnapshot = result.data
@@ -43,7 +43,7 @@ class CarRepository(private val carDataSource: CarDataSource) : ICarRepository {
     ): Flow<Resource<List<Car>>> {
         return flow {
             emit(Resource.Loading())
-            val response = carDataSource.getCarDataByParams(manufacturer)
+            val response = carFirestoreDataSource.getCarDataByParams(manufacturer)
             when (val result = response.first()) {
                 is FirebaseResponse.Success -> {
                     val querySnapshot = result.data
@@ -70,7 +70,7 @@ class CarRepository(private val carDataSource: CarDataSource) : ICarRepository {
     override fun getCarBySearch(carName: String) : Flow<Resource<List<Car>>>{
         return flow {
             emit(Resource.Loading())
-            val response = carDataSource.getCarBySearch(carName)
+            val response = carFirestoreDataSource.getCarBySearch(carName)
             when (val result = response.first()) {
                 is FirebaseResponse.Success -> {
                     val querySnapshot = result.data
@@ -89,8 +89,6 @@ class CarRepository(private val carDataSource: CarDataSource) : ICarRepository {
         }
     }
 
-    override fun getAvailableCar(carId: String): Flow<Int> {
-        return carDataSource.getAvailableCar(carId)
-    }
+    override fun getAvailableCar(carId: String) = carFirestoreDataSource.getAvailableCar(carId)
 }
 

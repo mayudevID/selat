@@ -12,6 +12,7 @@ import com.ppm.selat.core.data.source.remote.AuthDataSource
 import com.ppm.selat.core.data.source.remote.UserFirestoreDataSource
 import com.ppm.selat.core.data.source.remote.StorageDataSource
 import com.ppm.selat.core.data.source.remote.response.FirebaseResponse
+import com.ppm.selat.core.domain.model.LoginData
 import com.ppm.selat.core.domain.model.RegisterData
 import com.ppm.selat.core.domain.model.UserData
 import com.ppm.selat.core.domain.repository.IAuthRepository
@@ -29,16 +30,19 @@ class AuthRepository(
     private val resources: Resources,
 ) : IAuthRepository {
 
-    override fun loginToFirebase(email: String, password: String): Flow<Resource<Boolean>> {
+    override fun loginToFirebase(loginData: LoginData): Flow<Resource<Boolean>> {
         return flow {
             emit(Resource.Loading())
             Log.d("LoginActivity", "Loading 1")
-            val result = authDataSource.loginToFirebase(email, password)
+            val result = authDataSource.loginToFirebase(loginData.email, loginData.password)
             when (val firebaseResponse = result.first()) {
                 is FirebaseResponse.Success -> {
                     emit(Resource.Loading())
                     val userData =
-                        userFirestoreDataSource.getUserDataFromFirestore(firebaseResponse.data.user!!.uid)
+                        userFirestoreDataSource.getUserDataFromFirestore(
+                            firebaseResponse.data.user!!.uid,
+                            loginData
+                        )
                     when (val dataResult = userData.first()) {
                         is FirebaseResponse.Success -> {
                             emit(Resource.Loading())
@@ -85,7 +89,7 @@ class AuthRepository(
     override fun registerToFirebase(registerData: RegisterData): Flow<Resource<Boolean>> {
         return flow {
             emit(Resource.Loading())
-            Log.d("RegisterActivity","Data Register: $registerData")
+            Log.d("RegisterActivity", "Data Register: $registerData")
             val result =
                 authDataSource.registerToFirebase(registerData.email, registerData.password)
             when (val firebaseResponse = result.first()) {
@@ -325,11 +329,35 @@ class AuthRepository(
     }
 
     override fun getPassword(): Flow<Resource<String>> {
-        TODO("Not yet implemented")
+        return flow {
+            emit(Resource.Loading())
+            val getData = userFirestoreDataSource.getPassword(authDataSource.getUidUser())
+            when (val result = getData.first()) {
+                is FirebaseResponse.Success -> {
+                    emit(Resource.Success(result.data))
+                }
+                is FirebaseResponse.Error -> {
+                    emit(Resource.Success(result.errorMessage))
+                }
+                is FirebaseResponse.Empty -> {}
+            }
+        }
     }
 
     override fun getPIN(): Flow<Resource<String>> {
-        TODO("Not yet implemented")
+        return flow {
+            emit(Resource.Loading())
+            val getData = userFirestoreDataSource.getPIN(authDataSource.getUidUser())
+            when (val result = getData.first()) {
+                is FirebaseResponse.Success -> {
+                    emit(Resource.Success(result.data))
+                }
+                is FirebaseResponse.Error -> {
+                    emit(Resource.Success(result.errorMessage))
+                }
+                is FirebaseResponse.Empty -> {}
+            }
+        }
     }
 
     override fun disablePersistence() = userFirestoreDataSource.disablePersistence()

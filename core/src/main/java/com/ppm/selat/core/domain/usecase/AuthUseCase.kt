@@ -3,6 +3,7 @@ package com.ppm.selat.core.domain.usecase
 import android.net.Uri
 import com.google.firebase.auth.FirebaseUser
 import com.ppm.selat.core.data.Resource
+import com.ppm.selat.core.domain.model.LoginData
 import com.ppm.selat.core.domain.model.RegisterData
 import com.ppm.selat.core.domain.model.UserData
 import com.ppm.selat.core.utils.TypeDataEdit
@@ -10,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 
 interface AuthUseCase {
-    fun loginToFirebase(email: String, password: String) : Flow<Resource<Boolean>>
+    fun loginToFirebase(loginData: LoginData) : Flow<Resource<Boolean>>
     fun registerToFirebase(registerData: RegisterData) : Flow<Resource<Boolean>>
     fun getUserStream() : MutableStateFlow<UserData>
     fun isUserSigned() : Flow<Boolean>
