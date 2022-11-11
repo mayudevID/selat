@@ -19,5 +19,7 @@ interface AuthUseCase {
     fun updatePhoto(photo: Uri) : Flow<Resource<String>>
     fun saveNewUserData(user: UserData) : Flow<Resource<Boolean>>
     fun resetPassword(email: String) : Flow<Resource<Boolean>>
+    fun getPassword() : Flow<Resource<String>>
+    fun getPIN() : Flow<Resource<String>>
     fun disablePersistence() : Boolean
 }

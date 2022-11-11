@@ -200,7 +200,20 @@ class AuthRepository(
                     val saveLocal = userLocalDataSource.saveUserData(newUserData)
                     when (val resultSaveLocal = saveLocal.first()) {
                         is Resource.Success -> {
-                            emit(Resource.Success(true))
+                            if (typeDataEdit == TypeDataEdit.EMAIL) {
+                                val resultChangeEmail = authDataSource.changeEmail(data)
+                                when (val resultChange = resultChangeEmail.first()) {
+                                    is FirebaseResponse.Success -> {
+                                        emit(Resource.Success(true))
+                                    }
+                                    is FirebaseResponse.Error -> {
+                                        emit(Resource.Error(resultChange.errorMessage))
+                                    }
+                                    else -> {}
+                                }
+                            } else {
+                                emit(Resource.Success(true))
+                            }
                         }
                         is Resource.Error -> {
                             emit(Resource.Error(resultSaveLocal.message.toString()))
@@ -309,6 +322,14 @@ class AuthRepository(
                 is FirebaseResponse.Empty -> {}
             }
         }
+    }
+
+    override fun getPassword(): Flow<Resource<String>> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getPIN(): Flow<Resource<String>> {
+        TODO("Not yet implemented")
     }
 
     override fun disablePersistence() = userFirestoreDataSource.disablePersistence()

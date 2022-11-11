@@ -17,8 +17,11 @@ import kotlinx.coroutines.flow.*
 class EditProfileViewModel(private val authUseCase: AuthUseCase) : ViewModel() {
     lateinit var editMode: TypeDataEdit
     lateinit var oldUserData: UserData
-    lateinit var textValue: String
+    var textValue: String = ""
     var isDateChanged = MutableStateFlow(false)
 
-    val updateProfile = authUseCase.updateProfile(editMode, textValue).asLiveData()
+    fun updateProfile() = authUseCase.updateProfile(
+        editMode,
+        if (textValue.isEmpty() || textValue == "") "Tidak ada data" else textValue
+    ).asLiveData()
 }

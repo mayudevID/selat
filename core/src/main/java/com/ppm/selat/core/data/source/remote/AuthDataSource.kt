@@ -58,6 +58,17 @@ class AuthDataSource (private val firebaseAuth: FirebaseAuth){
         }
     }
 
+    suspend fun changeEmail(email: String) : Flow<FirebaseResponse<Boolean>> {
+        return flow {
+            try {
+                firebaseAuth.currentUser?.updateEmail(email)?.await()
+                emit(FirebaseResponse.Success(true))
+            } catch (e: FirebaseAuthException) {
+                emit(FirebaseResponse.Error(e.errorCode))
+            }
+        }
+    }
+
     fun isUserSigned() : Flow<Boolean> = flow {
         if (firebaseAuth.currentUser != null) {
             emit(true)

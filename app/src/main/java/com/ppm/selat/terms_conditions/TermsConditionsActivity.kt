@@ -14,5 +14,13 @@ class TermsConditionsActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         supportActionBar?.hide()
+
+        setUpListener()
+    }
+
+    fun setUpListener() {
+        binding.backButtonTc.setOnClickListener {
+            finish()
+        }
     }
 }

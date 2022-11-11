@@ -7,13 +7,13 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Gravity
 import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.canhub.cropper.CropImageContract
@@ -23,6 +23,8 @@ import com.ppm.selat.R
 import com.ppm.selat.auth.login.LoginActivity
 import com.ppm.selat.core.data.Resource
 import com.ppm.selat.databinding.ActivityProfileBinding
+import com.ppm.selat.detail_profile.DetailProfileActivity
+import com.ppm.selat.security.SecurityActivity
 import com.ppm.selat.startLoadingDialog
 import com.ppm.selat.terms_conditions.TermsConditionsActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -74,9 +76,31 @@ class ProfileActivity : AppCompatActivity() {
             showExitDialog()
         }
 
+        binding.dataPribadiButton.setOnClickListener {
+            val intent = Intent(this@ProfileActivity, DetailProfileActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.sdankButton.setOnClickListener {
             val intent = Intent(this@ProfileActivity, TermsConditionsActivity::class.java)
             startActivity(intent)
+        }
+
+        binding.keamananButton.setOnClickListener {
+            val intent = Intent(this@ProfileActivity, SecurityActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.kebijakanPrivasiButton.setOnClickListener {
+            val intent = Intent(this@ProfileActivity, TermsConditionsActivity::class.java)
+            startActivity(intent)
+        }
+
+        binding.pusatBantuanButton.setOnClickListener {
+            val url = "https://api.whatsapp.com/send?phone=+6288289992962"
+            val i = Intent(Intent.ACTION_VIEW)
+            i.data = Uri.parse(url)
+            startActivity(i)
         }
     }
 

@@ -6,29 +6,32 @@ import android.graphics.Color
 import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.InputType
-import android.view.Gravity
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.widget.doAfterTextChanged
-import androidx.lifecycle.lifecycleScope
+import androidx.core.widget.doOnTextChanged
+import com.chaos.view.PinView
 import com.google.android.material.snackbar.Snackbar
 import com.ppm.selat.R
 import com.ppm.selat.core.data.Resource
 import com.ppm.selat.core.domain.model.UserData
+import com.ppm.selat.core.utils.AESEncyption
 import com.ppm.selat.core.utils.TypeDataEdit
 import com.ppm.selat.core.utils.emailPattern
 import com.ppm.selat.core.utils.getEnumExtra
 import com.ppm.selat.databinding.ActivityEditProfileBinding
 import com.ppm.selat.startLoadingDialog
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.lang.reflect.Type
-import java.util.*
 
 class EditProfileActivity : AppCompatActivity() {
 
@@ -41,13 +44,9 @@ class EditProfileActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         supportActionBar?.hide()
+        binding.errorText.text = ""
 
         editProfileViewModel.editMode = intent.getEnumExtra<TypeDataEdit>()!!
-        editProfileViewModel.oldUserData = if (Build.VERSION.SDK_INT >= 33) {
-            intent.getParcelableExtra("DATA", UserData::class.java)!!
-        } else {
-            intent.getParcelableExtra("DATA")!!
-        }
 
         setUpData()
         setUpListener()
@@ -91,6 +90,11 @@ class EditProfileActivity : AppCompatActivity() {
     }
 
     private fun setUpListener() {
+
+        binding.backButtonEdit.setOnClickListener {
+            finish()
+        }
+
         binding.editTextBase.doAfterTextChanged {
             val value = it.toString().trim()
             when (editProfileViewModel.editMode) {
@@ -156,12 +160,18 @@ class EditProfileActivity : AppCompatActivity() {
                     TypeDataEdit.ADDRESS -> {
                         onSnackError("Mohon isi data")
                     }
+                    TypeDataEdit.PHONE -> {
+                        onSnackError("Mohon isi data")
+                    }
                     else -> {
                         sendData()
                     }
                 }
             } else {
-                if (editProfileViewModel.editMode == TypeDataEdit.ADDRESS) {
+                if (editProfileViewModel.editMode == TypeDataEdit.EMAIL) {
+                    /// get data password
+                    showInputPassword()
+                } else if (editProfileViewModel.editMode == TypeDataEdit.ADDRESS) {
                     val dateTemp = binding.dateTemp.text.toString()
                     if (dateTemp.isEmpty() || dateTemp == "") {
                         onSnackError("Mohon isi data tempat dan tanggal lahir")
@@ -179,26 +189,88 @@ class EditProfileActivity : AppCompatActivity() {
     }
 
     private fun sendData() {
+        Log.d("EditProfileActivity", "CALL SEND DATA")
         if (isNetworkAvailable()) {
-            editProfileViewModel.updateProfile.observe(this) { result ->
+            val dialog = startLoadingDialog("Simpan...", this)
+            editProfileViewModel.updateProfile().observe(this) { result ->
                 if (result != null) {
-                    val dialog = startLoadingDialog("Simpan...", this)
                     when (result) {
                         is Resource.Loading -> {}
                         is Resource.Success -> {
+                            Toast.makeText(this, "Sukses disimpan", Toast.LENGTH_SHORT).show()
                             dialog.dismiss()
-                            Snackbar.make(binding.root, "Sukses disimpan", Snackbar.LENGTH_SHORT)
-                                .show()
                             finish()
                         }
                         is Resource.Error -> {
                             onSnackError(result.message!!)
+                            dialog.dismiss()
                         }
                     }
                 }
             }
         } else {
             onSnackError("Tidak dapat terhubung ke internet")
+        }
+    }
+
+    private fun showInputPassword() {
+        var passwordEmpty = true
+
+        val dialogView = layoutInflater.inflate(R.layout.dialog_set_password, null)
+        val customDialog = AlertDialog.Builder(this).setView(dialogView).create()
+
+        customDialog.window?.decorView?.setBackgroundResource(R.drawable.bg_dialog_border)
+        customDialog.window?.setLayout(950, WindowManager.LayoutParams.WRAP_CONTENT)
+        customDialog.setCanceledOnTouchOutside(false)
+
+        val okButton = dialogView.findViewById<TextView>(R.id.ok_button)
+        val cancel = dialogView.findViewById<TextView>(R.id.cancel_button)
+        val errorMessage = dialogView.findViewById<TextView>(R.id.error_text)
+        val password = dialogView.findViewById<EditText>(R.id.edit_text_pass_confirm)
+
+        password.doAfterTextChanged {
+            val stringTemp = it.toString().trim()
+            passwordEmpty = stringTemp == "" || stringTemp.isEmpty()
+
+            if (stringTemp.length < 6) {
+                errorMessage.text = "Password minimal 6 (enam) karakter"
+                errorMessage.alpha = 1F
+                okButton.isClickable = false
+            } else {
+                errorMessage.alpha = 0F
+                okButton.isClickable = true
+            }
+        }
+
+        okButton.setOnClickListener {
+            if (!passwordEmpty) {
+
+            } else {
+                errorMessage.text = "Mohon isi data"
+                errorMessage.alpha = 1F
+                okButton.isClickable = false
+            }
+        }
+
+        cancel.setOnClickListener {
+
+        }
+
+        customDialog.show()
+
+        fun initFocus() {
+            val imm =
+                getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            Handler(Looper.getMainLooper()).postDelayed({
+                firstPin.requestFocus();
+                imm.showSoftInput(firstPin, 0);
+            }, 100)
+        }
+
+        initFocus()
+
+        cancelButton.setOnClickListener {
+            customDialog.dismiss()
         }
     }
 

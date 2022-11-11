@@ -12,5 +12,17 @@ class SecurityActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySecurityBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        supportActionBar?.hide()
+
+        setUpListener()
+    }
+
+    private fun setUpListener() {
+        binding.backButtonSecurity.setOnClickListener {
+            finish()
+        }
+
+        
     }
 }

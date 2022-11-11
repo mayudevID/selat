@@ -57,13 +57,13 @@ class LoginActivity : AppCompatActivity() {
             binding.emailError.text = ""
             binding.passwordError.text = ""
             val emailIsValid = if (email == "") true else emailPattern.matcher(email).matches()
-            val passwordIsValid = if (password == "") true else password.length in 8..100
+            val passwordIsValid = if (password == "") true else password.length in 6..100
             emailErrorMessage = when {
                 emailIsValid.not() -> "Email tidak valid"
                 else -> null
             }
             passwordErrorMessage = when {
-                passwordIsValid.not() -> "Password minimal 8 (delapan) karakter"
+                passwordIsValid.not() -> "Password minimal 6 (enam) karakter"
                 else -> null
             }
             emailErrorMessage?.let {

@@ -89,6 +89,9 @@ class UserFirestoreDataSource(private val firestore: FirebaseFirestore) {
                         )
                     }
                 }
+                if (typeDataEdit == TypeDataEdit.EMAIL) {
+
+                }
                 userDb.document(uid).update(dataMap).await()
                 emit(FirebaseResponse.Success(true))
             } catch (e: FirebaseFirestoreException) {

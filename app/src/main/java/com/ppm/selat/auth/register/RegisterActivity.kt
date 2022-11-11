@@ -65,7 +65,7 @@ class RegisterActivity : AppCompatActivity() {
             binding.confirmPasswordError.text = ""
             val nameIsValid = if (name == "") true else name.length > 4
             val emailIsValid = if (email == "") true else emailPattern.matcher(email).matches()
-            val passwordIsValid = if (password == "") true else password.length in 8..100
+            val passwordIsValid = if (password == "") true else password.length in 6..100
             val cPasswordIsValid = if (cPassword == "") true else password == cPassword
             nameErrorMessage = when {
                 nameIsValid.not() -> "Nama harus lebih dari 4 (empat) karakter"
@@ -76,7 +76,7 @@ class RegisterActivity : AppCompatActivity() {
                 else -> null
             }
             passwordErrorMessage = when {
-                passwordIsValid.not() -> "Password minimal 8 (delapan) karakter"
+                passwordIsValid.not() -> "Password minimal 6 (enam) karakter"
                 else -> null
             }
             cPasswordErrorMessage = when {
@@ -247,6 +247,7 @@ class RegisterActivity : AppCompatActivity() {
         firstPin.isPasswordHidden = true
         firstPin.setAnimationEnable(true)
         initFocus()
+
         firstPin.doOnTextChanged { text, start, before, count ->
             val stringTemp = text.toString().trim()
             pinEmpty = stringTemp == "" || stringTemp.isEmpty()
@@ -269,11 +270,7 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         okButton.setOnClickListener {
-            if (pinEmpty) {
-                errorMessage.text = "Harap isi PIN"
-                errorMessage.alpha = 1F
-                okButton.isClickable = false
-            } else {
+            if (!pinEmpty) {
                 if (step == 0) {
                     step = 1
                     pinEmpty = true
@@ -292,6 +289,10 @@ class RegisterActivity : AppCompatActivity() {
                         sendData()
                     }
                 }
+            } else {
+                errorMessage.text = "Harap isi PIN"
+                errorMessage.alpha = 1F
+                okButton.isClickable = false
             }
         }
 
