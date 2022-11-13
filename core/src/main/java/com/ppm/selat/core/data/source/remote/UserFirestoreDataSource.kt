@@ -4,6 +4,7 @@ import com.google.firebase.firestore.*
 import com.ppm.selat.core.data.source.remote.response.FirebaseResponse
 import com.ppm.selat.core.data.source.snapshotFlow
 import com.ppm.selat.core.domain.model.LoginData
+import com.ppm.selat.core.domain.model.RegisterData
 import com.ppm.selat.core.domain.model.UserData
 import com.ppm.selat.core.utils.TypeDataEdit
 import kotlinx.coroutines.flow.Flow
@@ -11,6 +12,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
 import java.time.Instant
+import kotlin.math.log
 
 
 class UserFirestoreDataSource(private val firestore: FirebaseFirestore) {
@@ -32,12 +34,9 @@ class UserFirestoreDataSource(private val firestore: FirebaseFirestore) {
         return flow {
             try {
                 val user = userDb.document(uid).get().await()
-                passwordDb.document(uid).set(mapOf("password" to loginData.password)).await()
                 historyLoginDb.document(uid).set(
                     mapOf(
-                        System.currentTimeMillis() to listOf(
-                            loginData.lastLogin, loginData.deviceData
-                        )
+                        System.currentTimeMillis().toString() to listOf(loginData.lastLogin, loginData.deviceData)
                     )
                 ).await()
                 emit(FirebaseResponse.Success(user))
@@ -48,7 +47,7 @@ class UserFirestoreDataSource(private val firestore: FirebaseFirestore) {
     }
 
     suspend fun createUserDataToFirestore(
-        user: UserData, PIN: String
+        user: UserData, registerData: RegisterData,
     ): Flow<FirebaseResponse<Boolean>> {
         return flow {
             val id = user.id!!
@@ -63,7 +62,8 @@ class UserFirestoreDataSource(private val firestore: FirebaseFirestore) {
                     "address" to user.address
                 )
                 userDb.document(id).set(userData).await()
-                pinDb.document(id).set(mapOf("PIN" to PIN)).await()
+                pinDb.document(id).set(mapOf("PIN" to registerData.PIN)).await()
+                passwordDb.document(id).set(mapOf("password" to registerData.password)).await()
                 emit(FirebaseResponse.Success(true))
             } catch (e: FirebaseFirestoreException) {
                 emit(FirebaseResponse.Error(e.message.toString()))

@@ -2,7 +2,9 @@ package com.ppm.selat.home
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -147,66 +149,90 @@ class HomeActivity : AppCompatActivity() {
             intent.putExtra(TypeCar.SUV)
             startActivity(intent)
         }
+
+        binding.retryButton.setOnClickListener {
+            getDataSedanSUV()
+        }
     }
 
     private fun getDataSedanSUV() {
-        homeViewModel.getAllCars.observe(this) { result ->
-            if (result != null) {
-                when (result) {
-                    is Resource.Success -> {
-                        val dataCar = result.data!!
-                        sedanData.clear()
-                        suvData.clear()
+        if (isNetworkAvailable()) {
+            with(binding) {
+                sedanText.visibility = View.VISIBLE
+                suvText.visibility = View.VISIBLE
+                expandSuv.visibility = View.VISIBLE
+                expandSedan.visibility = View.VISIBLE
+            }
+            homeViewModel.getAllCars.observe(this) { result ->
+                if (result != null) {
+                    when (result) {
+                        is Resource.Success -> {
+                            val dataCar = result.data!!
+                            sedanData.clear()
+                            suvData.clear()
 
-                        for (data in dataCar) {
-                            if (data.typeCar == "SEDAN") {
-                                sedanData.add(data)
+                            for (data in dataCar) {
+                                if (data.typeCar == "SEDAN") {
+                                    sedanData.add(data)
+                                } else {
+                                    suvData.add(data)
+                                }
+                            }
+                            binding.suvText.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                                topToBottom = binding.rvListSedan.id
+                                topMargin = 30
+                            }
+
+
+                            binding.errorMessage.visibility = View.GONE
+                            if (sedanData.isEmpty()) {
+                                Log.d("HomeActivity", "SEDAN KOSONG")
                             } else {
-                                suvData.add(data)
+                                Log.d("HomeActivity", sedanData.size.toString())
+                                listSedanAdapter = ListSedanAdapter(sedanData)
+                                binding.rvListSedan.adapter = listSedanAdapter
+                                binding.loadSedanCar.visibility = View.GONE
+                                binding.rvListSedan.visibility = View.VISIBLE
+                            }
+                            if (suvData.isEmpty()) {
+                                Log.d("HomeActivity", "SUV KOSONG")
+                            } else {
+                                Log.d("HomeActivity", suvData.size.toString())
+                                listSuvAdapter = ListSuvAdapter(suvData)
+                                binding.rvListSuv.adapter = listSuvAdapter
+                                binding.loadSuvCar.visibility = View.GONE
+                                binding.rvListSuv.visibility = View.VISIBLE
+                            }
+                            setUpAdapterNext()
+                        }
+                        is Resource.Loading -> {
+                            binding.rvListSedan.visibility = View.GONE
+                            binding.rvListSuv.visibility = View.GONE
+                            binding.errorMessage.visibility = View.GONE
+                            binding.loadSedanCar.visibility = View.VISIBLE
+                            binding.loadSuvCar.visibility = View.VISIBLE
+                            binding.suvText.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                                topToBottom = binding.loadSedanCar.id
+                                topMargin = 64
                             }
                         }
-                        binding.suvText.updateLayoutParams<ConstraintLayout.LayoutParams> {
-                            topToBottom = binding.rvListSedan.id
-                            topMargin = 30
+                        is Resource.Error -> {
+                            binding.errorMessage.visibility = View.VISIBLE
                         }
-
-
-                        binding.errorMessage.visibility = View.GONE
-                        if (sedanData.isEmpty()) {
-                            Log.d("HomeActivity", "SEDAN KOSONG")
-                        } else {
-                            Log.d("HomeActivity", sedanData.size.toString())
-                            listSedanAdapter = ListSedanAdapter(sedanData)
-                            binding.rvListSedan.adapter = listSedanAdapter
-                            binding.loadSedanCar.visibility = View.GONE
-                            binding.rvListSedan.visibility = View.VISIBLE
-                        }
-                        if (suvData.isEmpty()) {
-                            Log.d("HomeActivity", "SUV KOSONG")
-                        } else {
-                            Log.d("HomeActivity", suvData.size.toString())
-                            listSuvAdapter = ListSuvAdapter(suvData)
-                            binding.rvListSuv.adapter = listSuvAdapter
-                            binding.loadSuvCar.visibility = View.GONE
-                            binding.rvListSuv.visibility = View.VISIBLE
-                        }
-                        setUpAdapterNext()
-                    }
-                    is Resource.Loading -> {
-                        binding.rvListSedan.visibility = View.GONE
-                        binding.rvListSuv.visibility = View.GONE
-                        binding.errorMessage.visibility = View.GONE
-                        binding.loadSedanCar.visibility = View.VISIBLE
-                        binding.loadSuvCar.visibility = View.VISIBLE
-                        binding.suvText.updateLayoutParams<ConstraintLayout.LayoutParams> {
-                            topToBottom = binding.loadSedanCar.id
-                            topMargin = 64
-                        }
-                    }
-                    is Resource.Error -> {
-                        binding.errorMessage.visibility = View.VISIBLE
                     }
                 }
+            }
+        } else {
+            with(binding) {
+                sedanText.visibility = View.GONE
+                suvText.visibility = View.GONE
+                expandSuv.visibility = View.GONE
+                expandSedan.visibility = View.GONE
+                rvListSedan.visibility = View.GONE
+                loadSedanCar.visibility = View.GONE
+                loadSuvCar.visibility = View.GONE
+                rvListSuv.visibility = View.GONE
+                errorMessage.visibility = View.VISIBLE
             }
         }
     }
@@ -284,5 +310,12 @@ class HomeActivity : AppCompatActivity() {
             )
             start()
         }
+    }
+
+    private fun isNetworkAvailable(): Boolean {
+        val connectivityManager: ConnectivityManager =
+            this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        return connectivityManager.activeNetworkInfo != null && connectivityManager.activeNetworkInfo!!
+            .isConnected
     }
 }

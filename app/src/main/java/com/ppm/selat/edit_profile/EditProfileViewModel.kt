@@ -24,4 +24,6 @@ class EditProfileViewModel(private val authUseCase: AuthUseCase) : ViewModel() {
         editMode,
         if (textValue.isEmpty() || textValue == "") "Tidak ada data" else textValue
     ).asLiveData()
+
+    fun getPassword() = authUseCase.getPassword().asLiveData()
 }

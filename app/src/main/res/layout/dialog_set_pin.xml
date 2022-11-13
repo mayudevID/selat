@@ -41,6 +41,7 @@
             android:cursorVisible="true"
             android:fontFamily="@font/montserrat_bold"
             android:inputType="number"
+            android:importantForAutofill="no"
             android:textSize="18sp"
             android:textStyle="bold"
             app:cursorWidth="2dp"

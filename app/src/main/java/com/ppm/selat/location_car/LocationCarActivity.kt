@@ -34,6 +34,7 @@ class LocationCarActivity : AppCompatActivity(), OnMapReadyCallback {
         carData = if (Build.VERSION.SDK_INT >= 33) {
             intent.getParcelableExtra("CAR_DATA", Car::class.java)!!
         } else {
+            @Suppress("DEPRECATION")
             intent.getParcelableExtra("CAR_DATA")!!
         }
 

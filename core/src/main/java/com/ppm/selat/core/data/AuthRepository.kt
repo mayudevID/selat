@@ -126,7 +126,7 @@ class AuthRepository(
                             val save =
                                 userFirestoreDataSource.createUserDataToFirestore(
                                     newUserData,
-                                    registerData.PIN
+                                    registerData,
                                 )
                             when (val saveResult = save.first()) {
                                 is FirebaseResponse.Success -> {

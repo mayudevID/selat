@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.ppm.selat.core.domain.model.RegisterData
 import com.ppm.selat.core.domain.usecase.AuthUseCase
+import com.ppm.selat.core.utils.AESEncryption
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class RegisterViewModel(private val authUseCase: AuthUseCase) : ViewModel() {
@@ -17,7 +18,7 @@ class RegisterViewModel(private val authUseCase: AuthUseCase) : ViewModel() {
         RegisterData(
             name = nameFlow.value,
             email = emailFlow.value,
-            password = passwordFlow.value,
+            password = AESEncryption.encrypt(passwordFlow.value)!!,
             PIN = PIN.value
         )
     ).asLiveData()

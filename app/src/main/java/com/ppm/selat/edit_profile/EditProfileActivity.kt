@@ -21,6 +21,7 @@ import androidx.core.widget.doAfterTextChanged
 import com.google.android.material.snackbar.Snackbar
 import com.ppm.selat.R
 import com.ppm.selat.core.data.Resource
+import com.ppm.selat.core.utils.AESEncryption
 import com.ppm.selat.core.utils.TypeDataEdit
 import com.ppm.selat.core.utils.emailPattern
 import com.ppm.selat.core.utils.getEnumExtra
@@ -164,8 +165,7 @@ class EditProfileActivity : AppCompatActivity() {
                 }
             } else {
                 if (editProfileViewModel.editMode == TypeDataEdit.EMAIL) {
-                    /// get data password
-                    showInputPassword()
+                    showPasswordConfirm()
                 } else if (editProfileViewModel.editMode == TypeDataEdit.ADDRESS) {
                     val dateTemp = binding.dateTemp.text.toString()
                     if (dateTemp.isEmpty() || dateTemp == "") {
@@ -179,8 +179,6 @@ class EditProfileActivity : AppCompatActivity() {
 
             }
         }
-
-
     }
 
     private fun sendData() {
@@ -208,8 +206,59 @@ class EditProfileActivity : AppCompatActivity() {
         }
     }
 
-    private fun showInputPassword() {
+    private fun checkPasswordAndProcessing(password: String) {
+        fun processingUpdateEmail(loadDialog: AlertDialog) {
+            editProfileViewModel.updateProfile().observe(this) { result ->
+                if (result != null) {
+                    when (result) {
+                        is Resource.Success -> {
+                            Toast.makeText(this, "Sukses disimpan", Toast.LENGTH_SHORT).show()
+                            loadDialog.dismiss()
+                            finish()
+                        }
+                        is Resource.Error -> {
+                            onSnackError(result.message!!)
+                            loadDialog.dismiss()
+                        }
+                        is Resource.Loading -> {
+
+                        }
+                    }
+                }
+            }
+        }
+
+        if (isNetworkAvailable()) {
+            val loadDialog = startLoadingDialog("Sedang memproses...", this)
+            editProfileViewModel.getPassword().observe(this) { result ->
+                if (result != null) {
+                    when (result) {
+                        is Resource.Success -> {
+                            if (password == result.data) {
+                                processingUpdateEmail(loadDialog)
+                            } else {
+                                onSnackError(result.message!!)
+                                loadDialog.dismiss()
+                                showPasswordConfirm()
+                            }
+                        }
+                        is Resource.Error -> {
+                            onSnackError(result.message!!)
+                            loadDialog.dismiss()
+                            showPasswordConfirm()
+                        }
+                        is Resource.Loading -> {}
+                    }
+                }
+            }
+        } else {
+            onSnackError("Tidak dapat terhbung ke internet")
+        }
+    }
+
+    private fun showPasswordConfirm() {
         var passwordEmpty = true
+        var passwordValue : String? = null
 
         val dialogView = layoutInflater.inflate(R.layout.dialog_set_password, null)
         val customDialog = AlertDialog.Builder(this).setView(dialogView).create()
@@ -234,12 +283,14 @@ class EditProfileActivity : AppCompatActivity() {
             } else {
                 errorMessage.alpha = 0F
                 okButton.isClickable = true
+                passwordValue = AESEncryption.encrypt(password.text.toString().trim())
             }
         }
 
         okButton.setOnClickListener {
             if (!passwordEmpty) {
-
+                checkPasswordAndProcessing(passwordValue!!)
+                customDialog.dismiss()
             } else {
                 errorMessage.text = "Mohon isi data"
                 errorMessage.alpha = 1F
@@ -253,18 +304,18 @@ class EditProfileActivity : AppCompatActivity() {
 
         customDialog.show()
 
-        fun initFocus() {
-            val imm =
-                getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            Handler(Looper.getMainLooper()).postDelayed({
-                firstPin.requestFocus();
-                imm.showSoftInput(firstPin, 0);
-            }, 100)
-        }
+//        fun initFocus() {
+//            val imm =
+//                getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//            Handler(Looper.getMainLooper()).postDelayed({
+//                firstPin.requestFocus();
+//                imm.showSoftInput(firstPin, 0);
+//            }, 100)
+//        }
 
-        initFocus()
+//        initFocus()
 
-        cancelButton.setOnClickListener {
+        cancel.setOnClickListener {
             customDialog.dismiss()
         }
     }
@@ -277,15 +328,13 @@ class EditProfileActivity : AppCompatActivity() {
     }
 
     private fun dismissKeyboard() {
-        val imm =
-            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)
     }
 
     private fun onSnackError(errorMessage: String) {
         val snackbar = Snackbar.make(
-            binding.root, convertCode(errorMessage),
-            Snackbar.LENGTH_LONG
+            binding.root, convertCode(errorMessage), Snackbar.LENGTH_LONG
         ).setAction("Action", null)
         val snackbarView = snackbar.view
 

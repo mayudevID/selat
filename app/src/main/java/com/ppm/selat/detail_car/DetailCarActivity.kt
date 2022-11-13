@@ -14,6 +14,7 @@ import com.ppm.selat.core.data.Resource
 import com.ppm.selat.core.domain.model.Car
 import com.ppm.selat.databinding.ActivityDetailCarBinding
 import com.ppm.selat.location_car.LocationCarActivity
+import com.ppm.selat.payment.PaymentActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -58,9 +59,9 @@ class DetailCarActivity : AppCompatActivity() {
         val kursIndonesia: DecimalFormat = DecimalFormat.getCurrencyInstance() as DecimalFormat
         val formatRp = DecimalFormatSymbols()
 
-        formatRp.currencySymbol = "Rp";
-        formatRp.monetaryDecimalSeparator = ',';
-        formatRp.groupingSeparator = '.';
+        formatRp.currencySymbol = "Rp"
+        formatRp.monetaryDecimalSeparator = ','
+        formatRp.groupingSeparator = '.'
 
         kursIndonesia.decimalFormatSymbols = formatRp
 
@@ -74,6 +75,7 @@ class DetailCarActivity : AppCompatActivity() {
             desc1.text = carData.spec.a
             desc2.text = carData.spec.b
             desc3.text = carData.spec.c
+            desc4.text = carData.location
 
             if (carData.carManufacturer == "Toyota") {
                 logoBrand.setImageResource(R.drawable.toyota_detail_logo)
@@ -111,6 +113,12 @@ class DetailCarActivity : AppCompatActivity() {
 
         binding.mapsDisplay.setOnClickListener {
             val intent = Intent(this, LocationCarActivity::class.java)
+            intent.putExtra("CAR_DATA", carData)
+            startActivity(intent)
+        }
+
+        binding.payButton.setOnClickListener {
+            val intent = Intent(this, PaymentActivity::class.java)
             intent.putExtra("CAR_DATA", carData)
             startActivity(intent)
         }

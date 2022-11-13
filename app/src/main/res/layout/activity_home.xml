@@ -207,6 +207,7 @@
                 <androidx.cardview.widget.CardView
                     android:id="@+id/retry_button"
                     app:cardElevation="0dp"
+                    android:foreground="?android:attr/selectableItemBackground"
                     app:cardBackgroundColor="#FFFDC500"
                     app:cardCornerRadius="24dp"
                     android:layout_marginTop="24dp"

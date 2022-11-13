@@ -10,10 +10,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ppm.selat.core.R
 import com.ppm.selat.core.domain.model.Car
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 
 class ListAvailableCarAdapter(private var listAvailableCar: ArrayList<Car>) :
     RecyclerView.Adapter<ListAvailableCarAdapter.ListViewHolder>() {
     private lateinit var onItemClickCallback: OnItemClickCallback
+
+    private val kursIndonesia = DecimalFormat.getCurrencyInstance() as DecimalFormat
+    private val formatRp = DecimalFormatSymbols()
+
+    init {
+        formatRp.currencySymbol = ""
+        formatRp.monetaryDecimalSeparator = ','
+        formatRp.groupingSeparator = '.'
+
+        kursIndonesia.decimalFormatSymbols = formatRp
+    }
 
     interface OnItemClickCallback {
         fun onItemClicked(data: Car)
@@ -46,14 +59,12 @@ class ListAvailableCarAdapter(private var listAvailableCar: ArrayList<Car>) :
         Glide.with(holder.itemView)
             .load(data.carImage.primaryPhoto).
             into(holder.imageCar)
-        holder.price.text = data.price.toString()
+        holder.price.text = "${kursIndonesia.format(data.price / 1000).split(",")[0]}K"
         holder.yearProd.text = data.yearProduction.toString()
         holder.itemView.setOnClickListener {
             onItemClickCallback.onItemClicked(listAvailableCar[holder.adapterPosition])
         }
-//        if (position == 0) {
-//            holder.itemView.margin(top = 26F)
-//        }
+
     }
 
     override fun getItemCount(): Int {

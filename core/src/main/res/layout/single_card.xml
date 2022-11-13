@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/single_card"
+    android:layout_width="280dp"
+    android:layout_height="164dp"
+    app:cardCornerRadius="12sp"
+    app:cardElevation="0dp">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_card" />
+
+    <View
+        android:layout_width="286dp"
+        android:layout_height="201dp"
+        android:background="@drawable/oval_card"
+        android:translationX="100dp"
+        android:translationY="-127dp" />
+
+    <View
+        android:layout_width="286dp"
+        android:layout_height="201dp"
+        android:background="@drawable/oval_card"
+        android:translationX="-125dp"
+        android:translationY="90dp" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <View
+            android:id="@+id/border_selected"
+            android:visibility="gone"
+            android:background="@drawable/border_card_selected"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/text_saldo_terkini"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="29dp"
+            android:fontFamily="@font/montserrat_semibold"
+            android:text="Saldo Terkini"
+            android:textColor="#99FFFFFF"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/logo_card" />
+
+        <TextView
+            android:id="@+id/value_saldo_terkini"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="Rp 5.750.120"
+            android:textColor="@color/white"
+            android:textSize="28sp"
+            app:layout_constraintStart_toStartOf="@id/text_saldo_terkini"
+            app:layout_constraintTop_toBottomOf="@id/text_saldo_terkini" />
+
+        <TextView
+            android:id="@+id/number_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="18dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="5282 3456 7890 1289"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/text_saldo_terkini" />
+
+        <ImageView
+            android:id="@+id/logo_card"
+            android:layout_width="36dp"
+            android:layout_height="28.73dp"
+            android:layout_marginEnd="21dp"
+            android:src="@drawable/mastercard_logo"
+            android:layout_marginTop="18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="09/25"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@id/number_card"
+            app:layout_constraintEnd_toEndOf="@id/logo_card"
+            app:layout_constraintTop_toTopOf="@id/number_card" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.cardview.widget.CardView>

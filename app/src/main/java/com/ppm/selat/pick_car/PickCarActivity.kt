@@ -15,7 +15,9 @@ import com.ppm.selat.core.ui.pick_car.ListCarManufacturerToPickAdapter
 import com.ppm.selat.core.utils.*
 import com.ppm.selat.databinding.ActivityPickCarBinding
 import com.ppm.selat.detail_car.DetailCarActivity
+import com.ppm.selat.search_car.SearchCarActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlin.properties.Delegates
 
 
 class PickCarActivity : AppCompatActivity() {
@@ -73,8 +75,14 @@ class PickCarActivity : AppCompatActivity() {
 
         val adapter = CustomTypeCarAdapter(this, arrayListOf("ALL", "SEDAN", "SUV"))
 
+        val pos: Int = when (binding.typeCarRecent.text) {
+            "SEDAN" -> 1
+            "SUV" -> 2
+            else -> 0
+        }
+
         binding.filterButton.adapter = adapter
-        binding.filterButton.setSelection(0, false)
+        binding.filterButton.setSelection(pos, false)
         binding.filterButton.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 typeCar = convertStringToTypeCar(p0?.selectedItem.toString())
@@ -86,6 +94,14 @@ class PickCarActivity : AppCompatActivity() {
 
             }
 
+        }
+
+        binding.searchButton.setOnClickListener {
+            val intent = Intent(
+                this,
+                SearchCarActivity::class.java
+            ).addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            startActivity(intent)
         }
 
         listCarManufacturerToPickAdapter.setOnItemClickCallback(object :
