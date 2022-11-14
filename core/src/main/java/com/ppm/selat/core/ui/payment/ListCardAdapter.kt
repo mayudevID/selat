@@ -1,25 +1,36 @@
 package com.ppm.selat.core.ui.payment
 
 import android.annotation.SuppressLint
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.ppm.selat.core.R
 import com.ppm.selat.core.domain.model.DataTypePay
 import com.ppm.selat.margin
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
 
-class ListDataTypePayAdapter(
+class ListCardAdapter(
     private val dataPay: ArrayList<DataTypePay>,
     private var rowIndex: Int
-) : RecyclerView.Adapter<ListDataTypePayAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<ListCardAdapter.ViewHolder>() {
     private lateinit var onItemClickCallback: OnItemClickCallback
 
+    val kursIndonesia: DecimalFormat = DecimalFormat.getCurrencyInstance() as DecimalFormat
+    val formatRp = DecimalFormatSymbols()
+
+    init {
+        formatRp.currencySymbol = "Rp"
+        formatRp.monetaryDecimalSeparator = ','
+        formatRp.groupingSeparator = '.'
+
+        kursIndonesia.decimalFormatSymbols = formatRp
+    }
+
     interface OnItemClickCallback {
-        fun onItemClicked(data: Int)
+        fun onItemClicked(data: DataTypePay, adapterPos: Int)
         fun onItemDeleted(data: Int)
     }
 
@@ -43,9 +54,9 @@ class ListDataTypePayAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val data = dataPay[position]
         holder.dataNumber.text = data.number
-        holder.dataValue.text = data.value
+        holder.dataValue.text = kursIndonesia.format(data.value).split(",")[0]
         holder.itemView.setOnClickListener {
-            onItemClickCallback.onItemClicked(position)
+            onItemClickCallback.onItemClicked(dataPay[holder.adapterPosition], holder.adapterPosition)
             rowIndex = holder.adapterPosition
             notifyDataSetChanged()
         }
@@ -69,7 +80,7 @@ class ListDataTypePayAdapter(
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun ChangedBetweenCardAndEwallet() {
+    fun changedCardToEWallet() {
         rowIndex = -1
         notifyDataSetChanged()
     }

@@ -122,17 +122,17 @@ class LoginActivity : AppCompatActivity() {
                 loginViewModel.loginAccount().observe(this) { result ->
                     if (result != null) {
                         when (result) {
-                            is Resource.Loading<*> -> {
+                            is Resource.Loading -> {
                                 Log.d("LoginActivity", "Loading")
                                 binding.loginButton.visibility = View.GONE
                                 binding.loadingLogo.visibility = View.VISIBLE
                             }
-                            is Resource.Success<*> -> {
+                            is Resource.Success -> {
                                 Log.d("LoginActivity", "Success")
                                 startActivity(Intent(this,HomeActivity::class.java))
                                 finish()
                             }
-                            is Resource.Error<*> -> {
+                            is Resource.Error -> {
                                 binding.loginButton.visibility = View.VISIBLE
                                 binding.loadingLogo.visibility = View.GONE
                                 Log.d("LoginActivity", result.message.toString())

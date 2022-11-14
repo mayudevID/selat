@@ -22,7 +22,7 @@
         android:theme="@style/Theme.Selat"
         tools:targetApi="31">
         <activity
-            android:name=".EditAddressActivity"
+            android:name=".edit_profile.EditAddressActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

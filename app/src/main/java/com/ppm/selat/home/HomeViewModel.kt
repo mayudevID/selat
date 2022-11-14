@@ -9,5 +9,5 @@ class HomeViewModel(private val authUseCase: AuthUseCase, private val carUseCase
     ViewModel() {
 
     val userDataStream = authUseCase.getUserStream().asLiveData()
-    val getAllCars = carUseCase.getAllCars().asLiveData()
+    fun getAllCars() = carUseCase.getAllCars().asLiveData()
 }

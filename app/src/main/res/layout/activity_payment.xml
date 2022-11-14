@@ -148,6 +148,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
+                    <View
+                        android:visibility="gone"
+                        android:id="@+id/border_selected_e_wallet"
+                        android:background="@drawable/border_ewallet_selected"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+
                     <ImageView
                         android:id="@+id/logo"
                         android:layout_width="40dp"
@@ -210,7 +217,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="27dp"
                     android:layout_marginEnd="36dp"
-                    android:text="Order NoNf098"
+                    android:text="Order"
                     android:fontFamily="@font/montserrat_regular"
                     android:textColor="#FF979797"
                     android:textSize="12sp"
@@ -309,11 +316,12 @@
                             android:fontFamily="@font/montserrat_semibold"
                             android:textSize="8dp"
                             android:textColor="#FF979797"
-                            android:id="@+id/pay_used_detail"
+                            android:id="@+id/pay_used_number"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
 
                         <TextView
+                            android:id="@+id/pay_used_value"
                             android:text="Rp5.750.120"
                             android:fontFamily="@font/montserrat_bold"
                             android:textSize="12dp"
@@ -321,7 +329,17 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
 
+
                     </LinearLayout>
+
+                    <ImageView
+                        android:visibility="gone"
+                        android:layout_marginStart="13dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/carbon_warning_filled"
+                        android:id="@+id/warning_value"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"/>
 
                 </LinearLayout>
 

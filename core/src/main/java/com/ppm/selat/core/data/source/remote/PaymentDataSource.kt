@@ -17,6 +17,7 @@ class PaymentDataSource(firestore: FirebaseFirestore) {
             try {
                 val dataMap = mapOf(
                     "id" to orderData.id,
+                    "carId" to orderData.id,
                     "brand" to orderData.brand,
                     "manufacturer" to orderData.manufacturer,
                     "dateOrder" to orderData.dateOrder,
@@ -25,6 +26,7 @@ class PaymentDataSource(firestore: FirebaseFirestore) {
                     "rentDays" to orderData.rentDays,
                 )
                 orderDb.document(uid).set(orderData.id to dataMap).await()
+                emit(FirebaseResponse.Success(true))
             } catch (e: FirebaseFirestoreException) {
                 emit(FirebaseResponse.Error(e.message.toString()))
             }

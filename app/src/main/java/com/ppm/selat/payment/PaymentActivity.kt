@@ -1,6 +1,5 @@
 package com.ppm.selat.payment
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -11,6 +10,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
@@ -18,25 +18,24 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.chaos.view.PinView
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.snackbar.Snackbar.SnackbarLayout
 import com.ppm.selat.R
 import com.ppm.selat.core.data.Resource
 import com.ppm.selat.core.domain.model.Car
 import com.ppm.selat.core.domain.model.DataTypePay
-import com.ppm.selat.core.ui.payment.ListDataTypePayAdapter
-import com.ppm.selat.core.ui.pick_car.ListCarManufacturerToPickAdapter
+import com.ppm.selat.core.ui.payment.ListCardAdapter
+import com.ppm.selat.core.ui.payment.ListEWalletAdapter
 import com.ppm.selat.core.utils.AESEncryption
-import com.ppm.selat.core.utils.convertIntToManufacturer
 import com.ppm.selat.databinding.ActivityPaymentBinding
-import com.ppm.selat.detail_car.DetailCarActivity
 import com.ppm.selat.finish_payment.FinishPaymentActivity
 import com.ppm.selat.startLoadingDialog
 import kotlinx.coroutines.launch
@@ -51,9 +50,9 @@ class PaymentActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPaymentBinding
     private var pinAttempt = 0
     private lateinit var carData: Car
-    private lateinit var kursIndonesia: DecimalFormat
-    private lateinit var formatRp: DecimalFormatSymbols
-    private lateinit var listDataTypePayAdapter: ListDataTypePayAdapter
+    private lateinit var kursIndonesia1: DecimalFormat
+    private lateinit var formatRp1: DecimalFormatSymbols
+    private lateinit var listCardAdapter: ListCardAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +67,8 @@ class PaymentActivity : AppCompatActivity() {
             intent.getParcelableExtra("CAR_DATA")!!
         }
 
+        paymentViewModel.carDataBuy = carData
+
         setUpPage()
         setUpListener()
         setUpListCard()
@@ -76,23 +77,26 @@ class PaymentActivity : AppCompatActivity() {
     private fun setUpPage() {
         lifecycleScope.launch {
             paymentViewModel.getDataProfile().collect {
-                Glide.with(this@PaymentActivity).load(it.photoUrl).into(binding.profPict)
+                Glide.with(this@PaymentActivity)
+                    .load(it.photoUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(binding.profPict)
             }
         }
 
-        kursIndonesia = DecimalFormat.getCurrencyInstance() as DecimalFormat
-        formatRp = DecimalFormatSymbols()
+        kursIndonesia1 = DecimalFormat.getCurrencyInstance() as DecimalFormat
+        formatRp1 = DecimalFormatSymbols()
 
-        formatRp.currencySymbol = ""
-        formatRp.monetaryDecimalSeparator = ','
-        formatRp.groupingSeparator = '.'
+        formatRp1.currencySymbol = ""
+        formatRp1.monetaryDecimalSeparator = ','
+        formatRp1.groupingSeparator = '.'
 
-        kursIndonesia.decimalFormatSymbols = formatRp
+        kursIndonesia1.decimalFormatSymbols = formatRp1
 
         binding.typeMerk.text = carData.carBrand
         binding.typeMerkChoose.text = carData.carBrand
 
-        val price = kursIndonesia.format(carData.price).split(",")[0]
+        val price = kursIndonesia1.format(carData.price).split(",")[0]
         binding.pricePerDay.text = "${price} / Hari"
         binding.detail1.text = "$price / Hari x "
 
@@ -102,23 +106,71 @@ class PaymentActivity : AppCompatActivity() {
 
     private fun setUpListener() {
 
+        val kursIndonesia2: DecimalFormat = DecimalFormat.getCurrencyInstance() as DecimalFormat
+        val formatRp2 = DecimalFormatSymbols()
+
+        formatRp2.currencySymbol = "Rp"
+        formatRp2.monetaryDecimalSeparator = ','
+        formatRp2.groupingSeparator = '.'
+
+        kursIndonesia2.decimalFormatSymbols = formatRp2
+
         binding.backButton.setOnClickListener {
             finish()
         }
 
         lifecycleScope.launch {
             paymentViewModel.totalDay.collect {
-                val price = kursIndonesia.format(it * carData.price / 1000).split(",")[0]
+                val price = kursIndonesia1.format(it * carData.price / 1000).split(",")[0]
                 binding.dayCounts.text = it.toString()
                 binding.countResult.text = it.toString()
                 binding.totalPrice.text = "${price}k"
             }
         }
 
+        lifecycleScope.launch {
+            paymentViewModel.dataTypePay.collect {
+                if (it.name == "NULL") {
+                    binding.payUsedNumber.visibility = View.GONE
+                    binding.payUsedValue.visibility = View.GONE
+                    binding.payUsedLogo.visibility = View.GONE
+                } else {
+                    binding.payUsedNumber.visibility = View.VISIBLE
+                    binding.payUsedValue.visibility = View.VISIBLE
+                    binding.payUsedLogo.visibility = View.VISIBLE
+                    val saldo = kursIndonesia2.format(it.value).split(",")[0]
+                    binding.payUsedNumber.text = it.number
+                    binding.payUsedValue.text = saldo
+                    when (it.name) {
+                        "MASTERCARD" -> {
+                            binding.payUsedLogo.setImageResource(com.ppm.selat.core.R.drawable.mastercard_logo)
+                        }
+                        "GOPAY" -> {
+                            binding.payUsedLogo.setImageResource(com.ppm.selat.core.R.drawable.gopay_logo)
+                        }
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            paymentViewModel.isEnough.collect {
+                binding.warningValue.visibility = if (it) {
+                    View.GONE
+                } else {
+                    View.VISIBLE
+                }
+            }
+        }
+
         binding.payNowButton.setOnClickListener {
             if (pinAttempt < 4) {
-                showPinConfirm()
-                pinAttempt++
+                if (binding.warningValue.visibility == View.VISIBLE) {
+                    onSnackError("Mohon pilih metode pembayaran dan pastikan saldo cukup")
+                } else {
+                    showPinConfirm()
+                    pinAttempt++
+                }
             } else {
                 onSnackError("Pembayaran Gagal. Harap kembali dari laman ini dan coba kembali ")
             }
@@ -135,29 +187,33 @@ class PaymentActivity : AppCompatActivity() {
                 paymentViewModel.totalDay.value--
             }
         }
+
+        binding.selectEWallet.setOnClickListener {
+            showDialogEWallet()
+        }
     }
 
     private fun setUpListCard() {
         val dataCard = arrayListOf(
             DataTypePay(
                 id = "6282536",
-                name = "MasterCard",
+                name = "MASTERCARD",
                 type = "CARD",
-                value = "5554123",
+                value = 5554123,
                 number = "5282 3456 7890 1289"
             ),
             DataTypePay(
                 id = "621212",
-                name = "MasterCard",
+                name = "MASTERCARD",
                 type = "CARD",
-                value = "121127765",
+                value = 121127765,
                 number = "5282 3456 7890 1289"
             ),
             DataTypePay(
                 id = "62824346",
-                name = "MasterCard",
+                name = "MASTERCARD",
                 type = "CARD",
-                value = "51211",
+                value = 51211,
                 number = "5282 3456 7890 1289"
             )
         )
@@ -165,12 +221,14 @@ class PaymentActivity : AppCompatActivity() {
         binding.rvListCard.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         binding.rvListCard.setHasFixedSize(true)
-        listDataTypePayAdapter = ListDataTypePayAdapter(dataCard,-1)
-        binding.rvListCard.adapter = listDataTypePayAdapter
+        listCardAdapter = ListCardAdapter(dataCard, -1)
+        binding.rvListCard.adapter = listCardAdapter
 
-        listDataTypePayAdapter.setOnItemClickCallback(object :
-            ListDataTypePayAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: Int) {
+        listCardAdapter.setOnItemClickCallback(object :
+            ListCardAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: DataTypePay, adapterPos: Int) {
+                binding.borderSelectedEWallet.visibility = View.GONE
+                paymentViewModel.dataTypePay.value = data
             }
 
             override fun onItemDeleted(data: Int) {
@@ -179,20 +237,92 @@ class PaymentActivity : AppCompatActivity() {
         })
     }
 
+    private fun showDialogEWallet() {
+        val dialog: AlertDialog
+        val builder = AlertDialog.Builder(this@PaymentActivity)
+        val inflater = this@PaymentActivity.layoutInflater
+        val dialogView = inflater.inflate(R.layout.dialog_list_ewallet, null)
+
+        builder.setView(dialogView)
+
+        dialog = builder.create()
+        dialog.window?.decorView?.setBackgroundResource(R.drawable.bg_dialog_border)
+        //dialog.window?.setLayout(600, WindowManager.LayoutParams.WRAP_CONTENT)
+        dialog.window?.setGravity(Gravity.CENTER)
+        dialog.setCanceledOnTouchOutside(false)
+
+        val rvAdapter = dialogView.findViewById<RecyclerView>(R.id.rv_list_ewallet)
+
+        val window = dialog.window
+        val wlp: WindowManager.LayoutParams = window?.attributes!!
+
+        wlp.gravity = Gravity.BOTTOM
+        wlp.y = -24
+        wlp.flags = wlp.flags and WindowManager.LayoutParams.FLAG_DIM_BEHIND.inv()
+        window.attributes = wlp
+
+        val dataEWallet = arrayListOf(
+            DataTypePay(
+                id = "086625232223",
+                name = "GOPAY",
+                type = "EWALLET",
+                value = 561551,
+                number = "086625232223"
+            ),
+            DataTypePay(
+                id = "08665424242",
+                name = "GOPAY",
+                type = "EWALLET",
+                value = 12114442,
+                number = "08665424242"
+            ),
+        )
+
+        rvAdapter.layoutManager =
+            LinearLayoutManager(this)
+        rvAdapter.setHasFixedSize(true)
+        val listEWalletAdapter = ListEWalletAdapter(dataEWallet)
+        rvAdapter.adapter = listEWalletAdapter
+
+        listEWalletAdapter.setOnItemClickCallback(object :
+            ListEWalletAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: DataTypePay) {
+                listCardAdapter.changedCardToEWallet()
+                binding.borderSelectedEWallet.visibility = View.VISIBLE
+                paymentViewModel.dataTypePay.value = data
+                dialog.dismiss()
+            }
+
+            override fun onItemDeleted(data: Int) {
+            }
+
+        })
+
+        dialog.show()
+    }
+
     private fun checkPinAndProcessing(PIN: String) {
         fun processingPayment(loadDialog: AlertDialog) {
-            paymentViewModel.addOrder().observe(this) {
-                result ->
+            paymentViewModel.addOrder().observe(this) { result ->
                 if (result != null) {
                     when (result) {
                         is Resource.Success -> {
-                            val intent = Intent(this@PaymentActivity, FinishPaymentActivity::class.java)
+                            loadDialog.dismiss()
+                            val intent =
+                                Intent(this@PaymentActivity, FinishPaymentActivity::class.java)
+                            intent.putExtra("ORDER_DATA", paymentViewModel.orderData)
                             startActivity(intent)
                         }
                         is Resource.Error -> {
                             loadDialog.dismiss()
-                            Toast.makeText(this, "Error: ${result.message}", Toast.LENGTH_LONG)
-                                .show()
+                            if (result.message == "EMPTY") {
+                                finish()
+                                Toast.makeText(this, "Mohon maaf mobil tidak tersedia saat ini", Toast.LENGTH_LONG)
+                                    .show()
+                            } else {
+                                Toast.makeText(this, "Error: ${result.message}", Toast.LENGTH_LONG)
+                                    .show()
+                            }
                         }
                         is Resource.Loading -> {
 
@@ -217,7 +347,7 @@ class PaymentActivity : AppCompatActivity() {
                                 loadDialog.dismiss()
                                 if (pinAttempt < 4) {
                                     val dialogView = showPinConfirm()
-                                    onSnackErrorDialog("PIN Salah, coba kembali",  dialogView)
+                                    onSnackErrorDialog("PIN Salah, coba kembali", dialogView)
                                     pinAttempt++
                                 } else {
                                     onSnackError("Pembayaran Gagal. Harap kembali dari laman ini dan coba kembali ")
@@ -236,7 +366,7 @@ class PaymentActivity : AppCompatActivity() {
                 }
             }
         } else {
-            onSnackError("Tidak dapat terhbung ke internet")
+            onSnackError("Tidak dapat terhubung ke internet")
         }
     }
 

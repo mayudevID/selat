@@ -10,21 +10,33 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 
-class PaymentRepository(private val paymentDataSource: PaymentDataSource, private val authDataSource: AuthDataSource) :
-    IPaymentRepository{
+class PaymentRepository(
+    private val paymentDataSource: PaymentDataSource,
+    private val authDataSource: AuthDataSource,
+    private val carFirestoreDataSource: CarFirestoreDataSource,
+) :
+    IPaymentRepository {
     override fun addOrder(orderData: OrderData): Flow<Resource<Boolean>> {
         return flow {
             emit(Resource.Loading())
-            val orderProcess = paymentDataSource.addOrder(orderData, authDataSource.getUidUser())
-            when (val result = orderProcess.first()) {
-                is FirebaseResponse.Success -> {
-                    emit(Resource.Success(true))
+            val getDataAvailable = carFirestoreDataSource.getAvailableCar(orderData.id)
+            when (getDataAvailable.first()) {
+                0 -> {
+                    emit(Resource.Error("EMPTY"))
                 }
-                is FirebaseResponse.Error -> {
-                    emit(Resource.Error(result.errorMessage))
-                }
-                is FirebaseResponse.Empty -> {
+                else -> {
+                    val orderProcess = paymentDataSource.addOrder(orderData, authDataSource.getUidUser())
+                    when (val result = orderProcess.first()) {
+                        is FirebaseResponse.Success -> {
+                            emit(Resource.Success(true))
+                        }
+                        is FirebaseResponse.Error -> {
+                            emit(Resource.Error(result.errorMessage))
+                        }
+                        is FirebaseResponse.Empty -> {
 
+                        }
+                    }
                 }
             }
         }

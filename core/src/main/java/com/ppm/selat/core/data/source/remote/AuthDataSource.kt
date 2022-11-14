@@ -1,6 +1,7 @@
 package com.ppm.selat.core.data.source.remote
 
 import android.util.Log
+import com.google.firebase.FirebaseException
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
@@ -21,6 +22,8 @@ class AuthDataSource (private val firebaseAuth: FirebaseAuth){
                 emit(FirebaseResponse.Success(authResult))
             } catch (e: FirebaseAuthException) {
                 emit(FirebaseResponse.Error(e.errorCode))
+            } catch (e: FirebaseException) {
+                emit(FirebaseResponse.Error(e.message.toString()))
             }
         }
     }
@@ -32,6 +35,8 @@ class AuthDataSource (private val firebaseAuth: FirebaseAuth){
                 emit(FirebaseResponse.Success(authResult))
             } catch (e: FirebaseAuthException) {
                 emit(FirebaseResponse.Error(e.errorCode))
+            } catch (e: FirebaseException) {
+                emit(FirebaseResponse.Error(e.message.toString()))
             }
         }
     }
@@ -42,6 +47,8 @@ class AuthDataSource (private val firebaseAuth: FirebaseAuth){
                 firebaseAuth.signOut()
                 emit(FirebaseResponse.Success(true))
             } catch (e: FirebaseAuthException){
+                emit(FirebaseResponse.Error(e.message.toString()))
+            } catch (e: FirebaseException) {
                 emit(FirebaseResponse.Error(e.message.toString()))
             }
         }.flowOn(Dispatchers.IO)
@@ -54,6 +61,8 @@ class AuthDataSource (private val firebaseAuth: FirebaseAuth){
                 emit(FirebaseResponse.Success(true))
             } catch (e: FirebaseAuthException) {
                 emit(FirebaseResponse.Error(e.errorCode))
+            } catch (e: FirebaseException) {
+                emit(FirebaseResponse.Error(e.message.toString()))
             }
         }
     }
@@ -65,6 +74,8 @@ class AuthDataSource (private val firebaseAuth: FirebaseAuth){
                 emit(FirebaseResponse.Success(true))
             } catch (e: FirebaseAuthException) {
                 emit(FirebaseResponse.Error(e.errorCode))
+            } catch (e: FirebaseException) {
+                emit(FirebaseResponse.Error(e.message.toString()))
             }
         }
     }

@@ -163,7 +163,7 @@ class HomeActivity : AppCompatActivity() {
                 expandSuv.visibility = View.VISIBLE
                 expandSedan.visibility = View.VISIBLE
             }
-            homeViewModel.getAllCars.observe(this) { result ->
+            homeViewModel.getAllCars().observe(this) { result ->
                 if (result != null) {
                     when (result) {
                         is Resource.Success -> {
@@ -183,7 +183,6 @@ class HomeActivity : AppCompatActivity() {
                                 topMargin = 30
                             }
 
-
                             binding.errorMessage.visibility = View.GONE
                             if (sedanData.isEmpty()) {
                                 Log.d("HomeActivity", "SEDAN KOSONG")
@@ -194,7 +193,9 @@ class HomeActivity : AppCompatActivity() {
                                 binding.loadSedanCar.visibility = View.GONE
                                 binding.rvListSedan.visibility = View.VISIBLE
                             }
+
                             if (suvData.isEmpty()) {
+                                errorPage()
                                 Log.d("HomeActivity", "SUV KOSONG")
                             } else {
                                 Log.d("HomeActivity", suvData.size.toString())
@@ -202,8 +203,8 @@ class HomeActivity : AppCompatActivity() {
                                 binding.rvListSuv.adapter = listSuvAdapter
                                 binding.loadSuvCar.visibility = View.GONE
                                 binding.rvListSuv.visibility = View.VISIBLE
+                                setUpAdapterNext()
                             }
-                            setUpAdapterNext()
                         }
                         is Resource.Loading -> {
                             binding.rvListSedan.visibility = View.GONE
@@ -217,23 +218,27 @@ class HomeActivity : AppCompatActivity() {
                             }
                         }
                         is Resource.Error -> {
-                            binding.errorMessage.visibility = View.VISIBLE
+                            errorPage()
                         }
                     }
                 }
             }
         } else {
-            with(binding) {
-                sedanText.visibility = View.GONE
-                suvText.visibility = View.GONE
-                expandSuv.visibility = View.GONE
-                expandSedan.visibility = View.GONE
-                rvListSedan.visibility = View.GONE
-                loadSedanCar.visibility = View.GONE
-                loadSuvCar.visibility = View.GONE
-                rvListSuv.visibility = View.GONE
-                errorMessage.visibility = View.VISIBLE
-            }
+            errorPage()
+        }
+    }
+
+    private fun errorPage() {
+        with(binding) {
+            sedanText.visibility = View.GONE
+            suvText.visibility = View.GONE
+            expandSuv.visibility = View.GONE
+            expandSedan.visibility = View.GONE
+            rvListSedan.visibility = View.GONE
+            loadSedanCar.visibility = View.GONE
+            loadSuvCar.visibility = View.GONE
+            rvListSuv.visibility = View.GONE
+            errorMessage.visibility = View.VISIBLE
         }
     }
 
