@@ -16,10 +16,10 @@ class PaymentRepository(
     private val carFirestoreDataSource: CarFirestoreDataSource,
 ) :
     IPaymentRepository {
-    override fun addOrder(orderData: OrderData): Flow<Resource<Boolean>> {
+    override fun addOrder(orderData: OrderData): Flow<Resource<OrderData>> {
         return flow {
             emit(Resource.Loading())
-            val getDataAvailable = carFirestoreDataSource.getAvailableCar(orderData.id)
+            val getDataAvailable = carFirestoreDataSource.getAvailableCar(orderData.idCar)
             when (getDataAvailable.first()) {
                 0 -> {
                     emit(Resource.Error("EMPTY"))
@@ -28,7 +28,7 @@ class PaymentRepository(
                     val orderProcess = paymentDataSource.addOrder(orderData, authDataSource.getUidUser())
                     when (val result = orderProcess.first()) {
                         is FirebaseResponse.Success -> {
-                            emit(Resource.Success(true))
+                            emit(Resource.Success(orderData))
                         }
                         is FirebaseResponse.Error -> {
                             emit(Resource.Error(result.errorMessage))

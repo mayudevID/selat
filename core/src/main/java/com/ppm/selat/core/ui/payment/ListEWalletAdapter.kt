@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ppm.selat.core.R
 import com.ppm.selat.core.domain.model.DataTypePay
+import com.ppm.selat.core.utils.setLogoEWallet
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
@@ -58,16 +59,5 @@ class ListEWalletAdapter(private val listEWallet: ArrayList<DataTypePay>) :
 
     override fun getItemCount(): Int {
         return listEWallet.size
-    }
-
-    private fun setLogoEWallet(name: String): Int {
-        when (name) {
-            "GOPAY" -> {
-                return R.drawable.gopay_logo
-            }
-            else -> {
-                return R.drawable.mastercard_logo
-            }
-        }
     }
 }

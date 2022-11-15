@@ -19,7 +19,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,13 +34,14 @@ import com.ppm.selat.core.domain.model.DataTypePay
 import com.ppm.selat.core.ui.payment.ListCardAdapter
 import com.ppm.selat.core.ui.payment.ListEWalletAdapter
 import com.ppm.selat.core.utils.AESEncryption
+import com.ppm.selat.core.utils.setLogoEWallet
 import com.ppm.selat.databinding.ActivityPaymentBinding
 import com.ppm.selat.finish_payment.FinishPaymentActivity
 import com.ppm.selat.startLoadingDialog
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class PaymentActivity : AppCompatActivity() {
@@ -52,6 +52,8 @@ class PaymentActivity : AppCompatActivity() {
     private lateinit var carData: Car
     private lateinit var kursIndonesia1: DecimalFormat
     private lateinit var formatRp1: DecimalFormatSymbols
+    private lateinit var kursIndonesia2: DecimalFormat
+    private lateinit var formatRp2: DecimalFormatSymbols
     private lateinit var listCardAdapter: ListCardAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -105,9 +107,8 @@ class PaymentActivity : AppCompatActivity() {
     }
 
     private fun setUpListener() {
-
-        val kursIndonesia2: DecimalFormat = DecimalFormat.getCurrencyInstance() as DecimalFormat
-        val formatRp2 = DecimalFormatSymbols()
+        kursIndonesia2 = DecimalFormat.getCurrencyInstance() as DecimalFormat
+        formatRp2 = DecimalFormatSymbols()
 
         formatRp2.currencySymbol = "Rp"
         formatRp2.monetaryDecimalSeparator = ','
@@ -188,7 +189,7 @@ class PaymentActivity : AppCompatActivity() {
             }
         }
 
-        binding.selectEWallet.setOnClickListener {
+        binding.selectedEWallet.setOnClickListener {
             showDialogEWallet()
         }
     }
@@ -289,6 +290,8 @@ class PaymentActivity : AppCompatActivity() {
             override fun onItemClicked(data: DataTypePay) {
                 listCardAdapter.changedCardToEWallet()
                 binding.borderSelectedEWallet.visibility = View.VISIBLE
+                binding.selectedEWalletBalance.text = "Saldo ${kursIndonesia2.format(data.value).split(",")[0]}"
+                binding.logoSelectedEWallet.setImageResource(setLogoEWallet(data.name))
                 paymentViewModel.dataTypePay.value = data
                 dialog.dismiss()
             }
@@ -310,7 +313,7 @@ class PaymentActivity : AppCompatActivity() {
                             loadDialog.dismiss()
                             val intent =
                                 Intent(this@PaymentActivity, FinishPaymentActivity::class.java)
-                            intent.putExtra("ORDER_DATA", paymentViewModel.orderData)
+                            intent.putExtra("ORDER_DATA", result.data)
                             startActivity(intent)
                         }
                         is Resource.Error -> {

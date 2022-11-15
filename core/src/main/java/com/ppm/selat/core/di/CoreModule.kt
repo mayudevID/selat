@@ -56,6 +56,7 @@ val repositoryModule = module {
         PaymentRepository(
             get(),
             get(),
+            get(),
         )
     }
 }

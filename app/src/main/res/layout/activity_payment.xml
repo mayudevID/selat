@@ -134,7 +134,7 @@
                 android:layout_height="wrap_content"/>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/select_e_wallet"
+                android:id="@+id/selected_e_wallet"
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
                 android:layout_marginHorizontal="36dp"
@@ -156,20 +156,20 @@
                         android:layout_height="match_parent"/>
 
                     <ImageView
-                        android:id="@+id/logo"
+                        android:id="@+id/logo_selected_e_wallet"
                         android:layout_width="40dp"
                         android:layout_height="44dp"
                         android:layout_marginStart="22dp"
-                        android:src="@drawable/gopay_logo"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
+                        android:id="@+id/selected_e_wallet_balance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="Balance 51.230"
+                        android:text="Pilih Pembayaran"
                         android:textColor="@color/black"
                         android:textSize="14sp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -183,9 +183,9 @@
                         android:layout_marginEnd="22dp"
                         android:rotation="90"
                         android:src="@drawable/expand_type"
-                        app:layout_constraintBottom_toBottomOf="@id/logo"
+                        app:layout_constraintBottom_toBottomOf="@id/logo_selected_e_wallet"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/logo" />
+                        app:layout_constraintTop_toTopOf="@id/logo_selected_e_wallet" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -197,7 +197,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="38dp"
                 android:background="@drawable/bg_payment_detail"
-                app:layout_constraintTop_toBottomOf="@+id/select_e_wallet">
+                app:layout_constraintTop_toBottomOf="@+id/selected_e_wallet">
 
                 <TextView
                     android:fontFamily="@font/montserrat_regular"

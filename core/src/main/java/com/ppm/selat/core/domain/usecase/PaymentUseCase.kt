@@ -5,7 +5,7 @@ import com.ppm.selat.core.domain.model.OrderData
 import kotlinx.coroutines.flow.Flow
 
 interface PaymentUseCase {
-    fun addOrder(orderData: OrderData) : Flow<Resource<Boolean>>
+    fun addOrder(orderData: OrderData) : Flow<Resource<OrderData>>
     fun getHistoryPayment() : Flow<Resource<List<OrderData>>>
     fun getPaymentData() : Flow<Resource<OrderData>>
 }
