@@ -3,22 +3,19 @@ package com.ppm.selat.core.data
 import android.content.ContentResolver
 import android.content.res.Resources
 import android.net.Uri
-import android.text.InputType
 import android.util.Log
-import android.view.View
 import com.ppm.selat.core.R
 import com.ppm.selat.core.data.source.local.UserLocalDataSource
 import com.ppm.selat.core.data.source.remote.AuthDataSource
 import com.ppm.selat.core.data.source.remote.UserFirestoreDataSource
 import com.ppm.selat.core.data.source.remote.StorageDataSource
-import com.ppm.selat.core.data.source.remote.response.FirebaseResponse
+import com.ppm.selat.core.data.source.remote.network.FirebaseResponse
 import com.ppm.selat.core.domain.model.LoginData
 import com.ppm.selat.core.domain.model.RegisterData
 import com.ppm.selat.core.domain.model.UserData
 import com.ppm.selat.core.domain.repository.IAuthRepository
 import com.ppm.selat.core.utils.TypeDataEdit
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 
@@ -331,7 +328,25 @@ class AuthRepository(
     override fun getPassword(): Flow<Resource<String>> {
         return flow {
             emit(Resource.Loading())
-            val getData = userFirestoreDataSource.getPassword(authDataSource.getUidUser())
+            val getData = userLocalDataSource.getPassword()
+            when (val result = getData.first()) {
+                is Resource.Success -> {
+                    emit(Resource.Success(result.data!!))
+                }
+                is Resource.Error -> {
+                    emit(Resource.Error(result.message.toString()))
+                }
+                is Resource.Loading -> {
+
+                }
+            }
+        }
+    }
+
+    override fun getPIN(): Flow<Resource<String>> {
+        return flow {
+            emit(Resource.Loading())
+            val getData = userFirestoreDataSource.getPIN(authDataSource.getUidUser())
             when (val result = getData.first()) {
                 is FirebaseResponse.Success -> {
                     emit(Resource.Success(result.data))
@@ -344,10 +359,10 @@ class AuthRepository(
         }
     }
 
-    override fun getPIN(): Flow<Resource<String>> {
+    override fun setPIN(PIN: String): Flow<Resource<Boolean>> {
         return flow {
             emit(Resource.Loading())
-            val getData = userFirestoreDataSource.getPIN(authDataSource.getUidUser())
+            val getData = userFirestoreDataSource.setPIN(PIN, authDataSource.getUidUser())
             when (val result = getData.first()) {
                 is FirebaseResponse.Success -> {
                     emit(Resource.Success(result.data))

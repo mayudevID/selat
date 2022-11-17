@@ -34,10 +34,13 @@ import com.ppm.selat.core.domain.model.DataTypePay
 import com.ppm.selat.core.ui.payment.ListCardAdapter
 import com.ppm.selat.core.ui.payment.ListEWalletAdapter
 import com.ppm.selat.core.utils.AESEncryption
+import com.ppm.selat.core.utils.isNetworkAvailable
 import com.ppm.selat.core.utils.setLogo
 import com.ppm.selat.databinding.ActivityPaymentBinding
 import com.ppm.selat.finish_payment.FinishPaymentActivity
 import com.ppm.selat.startLoadingDialog
+import com.ppm.selat.widget.convertCode
+import com.ppm.selat.widget.onSnackError
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
@@ -160,13 +163,13 @@ class PaymentActivity : AppCompatActivity() {
         binding.payNowButton.setOnClickListener {
             if (pinAttempt < 4) {
                 if (binding.warningValue.visibility == View.VISIBLE) {
-                    onSnackError("Mohon pilih metode pembayaran dan pastikan saldo cukup")
+                    onSnackError("Mohon pilih metode pembayaran dan pastikan saldo cukup", binding.root, applicationContext)
                 } else {
                     showPinConfirm()
                     pinAttempt++
                 }
             } else {
-                onSnackError("Pembayaran Gagal. Harap kembali dari laman ini dan coba kembali ")
+                onSnackError("Pembayaran Gagal. Harap kembali dari laman ini dan coba kembali ", binding.root, applicationContext)
             }
         }
 
@@ -325,7 +328,7 @@ class PaymentActivity : AppCompatActivity() {
             }
         }
 
-        if (isNetworkAvailable()) {
+        if (isNetworkAvailable(this@PaymentActivity)) {
             val loadDialog = startLoadingDialog("Sedang memproses...", this)
             paymentViewModel.getPIN().observe(this) { result ->
                 if (result != null) {
@@ -343,7 +346,7 @@ class PaymentActivity : AppCompatActivity() {
                                     onSnackErrorDialog("PIN Salah, coba kembali", dialogView)
                                     pinAttempt++
                                 } else {
-                                    onSnackError("Pembayaran Gagal. Harap kembali dari laman ini dan coba kembali ")
+                                    onSnackError("Pembayaran Gagal. Harap kembali dari laman ini dan coba kembali ", binding.root, applicationContext)
                                 }
                             }
                         }
@@ -359,7 +362,7 @@ class PaymentActivity : AppCompatActivity() {
                 }
             }
         } else {
-            onSnackError("Tidak dapat terhubung ke internet")
+            onSnackError("Tidak dapat terhubung ke internet", binding.root, applicationContext)
         }
     }
 
@@ -433,29 +436,6 @@ class PaymentActivity : AppCompatActivity() {
         return dialogView
     }
 
-    private fun isNetworkAvailable(): Boolean {
-        val connectivityManager: ConnectivityManager =
-            this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        return connectivityManager.activeNetworkInfo != null && connectivityManager.activeNetworkInfo!!
-            .isConnected
-    }
-
-    private fun onSnackError(errorMessage: String) {
-        val snackbar = Snackbar.make(
-            binding.root, convertCode(errorMessage),
-            Snackbar.LENGTH_LONG
-        ).setAction("Action", null)
-        val snackbarView = snackbar.view
-
-        val textView =
-            snackbarView.findViewById(com.google.android.material.R.id.snackbar_text) as TextView
-        textView.setTextColor(Color.WHITE)
-        val typeface = ResourcesCompat.getFont(applicationContext, R.font.montserrat_medium)
-        textView.typeface = typeface
-        textView.textSize = 12f
-        snackbar.show()
-    }
-
     private fun onSnackErrorDialog(errorMessage: String, dialogView: View) {
         val snackbar = Snackbar.make(
             this@PaymentActivity, dialogView, convertCode(errorMessage),
@@ -476,22 +456,5 @@ class PaymentActivity : AppCompatActivity() {
         snackbarLayout.layoutParams = layoutParams
 
         snackbar.show()
-    }
-
-    private fun convertCode(errorCode: String): String {
-        return when (errorCode) {
-            "ERROR_WRONG_PASSWORD", "ERROR_USER_NOT_FOUND" -> {
-                "Email tidak ditemukan/tidak terdaftar"
-            }
-            "ERROR_INVALID_EMAIL" -> {
-                "Email tidak valid"
-            }
-            "ERROR_EMAIL_ALREADY_IN_USE" -> {
-                "Email sudah terdaftar"
-            }
-            else -> {
-                errorCode
-            }
-        }
     }
 }

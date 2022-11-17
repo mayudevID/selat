@@ -1,18 +1,13 @@
 package com.ppm.selat.core.data.source.remote
 
-import android.util.Log
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
-import com.google.firebase.auth.FirebaseUser
-import com.ppm.selat.core.data.Resource
-import com.ppm.selat.core.data.source.remote.response.FirebaseResponse
+import com.ppm.selat.core.data.source.remote.network.FirebaseResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.tasks.await
-import javax.inject.Inject
-import javax.inject.Singleton
 
 class AuthDataSource (private val firebaseAuth: FirebaseAuth){
     suspend fun loginToFirebase(email: String, password: String): Flow<FirebaseResponse<AuthResult>> {

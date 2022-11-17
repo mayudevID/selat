@@ -1,16 +1,12 @@
 package com.ppm.selat.core.data.source.remote
 
 import android.net.Uri
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageException
-import com.ppm.selat.core.data.source.remote.response.FirebaseResponse
-import io.grpc.internal.SharedResourceHolder.Resource
+import com.ppm.selat.core.data.source.remote.network.FirebaseResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
-import javax.inject.Inject
-import javax.inject.Singleton
 
 class StorageDataSource (
     private val firebaseStorage: FirebaseStorage,

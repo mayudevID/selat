@@ -18,6 +18,7 @@ import com.ppm.selat.R
 import com.ppm.selat.core.data.Resource
 import com.ppm.selat.core.utils.emailPattern
 import com.ppm.selat.databinding.ActivityResetPasswordBinding
+import com.ppm.selat.widget.onSnackError
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -67,7 +68,7 @@ class ResetPasswordActivity : AppCompatActivity() {
             imm.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)
 
             if (resetPasswordViewModel.emailInput.value == "") {
-                onSnackError("Mohon isi email")
+                onSnackError("Mohon isi email", binding.root, applicationContext)
             } else {
                 resetPasswordViewModel.resetPassword().observe(this) { result ->
                     if (result != null) {
@@ -94,7 +95,7 @@ class ResetPasswordActivity : AppCompatActivity() {
                             }
                             is Resource.Error -> {
                                 Log.d("ResetPasswordActivity", result.message.toString())
-                                onSnackError(result.message.toString())
+                                onSnackError(result.message.toString(), binding.root, applicationContext)
                             }
                             is Resource.Loading -> {
 
@@ -107,39 +108,6 @@ class ResetPasswordActivity : AppCompatActivity() {
 
         binding.backButton.setOnClickListener {
             finish()
-        }
-    }
-
-    private fun onSnackError(errorMessage: String) {
-        val snackbar = Snackbar.make(
-            binding.root, convertCode(errorMessage),
-            Snackbar.LENGTH_LONG
-        ).setAction("Action", null)
-        val snackbarView = snackbar.view
-
-        val textView =
-            snackbarView.findViewById(com.google.android.material.R.id.snackbar_text) as TextView
-        textView.setTextColor(Color.WHITE)
-        val typeface = ResourcesCompat.getFont(applicationContext, R.font.montserrat_medium)
-        textView.typeface = typeface
-        textView.textSize = 12f
-        snackbar.show()
-    }
-
-    private fun convertCode(errorCode: String): String {
-        return when (errorCode) {
-            "ERROR_WRONG_PASSWORD", "ERROR_USER_NOT_FOUND" -> {
-                "Email tidak ditemukan/tidak terdaftar"
-            }
-            "ERROR_INVALID_EMAIL" -> {
-                "Email tidak valid"
-            }
-            "ERROR_EMAIL_ALREADY_IN_USE" -> {
-                "Email sudah terdaftar"
-            }
-            else -> {
-                errorCode
-            }
         }
     }
 }

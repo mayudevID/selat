@@ -85,6 +85,8 @@ class DetailCarActivity : AppCompatActivity() {
                 logoBrand.setImageResource(R.drawable.honda_detail_logo)
             } else if (carData.carManufacturer == "Suzuki") {
                 logoBrand.setImageResource(R.drawable.suzuki_detail_logo)
+            } else if (carData.carManufacturer == "Nissan") {
+                logoBrand.setImageResource(R.drawable.nissan_only_logo)
             }
 
             detailCarViewModel.getAvailableCar(carData.id).observe(this@DetailCarActivity) {

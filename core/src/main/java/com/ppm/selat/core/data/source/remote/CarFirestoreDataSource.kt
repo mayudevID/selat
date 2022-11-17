@@ -2,10 +2,9 @@ package com.ppm.selat.core.data.source.remote
 
 import com.google.firebase.firestore.*
 import com.ppm.selat.core.utils.Manufacturer
-import com.ppm.selat.core.data.source.remote.response.FirebaseResponse
+import com.ppm.selat.core.data.source.remote.network.FirebaseResponse
 import com.ppm.selat.core.data.source.snapshotFlow
 import com.ppm.selat.core.utils.convertManufacturerToString
-import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.tasks.await
 

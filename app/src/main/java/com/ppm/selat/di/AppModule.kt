@@ -3,6 +3,7 @@ package com.ppm.selat.di
 import com.ppm.selat.auth.login.LoginViewModel
 import com.ppm.selat.auth.register.RegisterViewModel
 import com.ppm.selat.auth.reset_password.ResetPasswordViewModel
+import com.ppm.selat.change_password.ChangePasswordViewModel
 import com.ppm.selat.core.domain.usecase.*
 import com.ppm.selat.detail_car.DetailCarViewModel
 import com.ppm.selat.detail_profile.DetailProfileViewModel
@@ -13,6 +14,7 @@ import com.ppm.selat.payment.PaymentViewModel
 import com.ppm.selat.pick_car.PickCarViewModel
 import com.ppm.selat.profile.ProfileViewModel
 import com.ppm.selat.search_car.SearchCarViewModel
+import com.ppm.selat.set_pin.SetPinViewModel
 import com.ppm.selat.splash.SplashViewModel
 import com.ppm.selat.transaction.TransactionViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -31,6 +33,7 @@ val viewModelModule = module {
     viewModel { ResetPasswordViewModel(get()) }
     viewModel { HomeViewModel(get(), get()) }
     viewModel { ProfileViewModel(get()) }
+    viewModel { SetPinViewModel(get()) }
     viewModel { EditProfileViewModel(get()) }
     viewModel { DetailCarViewModel(get()) }
     viewModel { PaymentViewModel(get(), get()) }
@@ -39,4 +42,5 @@ val viewModelModule = module {
     viewModel { PickCarViewModel(get()) }
     viewModel { SearchCarViewModel(get()) }
     viewModel { TransactionViewModel(get()) }
+    viewModel { ChangePasswordViewModel(get()) }
 }

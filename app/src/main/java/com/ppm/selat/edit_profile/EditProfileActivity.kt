@@ -20,12 +20,10 @@ import androidx.core.widget.doAfterTextChanged
 import com.google.android.material.snackbar.Snackbar
 import com.ppm.selat.R
 import com.ppm.selat.core.data.Resource
-import com.ppm.selat.core.utils.AESEncryption
-import com.ppm.selat.core.utils.TypeDataEdit
-import com.ppm.selat.core.utils.emailPattern
-import com.ppm.selat.core.utils.getEnumExtra
+import com.ppm.selat.core.utils.*
 import com.ppm.selat.databinding.ActivityEditProfileBinding
 import com.ppm.selat.startLoadingDialog
+import com.ppm.selat.widget.onSnackError
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -175,23 +173,23 @@ class EditProfileActivity : AppCompatActivity() {
         }
 
         binding.saveButton.setOnClickListener {
-            dismissKeyboard()
+            dismissKeyboard(this@EditProfileActivity)
             if (editProfileViewModel.textValue.isEmpty() || editProfileViewModel.textValue == "") {
                 when (editProfileViewModel.editMode) {
                     TypeDataEdit.NAME -> {
-                        onSnackError("Mohon isi data")
+                        onSnackError("Mohon isi data", binding.root, applicationContext)
                     }
                     TypeDataEdit.EMAIL -> {
-                        onSnackError("Mohon isi data")
+                        onSnackError("Mohon isi data", binding.root, applicationContext)
                     }
                     TypeDataEdit.ADDRESS -> {
-                        onSnackError("Mohon isi data")
+                        onSnackError("Mohon isi data", binding.root, applicationContext)
                     }
                     TypeDataEdit.PHONE -> {
-                        onSnackError("Mohon isi data")
+                        onSnackError("Mohon isi data", binding.root, applicationContext)
                     }
                     TypeDataEdit.PDOB -> {
-                        onSnackError("Mohon isi data")
+                        onSnackError("Mohon isi data", binding.root, applicationContext)
                     }
                     else -> {
                         sendData()
@@ -203,7 +201,7 @@ class EditProfileActivity : AppCompatActivity() {
                 } else if (editProfileViewModel.editMode == TypeDataEdit.PDOB) {
                     val dateTemp = editProfileViewModel.dateBirth
                     if (dateTemp.isEmpty() || dateTemp == "") {
-                        onSnackError("Mohon isi data tempat dan tanggal lahir")
+                        onSnackError("Mohon isi data tempat dan tanggal lahir", binding.root, applicationContext)
                     } else {
                         sendData()
                     }
@@ -217,7 +215,7 @@ class EditProfileActivity : AppCompatActivity() {
 
     private fun sendData() {
         Log.d("EditProfileActivity", "CALL SEND DATA")
-        if (isNetworkAvailable()) {
+        if (isNetworkAvailable(this@EditProfileActivity)) {
             val dialog = startLoadingDialog("Simpan...", this)
             editProfileViewModel.updateProfile().observe(this) { result ->
                 if (result != null) {
@@ -229,14 +227,14 @@ class EditProfileActivity : AppCompatActivity() {
                             finish()
                         }
                         is Resource.Error -> {
-                            onSnackError(result.message!!)
+                            onSnackError(result.message!!, binding.root, applicationContext)
                             dialog.dismiss()
                         }
                     }
                 }
             }
         } else {
-            onSnackError("Tidak dapat terhubung ke internet")
+            onSnackError("Tidak dapat terhubung ke internet", binding.root, applicationContext)
         }
     }
 
@@ -251,7 +249,7 @@ class EditProfileActivity : AppCompatActivity() {
                             finish()
                         }
                         is Resource.Error -> {
-                            onSnackError(result.message!!)
+                            onSnackError(result.message!!, binding.root, applicationContext)
                             loadDialog.dismiss()
                         }
                         is Resource.Loading -> {
@@ -262,7 +260,7 @@ class EditProfileActivity : AppCompatActivity() {
             }
         }
 
-        if (isNetworkAvailable()) {
+        if (isNetworkAvailable(this@EditProfileActivity)) {
             val loadDialog = startLoadingDialog("Sedang memproses...", this)
             editProfileViewModel.getPassword().observe(this) { result ->
                 if (result != null) {
@@ -271,13 +269,13 @@ class EditProfileActivity : AppCompatActivity() {
                             if (password == result.data) {
                                 processingUpdateEmail(loadDialog)
                             } else {
-                                onSnackError(result.message!!)
+                                onSnackError(result.message!!, binding.root, applicationContext)
                                 loadDialog.dismiss()
                                 showPasswordConfirm()
                             }
                         }
                         is Resource.Error -> {
-                            onSnackError(result.message!!)
+                            onSnackError(result.message!!, binding.root, applicationContext)
                             loadDialog.dismiss()
                             showPasswordConfirm()
                         }
@@ -286,7 +284,7 @@ class EditProfileActivity : AppCompatActivity() {
                 }
             }
         } else {
-            onSnackError("Tidak dapat terhbung ke internet")
+            onSnackError("Tidak dapat terhbung ke internet", binding.root, applicationContext)
         }
     }
 
@@ -351,50 +349,6 @@ class EditProfileActivity : AppCompatActivity() {
 
         cancel.setOnClickListener {
             customDialog.dismiss()
-        }
-    }
-
-    private fun isNetworkAvailable(): Boolean {
-        val connectivityManager: ConnectivityManager =
-            this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo()!!
-            .isConnected()
-    }
-
-    private fun dismissKeyboard() {
-        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)
-    }
-
-    private fun onSnackError(errorMessage: String) {
-        val snackbar = Snackbar.make(
-            binding.root, convertCode(errorMessage), Snackbar.LENGTH_LONG
-        ).setAction("Action", null)
-        val snackbarView = snackbar.view
-
-        val textView =
-            snackbarView.findViewById(com.google.android.material.R.id.snackbar_text) as TextView
-        textView.setTextColor(Color.WHITE)
-        val typeface = ResourcesCompat.getFont(applicationContext, R.font.montserrat_medium)
-        textView.typeface = typeface
-        textView.textSize = 12f
-        snackbar.show()
-    }
-
-    private fun convertCode(errorCode: String): String {
-        return when (errorCode) {
-            "ERROR_WRONG_PASSWORD", "ERROR_USER_NOT_FOUND" -> {
-                "Email atau password salah"
-            }
-            "ERROR_INVALID_EMAIL" -> {
-                "Email tidak valid"
-            }
-            "ERROR_EMAIL_ALREADY_IN_USE" -> {
-                "Email sudah terdaftar"
-            }
-            else -> {
-                errorCode
-            }
         }
     }
 }

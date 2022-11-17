@@ -3,11 +3,11 @@ package com.ppm.selat.core.data
 import com.ppm.selat.core.utils.Manufacturer
 import com.ppm.selat.core.utils.TypeCar
 import com.ppm.selat.core.data.source.remote.CarFirestoreDataSource
-import com.ppm.selat.core.data.source.remote.response.FirebaseResponse
+import com.ppm.selat.core.data.source.remote.network.FirebaseResponse
 import com.ppm.selat.core.domain.model.Car
-import com.ppm.selat.core.domain.model.documentSnapshotToCar
 import com.ppm.selat.core.domain.repository.ICarRepository
 import com.ppm.selat.core.utils.convertTypeCarToString
+import com.ppm.selat.core.utils.documentSnapshotToCar
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow

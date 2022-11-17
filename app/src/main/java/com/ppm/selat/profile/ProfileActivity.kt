@@ -22,6 +22,7 @@ import com.canhub.cropper.options
 import com.ppm.selat.R
 import com.ppm.selat.auth.login.LoginActivity
 import com.ppm.selat.core.data.Resource
+import com.ppm.selat.core.utils.isNetworkAvailable
 import com.ppm.selat.databinding.ActivityProfileBinding
 import com.ppm.selat.detail_profile.DetailProfileActivity
 import com.ppm.selat.security.SecurityActivity
@@ -125,7 +126,7 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun changeProfilePicture(photo: Uri) {
-        if (isNetworkAvailable()) {
+        if (isNetworkAvailable(this@ProfileActivity)) {
             val dialogLoading = startLoadingDialog("Simpan foto...", this)
             profileViewModel.photoFlow.value = photo
             profileViewModel.saveNewProfile().observe(this) { result ->
@@ -223,13 +224,6 @@ class ProfileActivity : AppCompatActivity() {
             }
         }
         dialog.show()
-    }
-
-    private fun isNetworkAvailable(): Boolean {
-        val connectivityManager: ConnectivityManager =
-            this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        return connectivityManager.activeNetworkInfo != null && connectivityManager.activeNetworkInfo!!
-            .isConnected
     }
 
     override fun onBackPressed() {

@@ -17,18 +17,15 @@ import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.ppm.selat.core.utils.Manufacturer
-import com.ppm.selat.core.utils.TypeCar
 import com.ppm.selat.core.data.Resource
 import com.ppm.selat.core.ui.home.ListCarManufacturerAdapter
 import com.ppm.selat.core.ui.home.ListSedanAdapter
 import com.ppm.selat.core.ui.home.ListSuvAdapter
 import com.ppm.selat.databinding.ActivityHomeBinding
 import com.ppm.selat.core.domain.model.Car
-import com.ppm.selat.core.utils.convertStringToManufacturer
+import com.ppm.selat.core.utils.*
 import com.ppm.selat.detail_car.DetailCarActivity
 import com.ppm.selat.profile.ProfileActivity
-import com.ppm.selat.core.utils.putExtra
 import com.ppm.selat.pick_car.PickCarActivity
 import com.ppm.selat.search_car.SearchCarActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -156,7 +153,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun getDataSedanSUV() {
-        if (isNetworkAvailable()) {
+        if (isNetworkAvailable(this@HomeActivity)) {
             with(binding) {
                 sedanText.visibility = View.VISIBLE
                 suvText.visibility = View.VISIBLE
@@ -315,12 +312,5 @@ class HomeActivity : AppCompatActivity() {
             )
             start()
         }
-    }
-
-    private fun isNetworkAvailable(): Boolean {
-        val connectivityManager: ConnectivityManager =
-            this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        return connectivityManager.activeNetworkInfo != null && connectivityManager.activeNetworkInfo!!
-            .isConnected
     }
 }

@@ -24,6 +24,7 @@ import com.ppm.selat.core.data.Resource
 import com.ppm.selat.core.utils.emailPattern
 import com.ppm.selat.databinding.ActivityLoginBinding
 import com.ppm.selat.home.HomeActivity
+import com.ppm.selat.widget.onSnackError
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -115,9 +116,9 @@ class LoginActivity : AppCompatActivity() {
             val password = loginViewModel.passwordFlow.value
 
             if (email == "" ) {
-                onSnackError("Mohon isi email")
+                onSnackError("Mohon isi email", binding.root, applicationContext)
             } else if (password == "") {
-                onSnackError("Mohon isi password")
+                onSnackError("Mohon isi password", binding.root, applicationContext)
             } else {
                 loginViewModel.loginAccount().observe(this) { result ->
                     if (result != null) {
@@ -136,7 +137,7 @@ class LoginActivity : AppCompatActivity() {
                                 binding.loginButton.visibility = View.VISIBLE
                                 binding.loadingLogo.visibility = View.GONE
                                 Log.d("LoginActivity", result.message.toString())
-                                onSnackError(result.message.toString())
+                                onSnackError(result.message.toString(), binding.root, applicationContext)
                             }
                         }
                     }
@@ -153,34 +154,6 @@ class LoginActivity : AppCompatActivity() {
         binding.forgotPasswordText.setOnClickListener {
             val intent = Intent(this, ResetPasswordActivity::class.java)
             startActivity(intent)
-        }
-    }
-
-    private fun onSnackError(errorMessage: String){
-        val snackbar = Snackbar.make(binding.root, convertCode(errorMessage),
-            Snackbar.LENGTH_LONG).setAction("Action", null)
-        val snackbarView = snackbar.view
-
-        val textView =
-            snackbarView.findViewById(com.google.android.material.R.id.snackbar_text) as TextView
-        textView.setTextColor(Color.WHITE)
-        val typeface = ResourcesCompat.getFont(applicationContext, R.font.montserrat_medium)
-        textView.typeface = typeface
-        textView.textSize = 12f
-        snackbar.show()
-    }
-
-    private fun convertCode(errorCode: String): String {
-        return when (errorCode) {
-            "ERROR_WRONG_PASSWORD", "ERROR_USER_NOT_FOUND" -> {
-                "Email atau password salah"
-            }
-            "ERROR_INVALID_EMAIL" -> {
-                "Email tidak valid"
-            }
-            else -> {
-                errorCode
-            }
         }
     }
 }

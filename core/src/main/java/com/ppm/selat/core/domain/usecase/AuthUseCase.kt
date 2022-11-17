@@ -22,6 +22,7 @@ interface AuthUseCase {
     fun resetPassword(email: String) : Flow<Resource<Boolean>>
     fun getPassword() : Flow<Resource<String>>
     fun getPIN() : Flow<Resource<String>>
+    fun setPIN(PIN: String) : Flow<Resource<Boolean>>
     fun getHistoryLogin() : Flow<Resource<List<List<String>>>>
     fun disablePersistence() : Boolean
 }

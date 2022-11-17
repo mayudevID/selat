@@ -1,6 +1,7 @@
 package com.ppm.selat.core.data
 
-import com.ppm.selat.core.data.source.remote.response.FirebaseResponse
+import com.ppm.selat.core.data.source.remote.network.ApiResponse
+import com.ppm.selat.core.data.source.remote.network.FirebaseResponse
 import kotlinx.coroutines.flow.*
 
 abstract class NetworkBoundResource<ResultType, RequestType> {
@@ -11,20 +12,28 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
         if (shouldFetch(dbSource)) {
             emit(Resource.Loading())
             when (val apiResponse = createCall().first()) {
-                is FirebaseResponse.Success -> {
+                is ApiResponse.Success -> {
                     saveCallResult(apiResponse.data)
-                    emitAll(loadFromDB().map { Resource.Success(it) })
+                    emitAll(loadFromDB().map {
+                        Resource.Success(it)
+                    })
                 }
-                is FirebaseResponse.Empty -> {
-                    emitAll(loadFromDB().map { Resource.Success(it) })
+                is ApiResponse.Empty -> {
+                    emitAll(loadFromDB().map {
+                        Resource.Success(it)
+                    })
                 }
-                is FirebaseResponse.Error -> {
+                is ApiResponse.Error -> {
                     onFetchFailed()
-                    emit(Resource.Error<ResultType>(apiResponse.errorMessage))
+                    emit(
+                        Resource.Error<ResultType>(apiResponse.errorMessage)
+                    )
                 }
             }
         } else {
-            emitAll(loadFromDB().map { Resource.Success(it) })
+            emitAll(loadFromDB().map {
+                Resource.Success(it)
+            })
         }
     }
 
@@ -34,7 +43,7 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
 
     protected abstract fun shouldFetch(data: ResultType?): Boolean
 
-    protected abstract suspend fun createCall(): Flow<FirebaseResponse<RequestType>>
+    protected abstract suspend fun createCall(): Flow<ApiResponse<RequestType>>
 
     protected abstract suspend fun saveCallResult(data: RequestType)
 

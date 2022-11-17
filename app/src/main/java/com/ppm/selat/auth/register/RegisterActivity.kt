@@ -21,9 +21,11 @@ import com.google.android.material.snackbar.Snackbar
 import com.ppm.selat.R
 import com.ppm.selat.core.data.Resource
 import com.ppm.selat.core.utils.AESEncryption
+import com.ppm.selat.core.utils.dismissKeyboard
 import com.ppm.selat.core.utils.emailPattern
 import com.ppm.selat.databinding.ActivityRegisterBinding
 import com.ppm.selat.startLoadingDialog
+import com.ppm.selat.widget.onSnackError
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -158,13 +160,13 @@ class RegisterActivity : AppCompatActivity() {
            val cPasswordX = registerViewModel.cPasswordFlow.value
 
            if (nameX == ""){
-               onSnackError("Mohon isi nama")
+               onSnackError("Mohon isi nama", binding.root, applicationContext)
            } else if (emailX == "" ) {
-               onSnackError("Mohon isi email")
+               onSnackError("Mohon isi email", binding.root, applicationContext)
            } else if (passwordX == "") {
-               onSnackError("Mohon isi password")
+               onSnackError("Mohon isi password", binding.root, applicationContext)
            } else if (cPasswordX == "") {
-               onSnackError("Mohon konfirmasi password")
+               onSnackError("Mohon konfirmasi password", binding.root, applicationContext)
            } else {
                showCreatePin()
            }
@@ -195,7 +197,7 @@ class RegisterActivity : AppCompatActivity() {
                                     }
                                     is Resource.Error -> {
                                         dialogLoading.dismiss()
-                                        onSnackError("Kesalahan: Harap hapus cache data atau reinstall kembali aplikasi")
+                                        onSnackError("Kesalahan: Harap hapus cache data atau reinstall kembali aplikasi", binding.root, applicationContext)
                                     }
                                 }
                             }
@@ -204,7 +206,7 @@ class RegisterActivity : AppCompatActivity() {
                     is Resource.Error<*> -> {
                         dialogLoading.dismiss()
                         Log.d("RegisterActivity", result.message.toString())
-                        onSnackError(result.message.toString())
+                        onSnackError(result.message.toString(), binding.root, applicationContext)
                     }
                 }
             }
@@ -284,7 +286,7 @@ class RegisterActivity : AppCompatActivity() {
                     } else {
                         registerViewModel.PIN.value = PIN_FIRST!!
                         customDialog.dismiss()
-                        dismissKeyboard()
+                        dismissKeyboard(this@RegisterActivity)
                         sendData()
                     }
                 }
@@ -312,42 +314,5 @@ class RegisterActivity : AppCompatActivity() {
             finish()
         }
         customDialog.show()
-    }
-
-    private fun onSnackError(errorMessage: String){
-        val snackbar = Snackbar.make(binding.root, convertCode(errorMessage),
-            Snackbar.LENGTH_LONG).setAction("Action", null)
-        val snackbarView = snackbar.view
-
-        val textView =
-            snackbarView.findViewById(com.google.android.material.R.id.snackbar_text) as TextView
-        textView.setTextColor(Color.WHITE)
-        val typeface = ResourcesCompat.getFont(applicationContext, R.font.montserrat_medium)
-        textView.typeface = typeface
-        textView.textSize = 12f
-        snackbar.show()
-    }
-
-    private fun dismissKeyboard() {
-        val imm =
-            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)
-    }
-
-    private fun convertCode(errorCode: String): String {
-        return when (errorCode) {
-            "ERROR_WRONG_PASSWORD", "ERROR_USER_NOT_FOUND" -> {
-                "Email atau password salah"
-            }
-            "ERROR_INVALID_EMAIL" -> {
-                "Email tidak valid"
-            }
-            "ERROR_EMAIL_ALREADY_IN_USE" -> {
-                "Email sudah terdaftar"
-            }
-            else -> {
-                errorCode
-            }
-        }
     }
 }
