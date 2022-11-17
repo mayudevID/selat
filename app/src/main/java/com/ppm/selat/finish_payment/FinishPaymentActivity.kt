@@ -7,6 +7,7 @@ import android.os.Bundle
 import com.ppm.selat.R
 import com.ppm.selat.core.domain.model.Car
 import com.ppm.selat.core.domain.model.OrderData
+import com.ppm.selat.core.utils.setLogo
 import com.ppm.selat.databinding.ActivityFinishPaymentBinding
 import com.ppm.selat.home.HomeActivity
 import java.text.DecimalFormat
@@ -55,14 +56,7 @@ class FinishPaymentActivity : AppCompatActivity() {
                 startActivity(intent)
                 finishAffinity()
             }
-            when(orderData.paymentTypeName) {
-                "MASTERCARD" -> {
-                    logoPayment.setImageResource(com.ppm.selat.core.R.drawable.mastercard_logo)
-                }
-                "GOPAY" -> {
-                    logoPayment.setImageResource(com.ppm.selat.core.R.drawable.gopay_logo)
-                }
-            }
+            logoPayment.setImageResource(setLogo(orderData.paymentTypeName.split(" ++ ")[1]))
         }
     }
 

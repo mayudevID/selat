@@ -2,13 +2,16 @@ package com.ppm.selat.core.utils
 
 import com.ppm.selat.core.R
 
-fun setLogoEWallet(name: String): Int {
+fun setLogo(name: String): Int {
     return when (name) {
         "GOPAY" -> {
-            R.drawable.gopay_logo
+            com.ppm.selat.core.R.drawable.gopay_logo
+        }
+        "MASTERCARD" -> {
+            com.ppm.selat.core.R.drawable.mastercard_logo
         }
         else -> {
-            R.drawable.mastercard_logo
+            com.ppm.selat.core.R.drawable.fluent_payment_20_filled
         }
     }
 }

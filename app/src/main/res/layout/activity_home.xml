@@ -60,6 +60,7 @@
             </LinearLayout>
 
             <androidx.cardview.widget.CardView
+                android:foreground="?attr/selectableItemBackground"
                 android:alpha="0"
                 android:id="@+id/profile_banner"
                 android:layout_width="match_parent"

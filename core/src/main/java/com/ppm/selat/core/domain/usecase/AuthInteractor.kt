@@ -25,5 +25,6 @@ class AuthInteractor(private val authRepository: IAuthRepository): AuthUseCase {
     override fun resetPassword(email: String) = authRepository.resetPassword(email)
     override fun getPassword() = authRepository.getPassword()
     override fun getPIN() = authRepository.getPIN()
+    override fun getHistoryLogin() = authRepository.getHistoryLogin()
     override fun disablePersistence() = authRepository.disablePersistence()
 }

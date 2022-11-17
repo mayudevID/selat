@@ -34,7 +34,7 @@ class UserFirestoreDataSource(private val firestore: FirebaseFirestore) {
         return flow {
             try {
                 val user = userDb.document(uid).get().await()
-                historyLoginDb.document(uid).set(
+                historyLoginDb.document(uid).update(
                     mapOf(
                         System.currentTimeMillis().toString() to listOf(loginData.lastLogin, loginData.deviceData)
                     )
@@ -150,6 +150,17 @@ class UserFirestoreDataSource(private val firestore: FirebaseFirestore) {
             try {
                 val result = pinDb.document(uid).get().await()
                 emit(FirebaseResponse.Success(result["PIN"].toString()))
+            } catch (e: FirebaseFirestoreException) {
+                emit(FirebaseResponse.Error(e.message.toString()))
+            }
+        }
+    }
+
+    suspend fun getHistoryLogin(uid: String): Flow<FirebaseResponse<DocumentSnapshot>> {
+        return flow {
+            try {
+                val result = historyLoginDb.document(uid).get().await()
+                emit(FirebaseResponse.Success(result))
             } catch (e: FirebaseFirestoreException) {
                 emit(FirebaseResponse.Error(e.message.toString()))
             }

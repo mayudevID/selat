@@ -27,6 +27,7 @@ import com.ppm.selat.detail_profile.DetailProfileActivity
 import com.ppm.selat.security.SecurityActivity
 import com.ppm.selat.startLoadingDialog
 import com.ppm.selat.terms_conditions.TermsConditionsActivity
+import com.ppm.selat.transaction.TransactionActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ProfileActivity : AppCompatActivity() {
@@ -101,6 +102,11 @@ class ProfileActivity : AppCompatActivity() {
             val i = Intent(Intent.ACTION_VIEW)
             i.data = Uri.parse(url)
             startActivity(i)
+        }
+
+        binding.transaksiButton.setOnClickListener {
+            val intent = Intent(this@ProfileActivity, TransactionActivity::class.java)
+            startActivity(intent)
         }
     }
 

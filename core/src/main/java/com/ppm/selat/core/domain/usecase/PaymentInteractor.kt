@@ -9,9 +9,7 @@ import kotlinx.coroutines.flow.Flow
 class PaymentInteractor(private val paymentRepository: IPaymentRepository) : PaymentUseCase {
     override fun addOrder(orderData: OrderData) = paymentRepository.addOrder(orderData)
 
-    override fun getHistoryPayment(): Flow<Resource<List<OrderData>>> {
-        TODO("Not yet implemented")
-    }
+    override fun getHistoryPayment() = paymentRepository.getHistoryPayment()
 
     override fun getPaymentData(): Flow<Resource<OrderData>> {
         TODO("Not yet implemented")

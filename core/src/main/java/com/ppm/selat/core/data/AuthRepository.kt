@@ -337,7 +337,7 @@ class AuthRepository(
                     emit(Resource.Success(result.data))
                 }
                 is FirebaseResponse.Error -> {
-                    emit(Resource.Success(result.errorMessage))
+                    emit(Resource.Error(result.errorMessage))
                 }
                 is FirebaseResponse.Empty -> {}
             }
@@ -353,7 +353,29 @@ class AuthRepository(
                     emit(Resource.Success(result.data))
                 }
                 is FirebaseResponse.Error -> {
-                    emit(Resource.Success(result.errorMessage))
+                    emit(Resource.Error(result.errorMessage))
+                }
+                is FirebaseResponse.Empty -> {}
+            }
+        }
+    }
+
+    override fun getHistoryLogin(): Flow<Resource<List<List<String>>>> {
+        return flow {
+            emit(Resource.Loading())
+            val getData = userFirestoreDataSource.getHistoryLogin(authDataSource.getUidUser())
+            when (val result = getData.first()) {
+                is FirebaseResponse.Success -> {
+                    val dataDoc = result.data.data as Map<*,*>
+                    val dataNew = ArrayList<List<String>>()
+                    dataDoc.map {
+                        val dataTemp = it.value as List<*>
+                        dataNew.add(listOf(dataTemp[0].toString(),  dataTemp[1].toString()))
+                    }
+                    emit(Resource.Success(dataNew))
+                }
+                is FirebaseResponse.Error -> {
+                    emit(Resource.Error(result.errorMessage))
                 }
                 is FirebaseResponse.Empty -> {}
             }

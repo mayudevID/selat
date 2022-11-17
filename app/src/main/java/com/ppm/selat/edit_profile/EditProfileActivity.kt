@@ -1,12 +1,11 @@
 package com.ppm.selat.edit_profile
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.InputType
 import android.util.Log
 import android.view.View
@@ -28,6 +27,8 @@ import com.ppm.selat.core.utils.getEnumExtra
 import com.ppm.selat.databinding.ActivityEditProfileBinding
 import com.ppm.selat.startLoadingDialog
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.text.SimpleDateFormat
+import java.util.*
 
 class EditProfileActivity : AppCompatActivity() {
 
@@ -38,6 +39,14 @@ class EditProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityEditProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val c1 = Calendar.getInstance()
+        c1.add(Calendar.YEAR, -18)
+        binding.datePicker.maxDate = c1.timeInMillis
+
+        val c2 = Calendar.getInstance()
+        c2.add(Calendar.YEAR, -100)
+        binding.datePicker.minDate = c2.timeInMillis
 
         supportActionBar?.hide()
         binding.errorText.text = ""
@@ -59,9 +68,13 @@ class EditProfileActivity : AppCompatActivity() {
             TypeDataEdit.PDOB -> {
                 binding.title.text = "Ubah Tempat Tanggal Lahir"
                 binding.textBase.text = "Tempat Tanggal Lahir"
+
                 binding.editTextBase.visibility = View.GONE
                 binding.editPlaceTextBaseLayout.visibility = View.VISIBLE
                 binding.editPlaceTextBase.hint = "Tempat lahir"
+
+                binding.datePicker.visibility = View.VISIBLE
+                binding.setDateBirth.visibility = View.VISIBLE
             }
             TypeDataEdit.EMAIL -> {
                 binding.title.text = "Ubah Email"
@@ -85,10 +98,25 @@ class EditProfileActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun setUpListener() {
 
         binding.backButtonEdit.setOnClickListener {
             finish()
+        }
+
+        binding.setDateBirth.setOnClickListener {
+            val year: Int = binding.datePicker.year
+            val month: Int = binding.datePicker.month
+            val day: Int = binding.datePicker.dayOfMonth
+
+            val calendar: Calendar = Calendar.getInstance()
+            calendar.set(year, month, day)
+
+            val format = SimpleDateFormat("dd MMMM yyyy")
+
+            editProfileViewModel.dateBirth = format.format(calendar.time)
+            binding.dateTemp.text = editProfileViewModel.dateBirth
         }
 
         binding.editTextBase.doAfterTextChanged {
@@ -139,7 +167,10 @@ class EditProfileActivity : AppCompatActivity() {
             } else {
                 binding.errorText.text = ""
                 binding.saveButton.isClickable = true
-                editProfileViewModel.textValue = value
+
+                Log.d("EditProfileActivity", "$value, ${editProfileViewModel.dateBirth}")
+
+                editProfileViewModel.textValue = "$value, ${editProfileViewModel.dateBirth}"
             }
         }
 
@@ -159,6 +190,9 @@ class EditProfileActivity : AppCompatActivity() {
                     TypeDataEdit.PHONE -> {
                         onSnackError("Mohon isi data")
                     }
+                    TypeDataEdit.PDOB -> {
+                        onSnackError("Mohon isi data")
+                    }
                     else -> {
                         sendData()
                     }
@@ -166,8 +200,8 @@ class EditProfileActivity : AppCompatActivity() {
             } else {
                 if (editProfileViewModel.editMode == TypeDataEdit.EMAIL) {
                     showPasswordConfirm()
-                } else if (editProfileViewModel.editMode == TypeDataEdit.ADDRESS) {
-                    val dateTemp = binding.dateTemp.text.toString()
+                } else if (editProfileViewModel.editMode == TypeDataEdit.PDOB) {
+                    val dateTemp = editProfileViewModel.dateBirth
                     if (dateTemp.isEmpty() || dateTemp == "") {
                         onSnackError("Mohon isi data tempat dan tanggal lahir")
                     } else {

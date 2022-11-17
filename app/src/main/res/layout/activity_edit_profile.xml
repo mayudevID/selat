@@ -132,7 +132,7 @@
             android:id="@+id/date_temp"
             android:fontFamily="@font/montserrat_medium"
             android:textColor="@color/black"
-            android:text="06 Oktober 2022"
+            android:text="TL"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -147,13 +147,39 @@
 
     <DatePicker
         android:visibility="gone"
+        android:calendarViewShown="false"
+        app:layout_constraintVertical_bias="0.2"
         android:id="@+id/datePicker"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:datePickerMode="calendar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:datePickerMode="spinner"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/save_button" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/set_date_birth"
+        android:visibility="gone"
+        android:foreground="?attr/selectableItemBackground"
+        android:elevation="0dp"
+        app:cardCornerRadius="12dp"
+        android:layout_marginTop="24dp"
+        app:cardBackgroundColor="#FF00296B"
+        app:layout_constraintStart_toStartOf="@id/datePicker"
+        app:layout_constraintEnd_toEndOf="@id/datePicker"
+        app:layout_constraintTop_toBottomOf="@id/datePicker"
+        android:layout_width="150dp"
+        android:layout_height="40dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/montserrat_bold"
+            android:text="Simpan tanggal"
+            android:textColor="@color/white" />
+
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

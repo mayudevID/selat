@@ -22,6 +22,13 @@
         android:theme="@style/Theme.Selat"
         tools:targetApi="31">
         <activity
+            android:name=".login_history.LoginHistoryActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".edit_profile.EditAddressActivity"
             android:exported="false">
             <meta-data

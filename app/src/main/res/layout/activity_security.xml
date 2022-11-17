@@ -52,7 +52,7 @@
         app:layout_constraintTop_toTopOf="@id/text_1"
         app:layout_constraintBottom_toBottomOf="@id/text_1"
         app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/line_md_switch_filled"
+        android:src="@drawable/line_md_switch_filled_disable"
         android:layout_width="45dp"
         android:layout_height="45dp"/>
 
@@ -111,11 +111,11 @@
         android:layout_height="wrap_content"/>
 
     <ImageView
+        android:id="@+id/text_3_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/text_3"
         app:layout_constraintBottom_toBottomOf="@id/text_3"
         android:layout_marginEnd="36dp"
-        android:id="@+id/data_pribadi_button"
         android:src="@drawable/eva_arrow_ios_back_outline"
         android:layout_width="16dp"
         android:layout_height="16dp"/>

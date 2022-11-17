@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#FFE9E9E9"
     android:layout_height="match_parent"
-    tools:context=".transaction.TransactionActivity">
+    android:background="#FFE9E9E9"
+    tools:context=".login_history.LoginHistoryActivity">
 
     <ImageView
         android:src="@drawable/expand_type"
@@ -14,7 +14,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="47dp"
         android:layout_marginStart="36dp"
-        android:id="@+id/back_button_transaction"
+        android:id="@+id/back_button_login_history"
         android:layout_width="24dp"
         android:layout_height="24dp"/>
 
@@ -23,22 +23,22 @@
         android:textSize="16sp"
         android:fontFamily="@font/montserrat_bold"
         android:gravity="center"
-        app:layout_constraintTop_toTopOf="@id/back_button_transaction"
+        app:layout_constraintTop_toTopOf="@id/back_button_login_history"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/back_button_transaction"
-        android:text="Transaksi"
+        app:layout_constraintBottom_toBottomOf="@id/back_button_login_history"
+        android:text="Riwayat Login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <View
         android:id="@+id/border"
-        app:layout_constraintTop_toBottomOf="@id/back_button_transaction"
+        app:layout_constraintTop_toBottomOf="@id/back_button_login_history"
         android:layout_width="match_parent"
         android:layout_height="28dp"/>
 
     <TextView
-        android:id="@+id/empty_transaction"
+        android:id="@+id/empty_login_history"
         android:fontFamily="@font/montserrat_medium"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,7 +50,7 @@
         android:layout_height="wrap_content"/>
 
     <LinearLayout
-        android:id="@+id/error_message_load_transaction"
+        android:id="@+id/error_message_load_login_history"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"/>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/retry_transaction_button"
+            android:id="@+id/retry_login_history_button"
             app:cardElevation="0dp"
             android:foreground="?android:attr/selectableItemBackground"
             app:cardBackgroundColor="#FFFDC500"
@@ -87,10 +87,9 @@
 
     </LinearLayout>
 
-
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:layout_width="24dp"
-        android:id="@+id/load_transaction"
+        android:id="@+id/load_login_history"
         android:layout_height="24dp"
         android:indeterminate="true"
         app:indicatorColor="@color/black"
@@ -100,7 +99,7 @@
         app:layout_constraintTop_toBottomOf="@id/border" />
 
     <com.factor.bouncy.BouncyRecyclerView
-        android:id="@+id/rv_transaction"
+        android:id="@+id/rv_login_history"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/border"
         android:layout_width="match_parent"

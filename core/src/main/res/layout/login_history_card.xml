@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginVertical="8dp"
+    android:layout_marginHorizontal="36dp"
+    android:background="#FFE9E9E9"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tgl_login"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="30 Oct 2022, 9:01 PM"
+        android:textColor="#FF979797"
+        android:fontFamily="@font/montserrat_regular"
+        android:textSize="10sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/brand_phone"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tgl_login"
+        android:text="Fortuner"
+        android:textColor="@color/black"
+        android:fontFamily="@font/montserrat_medium"
+        android:textSize="14dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteY="16dp" />
+    
+    <ImageView
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tgl_login"
+        app:layout_constraintBottom_toBottomOf="@id/brand_phone"
+        android:src="@drawable/material_symbols_smartphone"
+        android:layout_width="24dp"
+        android:layout_height="24dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

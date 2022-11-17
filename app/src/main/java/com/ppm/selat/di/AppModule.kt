@@ -8,11 +8,13 @@ import com.ppm.selat.detail_car.DetailCarViewModel
 import com.ppm.selat.detail_profile.DetailProfileViewModel
 import com.ppm.selat.edit_profile.EditProfileViewModel
 import com.ppm.selat.home.HomeViewModel
+import com.ppm.selat.login_history.LoginHistoryViewModel
 import com.ppm.selat.payment.PaymentViewModel
 import com.ppm.selat.pick_car.PickCarViewModel
 import com.ppm.selat.profile.ProfileViewModel
 import com.ppm.selat.search_car.SearchCarViewModel
 import com.ppm.selat.splash.SplashViewModel
+import com.ppm.selat.transaction.TransactionViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -33,6 +35,8 @@ val viewModelModule = module {
     viewModel { DetailCarViewModel(get()) }
     viewModel { PaymentViewModel(get(), get()) }
     viewModel { DetailProfileViewModel(get()) }
+    viewModel { LoginHistoryViewModel(get()) }
     viewModel { PickCarViewModel(get()) }
     viewModel { SearchCarViewModel(get()) }
+    viewModel { TransactionViewModel(get()) }
 }

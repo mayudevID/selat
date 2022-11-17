@@ -18,6 +18,7 @@ class EditProfileViewModel(private val authUseCase: AuthUseCase) : ViewModel() {
     lateinit var editMode: TypeDataEdit
     lateinit var oldUserData: UserData
     var textValue: String = ""
+    var dateBirth: String = ""
     var isDateChanged = MutableStateFlow(false)
 
     fun updateProfile() = authUseCase.updateProfile(

@@ -34,7 +34,7 @@ import com.ppm.selat.core.domain.model.DataTypePay
 import com.ppm.selat.core.ui.payment.ListCardAdapter
 import com.ppm.selat.core.ui.payment.ListEWalletAdapter
 import com.ppm.selat.core.utils.AESEncryption
-import com.ppm.selat.core.utils.setLogoEWallet
+import com.ppm.selat.core.utils.setLogo
 import com.ppm.selat.databinding.ActivityPaymentBinding
 import com.ppm.selat.finish_payment.FinishPaymentActivity
 import com.ppm.selat.startLoadingDialog
@@ -142,14 +142,7 @@ class PaymentActivity : AppCompatActivity() {
                     val saldo = kursIndonesia2.format(it.value).split(",")[0]
                     binding.payUsedNumber.text = it.number
                     binding.payUsedValue.text = saldo
-                    when (it.name) {
-                        "MASTERCARD" -> {
-                            binding.payUsedLogo.setImageResource(com.ppm.selat.core.R.drawable.mastercard_logo)
-                        }
-                        "GOPAY" -> {
-                            binding.payUsedLogo.setImageResource(com.ppm.selat.core.R.drawable.gopay_logo)
-                        }
-                    }
+                    binding.payUsedLogo.setImageResource(setLogo(it.name))
                 }
             }
         }
@@ -247,7 +240,7 @@ class PaymentActivity : AppCompatActivity() {
         builder.setView(dialogView)
 
         dialog = builder.create()
-        dialog.window?.decorView?.setBackgroundResource(R.drawable.bg_dialog_border)
+        dialog.window?.decorView?.setBackgroundResource(R.drawable.bg_dialog_border_customed)
         //dialog.window?.setLayout(600, WindowManager.LayoutParams.WRAP_CONTENT)
         dialog.window?.setGravity(Gravity.CENTER)
         dialog.setCanceledOnTouchOutside(false)
@@ -258,7 +251,6 @@ class PaymentActivity : AppCompatActivity() {
         val wlp: WindowManager.LayoutParams = window?.attributes!!
 
         wlp.gravity = Gravity.BOTTOM
-        wlp.y = -24
         wlp.flags = wlp.flags and WindowManager.LayoutParams.FLAG_DIM_BEHIND.inv()
         window.attributes = wlp
 
@@ -291,14 +283,12 @@ class PaymentActivity : AppCompatActivity() {
                 listCardAdapter.changedCardToEWallet()
                 binding.borderSelectedEWallet.visibility = View.VISIBLE
                 binding.selectedEWalletBalance.text = "Saldo ${kursIndonesia2.format(data.value).split(",")[0]}"
-                binding.logoSelectedEWallet.setImageResource(setLogoEWallet(data.name))
+                binding.logoSelectedEWallet.setImageResource(setLogo(data.name))
                 paymentViewModel.dataTypePay.value = data
                 dialog.dismiss()
             }
 
-            override fun onItemDeleted(data: Int) {
-            }
-
+            override fun onItemDeleted(data: Int) {}
         })
 
         dialog.show()

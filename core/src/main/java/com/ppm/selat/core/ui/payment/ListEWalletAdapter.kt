@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ppm.selat.core.R
 import com.ppm.selat.core.domain.model.DataTypePay
-import com.ppm.selat.core.utils.setLogoEWallet
+import com.ppm.selat.core.utils.setLogo
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
 
@@ -49,7 +49,7 @@ class ListEWalletAdapter(private val listEWallet: ArrayList<DataTypePay>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val dataTypePay = listEWallet[position]
-        holder.logo.setImageResource(setLogoEWallet(dataTypePay.name))
+        holder.logo.setImageResource(setLogo(dataTypePay.name))
         holder.balance.text = "Saldo ${kursIndonesia.format(dataTypePay.value).split(",")[0]}"
         holder.dropDownDart.visibility = View.GONE
         holder.itemView.setOnClickListener {
