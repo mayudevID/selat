@@ -94,8 +94,8 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         binding.kebijakanPrivasiButton.setOnClickListener {
-            val intent = Intent(this@ProfileActivity, TermsConditionsActivity::class.java)
-            startActivity(intent)
+//            val intent = Intent(this@ProfileActivity, TermsConditionsActivity::class.java)
+//            startActivity(intent)
         }
 
         binding.pusatBantuanButton.setOnClickListener {

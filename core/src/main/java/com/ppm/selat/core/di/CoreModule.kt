@@ -7,12 +7,14 @@ import com.google.firebase.storage.FirebaseStorage
 import com.ppm.selat.core.data.AuthRepository
 import com.ppm.selat.core.data.CarRepository
 import com.ppm.selat.core.data.PaymentRepository
+import com.ppm.selat.core.data.RegionRepository
 import com.ppm.selat.core.data.source.local.UserLocalDataSource
 import com.ppm.selat.core.data.source.remote.*
 import com.ppm.selat.core.data.source.remote.network.ApiService
 import com.ppm.selat.core.domain.repository.IAuthRepository
 import com.ppm.selat.core.domain.repository.ICarRepository
 import com.ppm.selat.core.domain.repository.IPaymentRepository
+import com.ppm.selat.core.domain.repository.IRegionRepository
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
@@ -40,7 +42,7 @@ val networkModule = module {
     }
     single {
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://tourism-api.dicoding.dev/")
+            .baseUrl("https://www.emsifa.com/api-wilayah-indonesia/api/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(get())
             .build()
@@ -55,6 +57,7 @@ val repositoryModule = module {
     single { CarFirestoreDataSource(get()) }
     single { UserFirestoreDataSource(get()) }
     single { StorageDataSource(get()) }
+    single { RegionDataSource(get()) }
 
     single<IAuthRepository> {
         AuthRepository(
@@ -77,6 +80,12 @@ val repositoryModule = module {
             get(),
             get(),
             get(),
+        )
+    }
+
+    single<IRegionRepository> {
+        RegionRepository(
+            get()
         )
     }
 }

@@ -26,6 +26,13 @@ enum class TypeDataEdit {
     ADDRESS,
 }
 
+enum class Region {
+    PROVINCE,
+    DISTRICT,
+    REGENCY,
+    VILLAGE,
+}
+
 inline fun <reified T : Enum<T>> Intent.putExtra(victim: T): Intent =
     putExtra(T::class.java.name, victim.ordinal)
 

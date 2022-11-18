@@ -7,6 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import com.ppm.selat.core.utils.TypeDataEdit
 import com.ppm.selat.core.utils.putExtra
 import com.ppm.selat.databinding.ActivityDetailProfileBinding
+import com.ppm.selat.edit_profile.EditAddressActivity
 import com.ppm.selat.edit_profile.EditProfileActivity
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -77,7 +78,7 @@ class DetailProfileActivity : AppCompatActivity() {
         }
 
         binding.alamatEdit.setOnClickListener {
-            val intent = Intent(this@DetailProfileActivity, EditProfileActivity::class.java)
+            val intent = Intent(this@DetailProfileActivity, EditAddressActivity::class.java)
             intent.putExtra(TypeDataEdit.ADDRESS)
             startActivity(intent)
         }

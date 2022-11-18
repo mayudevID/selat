@@ -24,6 +24,7 @@ val useCaseModule = module {
     factory<AuthUseCase> { AuthInteractor(get()) }
     factory<CarUseCase> { CarInteractor(get()) }
     factory<PaymentUseCase> { PaymentInteractor(get()) }
+    factory<RegionUseCase> { RegionInteractor(get()) }
 }
 
 val viewModelModule = module {
@@ -34,7 +35,7 @@ val viewModelModule = module {
     viewModel { HomeViewModel(get(), get()) }
     viewModel { ProfileViewModel(get()) }
     viewModel { SetPinViewModel(get()) }
-    viewModel { EditProfileViewModel(get()) }
+    viewModel { EditProfileViewModel(get(), get()) }
     viewModel { DetailCarViewModel(get()) }
     viewModel { PaymentViewModel(get(), get()) }
     viewModel { DetailProfileViewModel(get()) }

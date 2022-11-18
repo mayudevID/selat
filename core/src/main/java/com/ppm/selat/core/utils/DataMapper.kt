@@ -3,10 +3,9 @@ package com.ppm.selat.core.utils
 import android.util.Log
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.GeoPoint
-import com.ppm.selat.core.domain.model.Car
-import com.ppm.selat.core.domain.model.CarImage
-import com.ppm.selat.core.domain.model.OrderData
-import com.ppm.selat.core.domain.model.Spec
+import com.ppm.selat.core.data.source.remote.response.*
+import com.ppm.selat.core.domain.model.*
+import com.squareup.okhttp.Response
 
 fun documentSnapshotToCar(data: DocumentSnapshot): Car {
     return Car(
@@ -67,4 +66,47 @@ fun convertToListOrderData(doc: DocumentSnapshot) : List<OrderData> {
         )
     }
     return listOrderData
+}
+
+/// DATA MAPPING REGION
+
+object DataMapper {
+    fun mapProvinceResponseToDomain(input: List<ProvinceResponse>) : List<Province> {
+        return input.map {
+            Province(
+                name = it.name,
+                id = it.id,
+            )
+        }
+    }
+
+    fun mapRegencyResponseToDomain(input: List<RegencyResponse>) : List<Regency>{
+        return input.map {
+            Regency(
+                id = it.id,
+                provinceId = it.provinceId,
+                name = it.name
+            )
+        }
+    }
+
+    fun mapDistrictResponseToDomain(input: List<DistrictResponse>) : List<District> {
+        return input.map {
+            District(
+                id = it.id,
+                regencyId = it.regencyId,
+                name = it.name
+            )
+        }
+    }
+
+    fun mapVillageResponseToDomain(input: List<VillageResponse>) : List<Village> {
+        return input.map {
+            Village(
+                id = it.id,
+                districtId = it.districtId,
+                name = it.name
+            )
+        }
+    }
 }
