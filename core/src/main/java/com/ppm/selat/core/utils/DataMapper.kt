@@ -58,25 +58,29 @@ fun convertGeoPointToListDouble(geoPoint: GeoPoint) : List<Double> {
 
 fun convertToListOrderData(doc: DocumentSnapshot) : List<OrderData> {
     Log.d("TransactionActivity", doc.toString())
-    val mapOfOrder = doc.data as Map<*, *>
-    val listOrderData = ArrayList<OrderData>()
-    mapOfOrder.map {
-        val orderData = it.value as Map<*, *>
-        listOrderData.add(
-            OrderData(
-                id = orderData["id"] as String,
-                idCar = orderData["carId"] as String,
-                brand = orderData["brand"] as String,
-                manufacturer = orderData["manufacturer"] as String,
-                dateOrder = orderData["dateOrder"] as String,
-                paymentTypeName =  orderData["paymentTypeName"] as String,
-                price = (orderData["price"] as Long).toInt(),
-                rentDays = (orderData["rentDays"] as Long).toInt(),
-                paymentNumber = orderData["paymentNumber"] as String
+    if (doc.exists()) {
+        val mapOfOrder = doc.data as Map<*, *>
+        val listOrderData = ArrayList<OrderData>()
+        mapOfOrder.map {
+            val orderData = it.value as Map<*, *>
+            listOrderData.add(
+                OrderData(
+                    id = orderData["id"] as String,
+                    idCar = orderData["carId"] as String,
+                    brand = orderData["brand"] as String,
+                    manufacturer = orderData["manufacturer"] as String,
+                    dateOrder = orderData["dateOrder"] as String,
+                    paymentTypeName =  orderData["paymentTypeName"] as String,
+                    price = (orderData["price"] as Long).toInt(),
+                    rentDays = (orderData["rentDays"] as Long).toInt(),
+                    paymentNumber = orderData["paymentNumber"] as String
+                )
             )
-        )
+        }
+        return listOrderData
+    } else {
+        return listOf()
     }
-    return listOrderData
 }
 
 /// DATA MAPPING REGION

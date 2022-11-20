@@ -55,6 +55,9 @@ class ProofBookingActivity : AppCompatActivity() {
             binding.backButtonBp.setOnClickListener {
                 finish()
             }
+            binding.buttonSaveInvoice.setOnClickListener {
+
+            }
             tanggal.text = orderData.dateOrder
             orderNum.text = orderData.id
             brandTarget.text = orderData.brand

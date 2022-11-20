@@ -27,12 +27,18 @@ class UserFirestoreDataSource(private val firestore: FirebaseFirestore) {
     ): Flow<FirebaseResponse<DocumentSnapshot>> {
         return flow {
             try {
-                val user = userDb.document(uid).get().await()
-                historyLoginDb.document(uid).update(
-                    mapOf(
-                        System.currentTimeMillis().toString() to listOf(loginData.lastLogin, loginData.deviceData)
+                val loginDataUser = mapOf(
+                    System.currentTimeMillis().toString() to listOf(
+                        loginData.lastLogin, loginData.deviceData
                     )
-                ).await()
+                )
+                val historyLoginUser = historyLoginDb.document(uid)
+                val user = userDb.document(uid).get().await()
+                if (historyLoginUser.get().await().exists()) {
+                    historyLoginUser.update(loginDataUser).await()
+                } else {
+                    historyLoginUser.set(loginDataUser).await()
+                }
                 emit(FirebaseResponse.Success(user))
             } catch (e: FirebaseFirestoreException) {
                 emit(FirebaseResponse.Error(e.message.toString()))

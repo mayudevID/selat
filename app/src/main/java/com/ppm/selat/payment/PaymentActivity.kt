@@ -62,6 +62,7 @@ class PaymentActivity : AppCompatActivity() {
     private lateinit var formatRp1: DecimalFormatSymbols
     private lateinit var kursIndonesia2: DecimalFormat
     private lateinit var formatRp2: DecimalFormatSymbols
+    private lateinit var nameProfile: String
     private var listCardAdapter: ListCardAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,6 +88,7 @@ class PaymentActivity : AppCompatActivity() {
     private fun setUpPage() {
         lifecycleScope.launch {
             paymentViewModel.getDataProfile().collect {
+                nameProfile = it.name.toString()
                 Glide.with(this@PaymentActivity)
                     .load(it.photoUrl)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -327,6 +329,7 @@ class PaymentActivity : AppCompatActivity() {
                             val intent =
                                 Intent(this@PaymentActivity, FinishPaymentActivity::class.java)
                             intent.putExtra("ORDER_DATA", result.data)
+                            intent.putExtra("NAME_PROFILE", nameProfile)
                             startActivity(intent)
                         }
                         is Resource.Error -> {

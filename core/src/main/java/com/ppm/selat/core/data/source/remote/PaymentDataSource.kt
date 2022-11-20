@@ -15,6 +15,7 @@ class PaymentDataSource(firestore: FirebaseFirestore) {
     suspend fun addOrder(orderData: OrderData, uid: String): Flow<FirebaseResponse<Boolean>> {
         return flow {
             try {
+                val userOrderDb = orderDb.document(uid)
                 val dataMap = mapOf(
                     "id" to orderData.id,
                     "carId" to orderData.idCar,
@@ -26,7 +27,12 @@ class PaymentDataSource(firestore: FirebaseFirestore) {
                     "rentDays" to orderData.rentDays,
                     "paymentNumber" to orderData.paymentNumber,
                 )
-                orderDb.document(uid).update(mapOf(orderData.id to dataMap)).await()
+                val dataFull = mapOf(orderData.id to dataMap)
+                if (userOrderDb.get().await().exists()) {
+                    userOrderDb.update(dataFull).await()
+                } else {
+                    userOrderDb.set(dataFull).await()
+                }
                 emit(FirebaseResponse.Success(true))
             } catch (e: FirebaseFirestoreException) {
                 emit(FirebaseResponse.Error(e.message.toString()))
