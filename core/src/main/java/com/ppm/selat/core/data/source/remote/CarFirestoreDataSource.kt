@@ -52,6 +52,17 @@ class CarFirestoreDataSource(firestore: FirebaseFirestore) {
         }
     }
 
+    suspend fun getSingleCarData(id: String) : Flow<FirebaseResponse<DocumentSnapshot>> {
+        return flow {
+            try {
+                val response = carDb.document(id).get().await()
+                emit(FirebaseResponse.Success(response))
+            } catch (e: FirebaseFirestoreException) {
+                emit(FirebaseResponse.Error(e.message.toString()))
+            }
+        }
+    }
+
     fun getAvailableCar(carId: String): Flow<Int> {
         return carDb.document(carId).snapshotFlow().map {
             it["available"].toString().toInt()

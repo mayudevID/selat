@@ -133,6 +133,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
+            <TextView
+                android:visibility="gone"
+                android:fontFamily="@font/montserrat_regular"
+                android:id="@+id/card_empty"
+                android:gravity="center"
+                android:text="Pembayaran dengan kartu tidak terhubung"
+                android:layout_width="wrap_content"
+                android:layout_height="164dp"
+                android:textColor="@color/black"
+                android:layout_marginTop="38dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/price_per_day" />
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/selected_e_wallet"
                 android:layout_width="match_parent"

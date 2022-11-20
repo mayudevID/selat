@@ -11,6 +11,7 @@ import com.ppm.selat.edit_profile.EditProfileViewModel
 import com.ppm.selat.home.HomeViewModel
 import com.ppm.selat.login_history.LoginHistoryViewModel
 import com.ppm.selat.payment.PaymentViewModel
+import com.ppm.selat.payment_method.PaymentMethodViewModel
 import com.ppm.selat.pick_car.PickCarViewModel
 import com.ppm.selat.profile.ProfileViewModel
 import com.ppm.selat.search_car.SearchCarViewModel
@@ -42,6 +43,7 @@ val viewModelModule = module {
     viewModel { LoginHistoryViewModel(get()) }
     viewModel { PickCarViewModel(get()) }
     viewModel { SearchCarViewModel(get()) }
-    viewModel { TransactionViewModel(get()) }
+    viewModel { TransactionViewModel(get(), get()) }
     viewModel { ChangePasswordViewModel(get()) }
+    viewModel { PaymentMethodViewModel(get()) }
 }

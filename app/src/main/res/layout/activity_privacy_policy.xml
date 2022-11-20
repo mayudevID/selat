@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="#FFE9E9E9"
+    android:layout_height="match_parent"
+    tools:context=".terms_conditions.TermsConditionsActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:src="@drawable/expand_type"
+                android:rotation="180"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="47dp"
+                android:layout_marginStart="36dp"
+                android:id="@+id/back_button_pp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"/>
+
+            <TextView
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:fontFamily="@font/montserrat_bold"
+                android:gravity="center"
+                app:layout_constraintTop_toTopOf="@id/back_button_pp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/back_button_pp"
+                android:text="Kebijakan Privasi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_marginTop="44dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/back_button_pp"
+                android:layout_marginHorizontal="36dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_marginBottom="12dp"
+                    android:text="Kebijakan Privasi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_semibold"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"/>
+
+                <com.codesgood.views.JustifiedTextView
+                    android:layout_marginBottom="15dp"
+                    android:text="@string/kp1"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_marginBottom="12dp"
+                    android:text="Informasi Pribadi Yang Dikumpulkan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_semibold"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"/>
+
+                <com.codesgood.views.JustifiedTextView
+                    android:layout_marginBottom="15dp"
+                    android:text="@string/kp2"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_marginBottom="12dp"
+                    android:text="Mengapa kami memproses data Anda?"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_semibold"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"/>
+
+                <com.codesgood.views.JustifiedTextView
+                    android:layout_marginBottom="15dp"
+                    android:text="@string/kp3"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_marginBottom="12dp"
+                    android:text="Keamanan informasi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_semibold"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"/>
+
+                <com.codesgood.views.JustifiedTextView
+                    android:layout_marginBottom="15dp"
+                    android:text="@string/kp4"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_marginBottom="12dp"
+                    android:text="Pengungkapan hukum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_semibold"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"/>
+
+                <com.codesgood.views.JustifiedTextView
+                    android:layout_marginBottom="15dp"
+                    android:text="@string/kp5"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:layout_marginBottom="12dp"
+                    android:text="Informasi kontak"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_semibold"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"/>
+
+                <com.codesgood.views.JustifiedTextView
+                    android:layout_marginBottom="15dp"
+                    android:text="@string/kp6"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

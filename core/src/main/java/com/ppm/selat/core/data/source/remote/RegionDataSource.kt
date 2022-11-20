@@ -4,7 +4,6 @@ import android.util.Log
 import com.ppm.selat.core.data.source.remote.network.ApiResponse
 import com.ppm.selat.core.data.source.remote.network.ApiService
 import com.ppm.selat.core.data.source.remote.response.*
-import com.ppm.selat.core.utils.Region
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

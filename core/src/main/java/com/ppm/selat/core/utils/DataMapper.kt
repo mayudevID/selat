@@ -1,5 +1,6 @@
 package com.ppm.selat.core.utils
 
+import android.icu.number.IntegerWidth
 import android.util.Log
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.GeoPoint
@@ -38,6 +39,16 @@ fun documentSnapshotToSpec(data: DocumentSnapshot) : Spec {
         a = dataSpec["a"].toString(),
         b = dataSpec["b"].toString(),
         c = dataSpec["c"].toString(),
+    )
+}
+
+fun documentSnapshotToDataTypePay(data: DocumentSnapshot) : DataTypePay {
+    return DataTypePay(
+        id = data.id,
+        number = data["number"] as String,
+        type = data["type"] as String,
+        value = Integer.parseInt(data["value"].toString()),
+        name = data["name"] as String
     )
 }
 

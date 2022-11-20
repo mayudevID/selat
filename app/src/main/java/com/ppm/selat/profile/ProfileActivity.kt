@@ -1,11 +1,9 @@
 package com.ppm.selat.profile
 
 import android.app.AlertDialog
-import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
@@ -25,6 +23,8 @@ import com.ppm.selat.core.data.Resource
 import com.ppm.selat.core.utils.isNetworkAvailable
 import com.ppm.selat.databinding.ActivityProfileBinding
 import com.ppm.selat.detail_profile.DetailProfileActivity
+import com.ppm.selat.payment_method.PaymentMethodActivity
+import com.ppm.selat.privacy_policy.PrivacyPolicyActivity
 import com.ppm.selat.security.SecurityActivity
 import com.ppm.selat.startLoadingDialog
 import com.ppm.selat.terms_conditions.TermsConditionsActivity
@@ -88,14 +88,19 @@ class ProfileActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        binding.pembayaranButton.setOnClickListener {
+            val intent = Intent(this@ProfileActivity, PaymentMethodActivity::class.java)
+            startActivity(intent)
+        }
+
         binding.keamananButton.setOnClickListener {
             val intent = Intent(this@ProfileActivity, SecurityActivity::class.java)
             startActivity(intent)
         }
 
         binding.kebijakanPrivasiButton.setOnClickListener {
-//            val intent = Intent(this@ProfileActivity, TermsConditionsActivity::class.java)
-//            startActivity(intent)
+            val intent = Intent(this@ProfileActivity, PrivacyPolicyActivity::class.java)
+            startActivity(intent)
         }
 
         binding.pusatBantuanButton.setOnClickListener {

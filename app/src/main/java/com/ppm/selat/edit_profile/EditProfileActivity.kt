@@ -331,7 +331,7 @@ class EditProfileActivity : AppCompatActivity() {
         }
 
         cancel.setOnClickListener {
-
+            customDialog.dismiss()
         }
 
         customDialog.show()

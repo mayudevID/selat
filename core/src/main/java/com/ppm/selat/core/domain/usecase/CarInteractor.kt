@@ -16,4 +16,5 @@ class CarInteractor(private val carRepository: ICarRepository) : CarUseCase {
 
     override fun getAvailableCar(carId: String) = carRepository.getAvailableCar(carId)
     override fun getCarBySearch(carName: String) = carRepository.getCarBySearch(carName)
+    override fun getSingleDataCar(id: String) = carRepository.getSingleDataCar(id)
 }

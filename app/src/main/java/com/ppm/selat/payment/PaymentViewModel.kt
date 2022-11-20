@@ -61,7 +61,7 @@ class PaymentViewModel(
         isEnough
     }
 
-    fun randGeneratedStr(): String {
+    private fun randGeneratedStr(): String {
         val alphaNumericStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz0123456789"
         val stringBuilder = StringBuilder(5);
         for (i in 1..5) {
@@ -70,4 +70,6 @@ class PaymentViewModel(
         }
         return stringBuilder.toString();
     }
+
+    fun getListPaymentMethod() = paymentUseCase.getListPaymentMethod().asLiveData()
 }

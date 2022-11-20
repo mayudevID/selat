@@ -309,6 +309,7 @@ class RegisterActivity : AppCompatActivity() {
         val btDismiss = dialogView.findViewById<TextView>(R.id.ok_button)
         customDialog.window?.setLayout(850, WindowManager.LayoutParams.WRAP_CONTENT)
         customDialog.setCanceledOnTouchOutside(false)
+        customDialog.setCancelable(false)
         btDismiss.setOnClickListener {
             customDialog.dismiss()
             finish()

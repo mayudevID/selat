@@ -4,9 +4,11 @@ import com.ppm.selat.core.data.source.remote.AuthDataSource
 import com.ppm.selat.core.data.source.remote.CarFirestoreDataSource
 import com.ppm.selat.core.data.source.remote.PaymentDataSource
 import com.ppm.selat.core.data.source.remote.network.FirebaseResponse
+import com.ppm.selat.core.domain.model.DataTypePay
 import com.ppm.selat.core.domain.model.OrderData
 import com.ppm.selat.core.domain.repository.IPaymentRepository
 import com.ppm.selat.core.utils.convertToListOrderData
+import com.ppm.selat.core.utils.documentSnapshotToDataTypePay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
@@ -65,6 +67,64 @@ class PaymentRepository(
 
     override fun getPaymentData(): Flow<Resource<OrderData>> {
         TODO("Not yet implemented")
+    }
+
+    override fun getListPaymentMethod(): Flow<Resource<List<DataTypePay>>> {
+        return flow {
+            emit(Resource.Loading())
+            val response = paymentDataSource.getListPaymentMethod(authDataSource.getUidUser())
+            when (val result = response.first()) {
+                is FirebaseResponse.Success -> {
+                    val dataNew = arrayListOf<DataTypePay>()
+                    result.data.documents.map {
+                        dataNew.add(documentSnapshotToDataTypePay(it))
+                    }
+                    emit(Resource.Success(dataNew))
+                }
+                is FirebaseResponse.Error -> {
+                    emit(Resource.Error(result.errorMessage))
+                }
+                is FirebaseResponse.Empty -> {
+
+                }
+            }
+        }
+    }
+
+    override fun savePaymentMethod(dataTypePay: DataTypePay): Flow<Resource<Boolean>> {
+        return flow {
+            emit(Resource.Loading())
+            val response = paymentDataSource.savePaymentMethod(authDataSource.getUidUser(), dataTypePay)
+            when (val result = response.first()) {
+                is FirebaseResponse.Success -> {
+                    emit(Resource.Success(true))
+                }
+                is FirebaseResponse.Error -> {
+                    emit(Resource.Error(result.errorMessage))
+                }
+                is FirebaseResponse.Empty -> {
+
+                }
+            }
+        }
+    }
+
+    override fun deletePaymentMethod(dataTypePay: DataTypePay): Flow<Resource<Boolean>> {
+        return flow {
+            emit(Resource.Loading())
+            val response = paymentDataSource.deletePaymentMethod(authDataSource.getUidUser(), dataTypePay)
+            when (val result = response.first()) {
+                is FirebaseResponse.Success -> {
+                    emit(Resource.Success(true))
+                }
+                is FirebaseResponse.Error -> {
+                    emit(Resource.Error(result.errorMessage))
+                }
+                is FirebaseResponse.Empty -> {
+
+                }
+            }
+        }
     }
 
 }

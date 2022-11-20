@@ -89,6 +89,26 @@ class CarRepository(private val carFirestoreDataSource: CarFirestoreDataSource) 
         }
     }
 
+    override fun getSingleDataCar(carId: String): Flow<Resource<Car>> {
+        return flow {
+            emit(Resource.Loading())
+            val response = carFirestoreDataSource.getSingleCarData(carId)
+            when (val result = response.first()) {
+                is FirebaseResponse.Success -> {
+                    val docSnapshot = result.data
+                    emit(Resource.Success(documentSnapshotToCar(docSnapshot)))
+                }
+                is FirebaseResponse.Error -> {
+                    emit(Resource.Error(result.errorMessage))
+                }
+                is FirebaseResponse.Empty -> {
+
+                }
+            }
+        }
+    }
+
     override fun getAvailableCar(carId: String) = carFirestoreDataSource.getAvailableCar(carId)
+
 }
 

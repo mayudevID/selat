@@ -15,10 +15,14 @@ import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.updateLayoutParams
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -53,11 +57,12 @@ class PaymentActivity : AppCompatActivity() {
     private lateinit var binding: ActivityPaymentBinding
     private var pinAttempt = 0
     private lateinit var carData: Car
+    private lateinit var listDataTypePay: ArrayList<DataTypePay>
     private lateinit var kursIndonesia1: DecimalFormat
     private lateinit var formatRp1: DecimalFormatSymbols
     private lateinit var kursIndonesia2: DecimalFormat
     private lateinit var formatRp2: DecimalFormatSymbols
-    private lateinit var listCardAdapter: ListCardAdapter
+    private var listCardAdapter: ListCardAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,7 +81,7 @@ class PaymentActivity : AppCompatActivity() {
 
         setUpPage()
         setUpListener()
-        setUpListCard()
+        //setUpListCard()
     }
 
     private fun setUpPage() {
@@ -107,6 +112,37 @@ class PaymentActivity : AppCompatActivity() {
 
         binding.countResult.text = (1).toString()
         binding.dayCounts.text = (1).toString()
+
+        val dialog = startLoadingDialog("Load payment", this@PaymentActivity)
+        if(isNetworkAvailable(this@PaymentActivity)) {
+            paymentViewModel.getListPaymentMethod().observe(this) {
+                    result ->
+                if (result != null) {
+                    when(result) {
+                        is Resource.Loading -> {
+
+                        }
+                        is Resource.Success -> {
+                            dialog.dismiss()
+                            if (ArrayList(result.data!!).isNotEmpty()) {
+                                listDataTypePay = ArrayList(result.data!!)
+                                setUpListCard()
+                            } else {
+                                showEmptyPaymentAlert()
+                            }
+                        }
+                        is Resource.Error -> {
+                            dialog.dismiss()
+                            finish()
+                            Toast.makeText(applicationContext, "Tidak dapat terhubung ke internet", Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }
+            }
+        } else {
+            finish()
+            Toast.makeText(applicationContext, "Tidak dapat terhubung ke internet", Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun setUpListener() {
@@ -191,47 +227,32 @@ class PaymentActivity : AppCompatActivity() {
     }
 
     private fun setUpListCard() {
-        val dataCard = arrayListOf(
-            DataTypePay(
-                id = "6282536",
-                name = "MASTERCARD",
-                type = "CARD",
-                value = 5554123,
-                number = "5282 3456 7890 1289"
-            ),
-            DataTypePay(
-                id = "621212",
-                name = "MASTERCARD",
-                type = "CARD",
-                value = 121127765,
-                number = "5282 3456 7890 1289"
-            ),
-            DataTypePay(
-                id = "62824346",
-                name = "MASTERCARD",
-                type = "CARD",
-                value = 51211,
-                number = "5282 3456 7890 1289"
-            )
-        )
+        val card = listDataTypePay.filter { it.type == "CARD" }
 
-        binding.rvListCard.layoutManager =
-            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        binding.rvListCard.setHasFixedSize(true)
-        listCardAdapter = ListCardAdapter(dataCard, -1)
-        binding.rvListCard.adapter = listCardAdapter
+        if (card.isNotEmpty()) {
+            binding.rvListCard.layoutManager =
+                LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+            binding.rvListCard.setHasFixedSize(true)
+            listCardAdapter = ListCardAdapter(ArrayList(card), -1)
+            binding.rvListCard.adapter = listCardAdapter
 
-        listCardAdapter.setOnItemClickCallback(object :
-            ListCardAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: DataTypePay, adapterPos: Int) {
-                binding.borderSelectedEWallet.visibility = View.GONE
-                paymentViewModel.dataTypePay.value = data
+            listCardAdapter?.setOnItemClickCallback(object :
+                ListCardAdapter.OnItemClickCallback {
+                override fun onItemClicked(data: DataTypePay, adapterPos: Int) {
+                    binding.borderSelectedEWallet.visibility = View.GONE
+                    paymentViewModel.dataTypePay.value = data
+                }
+
+                override fun onItemDeleted(data: Int) {
+                }
+
+            })
+        } else {
+            binding.cardEmpty.visibility = View.VISIBLE
+            binding.selectedEWallet.updateLayoutParams<ConstraintLayout.LayoutParams> {
+                topToBottom = binding.cardEmpty.id
             }
-
-            override fun onItemDeleted(data: Int) {
-            }
-
-        })
+        }
     }
 
     private fun showDialogEWallet() {
@@ -249,6 +270,9 @@ class PaymentActivity : AppCompatActivity() {
         dialog.setCanceledOnTouchOutside(false)
 
         val rvAdapter = dialogView.findViewById<RecyclerView>(R.id.rv_list_ewallet)
+        val emptyLayout = dialogView.findViewById<LinearLayout>(R.id.error_message)
+        val buttonBack = dialogView.findViewById<CardView>(R.id.back_button_e)
+        emptyLayout.visibility = View.GONE
 
         val window = dialog.window
         val wlp: WindowManager.LayoutParams = window?.attributes!!
@@ -257,42 +281,38 @@ class PaymentActivity : AppCompatActivity() {
         wlp.flags = wlp.flags and WindowManager.LayoutParams.FLAG_DIM_BEHIND.inv()
         window.attributes = wlp
 
-        val dataEWallet = arrayListOf(
-            DataTypePay(
-                id = "086625232223",
-                name = "GOPAY",
-                type = "EWALLET",
-                value = 561551,
-                number = "086625232223"
-            ),
-            DataTypePay(
-                id = "08665424242",
-                name = "GOPAY",
-                type = "EWALLET",
-                value = 12114442,
-                number = "08665424242"
-            ),
-        )
+        val ewallet = listDataTypePay.filter { it.type == "EWALLET" }
 
-        rvAdapter.layoutManager =
-            LinearLayoutManager(this)
-        rvAdapter.setHasFixedSize(true)
-        val listEWalletAdapter = ListEWalletAdapter(dataEWallet)
-        rvAdapter.adapter = listEWalletAdapter
+        if (ewallet.isNotEmpty()) {
+            rvAdapter.layoutManager =
+                LinearLayoutManager(this)
+            rvAdapter.setHasFixedSize(true)
+            val listEWalletAdapter = ListEWalletAdapter(ArrayList(ewallet))
+            rvAdapter.adapter = listEWalletAdapter
 
-        listEWalletAdapter.setOnItemClickCallback(object :
-            ListEWalletAdapter.OnItemClickCallback {
-            override fun onItemClicked(data: DataTypePay) {
-                listCardAdapter.changedCardToEWallet()
-                binding.borderSelectedEWallet.visibility = View.VISIBLE
-                binding.selectedEWalletBalance.text = "Saldo ${kursIndonesia2.format(data.value).split(",")[0]}"
-                binding.logoSelectedEWallet.setImageResource(setLogo(data.name))
-                paymentViewModel.dataTypePay.value = data
-                dialog.dismiss()
-            }
+            listEWalletAdapter.setOnItemClickCallback(object :
+                ListEWalletAdapter.OnItemClickCallback {
+                override fun onItemClicked(data: DataTypePay) {
+                    if (listCardAdapter != null) {
+                        listCardAdapter?.changedCardToEWallet()
+                    }
+                    binding.borderSelectedEWallet.visibility = View.VISIBLE
+                    binding.selectedEWalletBalance.text = "Saldo ${kursIndonesia2.format(data.value).split(",")[0]}"
+                    binding.logoSelectedEWallet.setImageResource(setLogo(data.name))
+                    paymentViewModel.dataTypePay.value = data
+                    dialog.dismiss()
+                }
 
-            override fun onItemDeleted(data: Int) {}
-        })
+                override fun onItemDeleted(data: Int) {}
+            })
+        } else {
+            rvAdapter.visibility = View.GONE
+            emptyLayout.visibility = View.VISIBLE
+        }
+
+        buttonBack.setOnClickListener {
+            dialog.dismiss()
+        }
 
         dialog.show()
     }
@@ -456,5 +476,20 @@ class PaymentActivity : AppCompatActivity() {
         snackbarLayout.layoutParams = layoutParams
 
         snackbar.show()
+    }
+
+    private fun showEmptyPaymentAlert() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_empty_payment_method, null)
+        val customDialog = AlertDialog.Builder(this).setView(dialogView).create()
+        customDialog.window?.decorView?.setBackgroundResource(R.drawable.bg_dialog_border)
+        val btDismiss = dialogView.findViewById<TextView>(R.id.ok_button)
+        customDialog.window?.setLayout(850, WindowManager.LayoutParams.WRAP_CONTENT)
+        customDialog.setCanceledOnTouchOutside(false)
+        customDialog.setCancelable(false)
+        btDismiss.setOnClickListener {
+            customDialog.dismiss()
+            finish()
+        }
+        customDialog.show()
     }
 }

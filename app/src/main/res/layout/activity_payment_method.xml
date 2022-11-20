@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="#FFE9E9E9"
+    android:layout_height="match_parent"
+    tools:context=".payment_method.PaymentMethodActivity">
+
+    <ImageView
+        android:id="@+id/back_button_mp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="45dp"
+        android:contentDescription="Back Button"
+        android:rotation="180"
+        android:src="@drawable/expand_type"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/text_metode_pembayaran"
+        android:text="Metode Pembayaran"
+        android:fontFamily="@font/montserrat_bold"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/back_button_mp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/back_button_mp" />
+
+    <!-- BARIS 1 -->
+
+    <ImageView
+        android:src="@drawable/fluent_payment_20_filled"
+        android:layout_marginTop="40dp"
+        app:layout_constraintTop_toBottomOf="@+id/back_button_mp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="36dp"
+        android:id="@+id/kk_icon"
+        android:layout_width="16dp"
+        android:layout_height="16dp"/>
+
+    <TextView
+        android:fontFamily="@font/montserrat_medium"
+        android:textSize="12sp"
+        android:textColor="#FF5A5A5A"
+        app:layout_constraintTop_toTopOf="@+id/kk_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/kk_icon"
+        android:layout_marginStart="13dp"
+        app:layout_constraintStart_toEndOf="@id/kk_icon"
+        android:text="Tambahkan Kartu kredit/debit"
+        android:id="@+id/kk_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="36dp"
+        app:layout_constraintTop_toTopOf="@id/kk_icon"
+        app:layout_constraintBottom_toBottomOf="@id/kk_icon"
+        android:id="@+id/kk_button"
+        android:src="@drawable/eva_arrow_ios_back_outline"
+        android:layout_width="16dp"
+        android:layout_height="16dp"/>
+
+    <View
+        android:id="@+id/border_1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@id/kk_icon"
+        android:background="#FFBDBDBD"
+        android:layout_marginStart="65dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <!-- BARIS 2 -->
+
+    <ImageView
+        android:src="@drawable/gopay_logo"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@+id/kk_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="36dp"
+        android:id="@+id/gopay_icon"
+        android:layout_width="16dp"
+        android:layout_height="16dp"/>
+
+    <TextView
+        android:fontFamily="@font/montserrat_medium"
+        android:textSize="12sp"
+        android:textColor="#FF5A5A5A"
+        app:layout_constraintTop_toTopOf="@+id/gopay_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/gopay_icon"
+        android:layout_marginStart="13dp"
+        app:layout_constraintStart_toEndOf="@id/gopay_icon"
+        android:text="Tambahkan GOPAY"
+        android:id="@+id/gopay_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="36dp"
+        app:layout_constraintTop_toTopOf="@id/gopay_icon"
+        app:layout_constraintBottom_toBottomOf="@id/gopay_icon"
+        android:id="@+id/gopay_button"
+        android:src="@drawable/eva_arrow_ios_back_outline"
+        android:layout_width="16dp"
+        android:layout_height="16dp"/>
+
+    <View
+        android:id="@+id/border_2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@id/gopay_icon"
+        android:background="#FFBDBDBD"
+        android:layout_marginStart="65dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <!-- BARIS 3 -->
+
+    <ImageView
+        android:src="@drawable/dana_logo"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@+id/gopay_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="36dp"
+        android:id="@+id/dana_icon"
+        android:layout_width="16dp"
+        android:layout_height="16dp"/>
+
+    <TextView
+        android:fontFamily="@font/montserrat_medium"
+        android:textSize="12sp"
+        android:textColor="#FF5A5A5A"
+        app:layout_constraintTop_toTopOf="@+id/dana_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/dana_icon"
+        android:layout_marginStart="13dp"
+        app:layout_constraintStart_toEndOf="@id/dana_icon"
+        android:text="Tambahkan DANA"
+        android:id="@+id/dana_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="36dp"
+        app:layout_constraintTop_toTopOf="@id/dana_icon"
+        app:layout_constraintBottom_toBottomOf="@id/dana_icon"
+        android:id="@+id/dana_button"
+        android:src="@drawable/eva_arrow_ios_back_outline"
+        android:layout_width="16dp"
+        android:layout_height="16dp"/>
+
+    <View
+        android:id="@+id/border_3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@id/dana_icon"
+        android:background="#FFBDBDBD"
+        android:layout_marginStart="65dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <!-- BARIS 4 -->
+
+    <ImageView
+        android:src="@drawable/ovo_logo"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@+id/dana_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="36dp"
+        android:id="@+id/ovo_icon"
+        android:layout_width="16dp"
+        android:layout_height="16dp"/>
+
+    <TextView
+        android:fontFamily="@font/montserrat_medium"
+        android:textSize="12sp"
+        android:textColor="#FF5A5A5A"
+        app:layout_constraintTop_toTopOf="@+id/ovo_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/ovo_icon"
+        android:layout_marginStart="13dp"
+        app:layout_constraintStart_toEndOf="@id/ovo_icon"
+        android:text="Tambahkan OVO"
+        android:id="@+id/ovo_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="36dp"
+        app:layout_constraintTop_toTopOf="@id/ovo_icon"
+        app:layout_constraintBottom_toBottomOf="@id/ovo_icon"
+        android:id="@+id/ovo_button"
+        android:src="@drawable/eva_arrow_ios_back_outline"
+        android:layout_width="16dp"
+        android:layout_height="16dp"/>
+
+    <View
+        android:id="@+id/border_4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@id/ovo_icon"
+        android:background="#FFBDBDBD"
+        android:layout_marginStart="65dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+
+    <!-- BARIS 5 -->
+
+    <ImageView
+        android:src="@drawable/paypal_logo"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@+id/ovo_icon"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="36dp"
+        android:id="@+id/paypal_icon"
+        android:layout_width="16dp"
+        android:layout_height="16dp"/>
+
+    <TextView
+        android:fontFamily="@font/montserrat_medium"
+        android:textSize="12sp"
+        android:textColor="#FF5A5A5A"
+        app:layout_constraintTop_toTopOf="@+id/paypal_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/paypal_icon"
+        android:layout_marginStart="13dp"
+        app:layout_constraintStart_toEndOf="@id/paypal_icon"
+        android:text="Tambahkan PAYPAL"
+        android:id="@+id/paypal_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="36dp"
+        app:layout_constraintTop_toTopOf="@id/paypal_icon"
+        app:layout_constraintBottom_toBottomOf="@id/paypal_icon"
+        android:id="@+id/paypal_button"
+        android:src="@drawable/eva_arrow_ios_back_outline"
+        android:layout_width="16dp"
+        android:layout_height="16dp"/>
+
+    <TextView
+        android:id="@+id/terhubung"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="36dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/paypal_icon"
+        android:text="Akun Terhubung"
+        android:textColor="@color/black"
+        android:fontFamily="@font/montserrat_semibold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_akun_terhubung"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/terhubung"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/load_payment_method_list"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        android:indeterminate="true"
+        app:indicatorColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/rv_akun_terhubung"
+        app:layout_constraintTop_toBottomOf="@id/terhubung" />
+
+    <LinearLayout
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/rv_akun_terhubung"
+        app:layout_constraintTop_toBottomOf="@id/terhubung"
+
+        android:id="@+id/error_message"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textColor="@color/black"
+            android:text="Terjadi kesalahan"
+            android:fontFamily="@font/montserrat_medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/retry_button"
+            app:cardElevation="0dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardBackgroundColor="#FFFDC500"
+            app:cardCornerRadius="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_width="150dp"
+            android:layout_height="50dp">
+            <TextView
+                android:textColor="@color/black"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="Coba kembali"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/empty_list"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/rv_akun_terhubung"
+        app:layout_constraintTop_toBottomOf="@id/terhubung"
+        android:textColor="@color/black"
+        android:text="Anda belum terhubung\nke penyedia pembayaran"
+        android:fontFamily="@font/montserrat_medium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

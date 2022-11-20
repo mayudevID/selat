@@ -11,4 +11,5 @@ interface CarUseCase {
     fun getCarDataByParams(manufacturer: Manufacturer, typeCar: TypeCar) : Flow<Resource<List<Car>>>
     fun getAvailableCar(carId: String) : Flow<Int>
     fun getCarBySearch(carName: String) : Flow<Resource<List<Car>>>
+    fun getSingleDataCar(id: String) : Flow<Resource<Car>>
 }
