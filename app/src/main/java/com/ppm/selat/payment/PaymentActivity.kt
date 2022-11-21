@@ -289,6 +289,7 @@ class PaymentActivity : AppCompatActivity() {
         val okButton = dialogView.findViewById<TextView>(R.id.ok_button_tc)
         val cancelButton = dialogView.findViewById<TextView>(R.id.cancel_button_tc)
 
+        checkBox.isChecked = false
         checkBox.setOnCheckedChangeListener { _, b -> checkBox.isChecked = b }
 
         gotoTc.setOnClickListener {
