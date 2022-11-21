@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    app:cardElevation="0dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/title_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Persetujuan"
+            android:fontFamily="@font/montserrat_bold"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:gravity="center"
+            />
+
+        <TextView
+            android:layout_marginHorizontal="50dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:id="@+id/subtitle_dialog"
+            android:textColor="@color/black"
+            android:layout_marginTop="24dp"
+            android:layout_gravity="center"
+            android:text="Sebelum melanjutkan transaksi, harap telah membaca Syarat &amp; Ketentuan yang berlaku di Selat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+
+            android:layout_marginHorizontal="50dp"
+            android:fontFamily="@font/montserrat_bold"
+            android:id="@+id/goto_tc"
+            android:textColor="@color/black"
+            android:layout_marginVertical="8dp"
+            android:layout_gravity="start"
+            android:text="Syarat &amp; Ketentuan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <CheckBox
+            android:id="@+id/checkbox"
+            android:buttonTint="@color/black"
+            android:fontFamily="@font/montserrat_regular"
+            android:text="Saya menyetujui dan memahami Syarat &amp; ketentuan yang berlaku"
+            android:layout_marginHorizontal="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:fontFamily="@font/montserrat_medium"
+            android:id="@+id/error_text"
+            android:alpha="0"
+            android:layout_marginVertical="10dp"
+            android:layout_gravity="center"
+            android:text="PIN Tidak Lengkap"
+            android:textColor="#FFFF0000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#DEDEDE"
+            />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:id="@+id/ok_button_tc"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textColor="@color/black"
+                android:background="?selectableItemBackground"
+                android:text="OKE"
+                android:fontFamily="@font/montserrat_semibold"
+                />
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:id="@+id/cancel_button_tc"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textColor="@color/black"
+                android:background="?selectableItemBackground"
+                android:text="BATAL"
+                android:fontFamily="@font/montserrat_semibold"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

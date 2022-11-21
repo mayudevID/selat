@@ -14,6 +14,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.CheckBox
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -43,6 +44,7 @@ import com.ppm.selat.core.utils.setLogo
 import com.ppm.selat.databinding.ActivityPaymentBinding
 import com.ppm.selat.finish_payment.FinishPaymentActivity
 import com.ppm.selat.startLoadingDialog
+import com.ppm.selat.terms_conditions.TermsConditionsActivity
 import com.ppm.selat.widget.convertCode
 import com.ppm.selat.widget.onSnackError
 import kotlinx.coroutines.launch
@@ -116,11 +118,10 @@ class PaymentActivity : AppCompatActivity() {
         binding.dayCounts.text = (1).toString()
 
         val dialog = startLoadingDialog("Load payment", this@PaymentActivity)
-        if(isNetworkAvailable(this@PaymentActivity)) {
-            paymentViewModel.getListPaymentMethod().observe(this) {
-                    result ->
+        if (isNetworkAvailable(this@PaymentActivity)) {
+            paymentViewModel.getListPaymentMethod().observe(this) { result ->
                 if (result != null) {
-                    when(result) {
+                    when (result) {
                         is Resource.Loading -> {
 
                         }
@@ -136,14 +137,22 @@ class PaymentActivity : AppCompatActivity() {
                         is Resource.Error -> {
                             dialog.dismiss()
                             finish()
-                            Toast.makeText(applicationContext, "Tidak dapat terhubung ke internet", Toast.LENGTH_LONG).show()
+                            Toast.makeText(
+                                applicationContext,
+                                "Tidak dapat terhubung ke internet",
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
                     }
                 }
             }
         } else {
             finish()
-            Toast.makeText(applicationContext, "Tidak dapat terhubung ke internet", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                applicationContext,
+                "Tidak dapat terhubung ke internet",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 
@@ -201,13 +210,22 @@ class PaymentActivity : AppCompatActivity() {
         binding.payNowButton.setOnClickListener {
             if (pinAttempt < 4) {
                 if (binding.warningValue.visibility == View.VISIBLE) {
-                    onSnackError("Mohon pilih metode pembayaran dan pastikan saldo cukup", binding.root, applicationContext)
+                    onSnackError(
+                        "Mohon pilih metode pembayaran dan pastikan saldo cukup",
+                        binding.root,
+                        applicationContext
+                    )
                 } else {
-                    showPinConfirm()
-                    pinAttempt++
+                    showAgreeTermsConditions()
+//                    showPinConfirm()
+//                    pinAttempt++
                 }
             } else {
-                onSnackError("Pembayaran Gagal. Harap kembali dari laman ini dan coba kembali ", binding.root, applicationContext)
+                onSnackError(
+                    "Pembayaran Gagal. Harap kembali dari laman ini dan coba kembali ",
+                    binding.root,
+                    applicationContext
+                )
             }
         }
 
@@ -257,6 +275,42 @@ class PaymentActivity : AppCompatActivity() {
         }
     }
 
+    private fun showAgreeTermsConditions() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_tc_agree, null)
+        val customDialog = AlertDialog.Builder(this).setView(dialogView).create()
+
+        customDialog.window?.decorView?.setBackgroundResource(R.drawable.bg_dialog_border)
+        customDialog.window?.setLayout(1000, WindowManager.LayoutParams.WRAP_CONTENT)
+        customDialog.setCanceledOnTouchOutside(false)
+
+        val checkBox = dialogView.findViewById<CheckBox>(R.id.checkbox)
+        //val errorMessage = dialogView.findViewById<TextView>(R.id.error_text)
+        val gotoTc = dialogView.findViewById<TextView>(R.id.goto_tc)
+        val okButton = dialogView.findViewById<TextView>(R.id.ok_button_tc)
+        val cancelButton = dialogView.findViewById<TextView>(R.id.cancel_button_tc)
+
+        checkBox.setOnCheckedChangeListener { _, b -> checkBox.isChecked = b }
+
+        gotoTc.setOnClickListener {
+            val intent = Intent(this@PaymentActivity, TermsConditionsActivity::class.java)
+            startActivity(intent)
+        }
+
+        okButton.setOnClickListener {
+            if (checkBox.isChecked) {
+                customDialog.dismiss()
+                showPinConfirm()
+                pinAttempt++
+            }
+        }
+
+        cancelButton.setOnClickListener {
+            customDialog.dismiss()
+        }
+
+        customDialog.show()
+    }
+
     private fun showDialogEWallet() {
         val dialog: AlertDialog
         val builder = AlertDialog.Builder(this@PaymentActivity)
@@ -299,7 +353,8 @@ class PaymentActivity : AppCompatActivity() {
                         listCardAdapter?.changedCardToEWallet()
                     }
                     binding.borderSelectedEWallet.visibility = View.VISIBLE
-                    binding.selectedEWalletBalance.text = "Saldo ${kursIndonesia2.format(data.value).split(",")[0]}"
+                    binding.selectedEWalletBalance.text =
+                        "Saldo ${kursIndonesia2.format(data.value).split(",")[0]}"
                     binding.logoSelectedEWallet.setImageResource(setLogo(data.name))
                     paymentViewModel.dataTypePay.value = data
                     dialog.dismiss()
@@ -336,7 +391,11 @@ class PaymentActivity : AppCompatActivity() {
                             loadDialog.dismiss()
                             if (result.message == "EMPTY") {
                                 finish()
-                                Toast.makeText(this, "Mohon maaf mobil tidak tersedia saat ini", Toast.LENGTH_LONG)
+                                Toast.makeText(
+                                    this,
+                                    "Mohon maaf, mobil tidak tersedia saat ini",
+                                    Toast.LENGTH_LONG
+                                )
                                     .show()
                             } else {
                                 Toast.makeText(this, "Error: ${result.message}", Toast.LENGTH_LONG)
@@ -369,7 +428,11 @@ class PaymentActivity : AppCompatActivity() {
                                     onSnackErrorDialog("PIN Salah, coba kembali", dialogView)
                                     pinAttempt++
                                 } else {
-                                    onSnackError("Pembayaran Gagal. Harap kembali dari laman ini dan coba kembali ", binding.root, applicationContext)
+                                    onSnackError(
+                                        "Pembayaran Gagal. Harap kembali dari laman ini dan coba kembali ",
+                                        binding.root,
+                                        applicationContext
+                                    )
                                 }
                             }
                         }

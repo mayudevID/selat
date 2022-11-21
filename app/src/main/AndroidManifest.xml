@@ -23,13 +23,17 @@
         android:theme="@style/Theme.Selat"
         tools:targetApi="31">
         <activity
+            android:screenOrientation="portrait"
             android:name=".payment_method.PaymentMethodActivity"
-            android:exported="false">
+            android:exported="false"
+            tools:ignore="LockedOrientationActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:name=".proof_booking.ProofBookingActivity"
             android:exported="false">
             <meta-data
@@ -37,6 +41,8 @@
                 android:value="" />
         </activity>
         <activity
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:name=".privacy_policy.PrivacyPolicyActivity"
             android:exported="false">
             <meta-data
@@ -44,6 +50,8 @@
                 android:value="" />
         </activity>
         <activity
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:name=".change_password.ChangePasswordActivity"
             android:exported="false">
             <meta-data
@@ -51,6 +59,8 @@
                 android:value="" />
         </activity>
         <activity
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:name=".login_history.LoginHistoryActivity"
             android:exported="false">
             <meta-data
@@ -58,6 +68,8 @@
                 android:value="" />
         </activity>
         <activity
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:name=".edit_profile.EditAddressActivity"
             android:exported="false">
             <meta-data
@@ -65,6 +77,8 @@
                 android:value="" />
         </activity>
         <activity
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:name=".security.SecurityActivity"
             android:exported="false">
             <meta-data
@@ -72,6 +86,8 @@
                 android:value="" />
         </activity>
         <activity
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:name=".detail_profile.DetailProfileActivity"
             android:exported="false">
             <meta-data
@@ -79,6 +95,8 @@
                 android:value="" />
         </activity>
         <activity
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:name=".transaction.TransactionActivity"
             android:exported="false">
             <meta-data
@@ -86,6 +104,8 @@
                 android:value="" />
         </activity>
         <activity
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:name=".terms_conditions.TermsConditionsActivity"
             android:exported="false">
             <meta-data
@@ -93,6 +113,8 @@
                 android:value="" />
         </activity>
         <activity
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:name=".search_car.SearchCarActivity"
             android:exported="false">
             <meta-data
@@ -115,10 +137,14 @@
             android:value="AIzaSyDyKgDsmfLxJFSZ0Tz_2ZxCYku3mYw2qgQ" />
 
         <activity
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:name=".location_car.LocationCarActivity"
             android:exported="false"
             android:label="MapsActivity" />
         <activity
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:name=".finish_payment.FinishPaymentActivity"
             android:exported="false">
             <meta-data
@@ -126,6 +152,8 @@
                 android:value="" />
         </activity>
         <activity
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:name=".payment.PaymentActivity"
             android:exported="false">
             <meta-data
@@ -133,6 +161,8 @@
                 android:value="" />
         </activity>
         <activity
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:name=".set_pin.SetPinActivity"
             android:exported="false">
             <meta-data
@@ -140,6 +170,8 @@
                 android:value="" />
         </activity>
         <activity
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:name=".auth.reset_password.ResetPasswordActivity"
             android:exported="false">
             <meta-data
@@ -147,6 +179,8 @@
                 android:value="" />
         </activity>
         <activity
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:name=".edit_profile.EditProfileActivity"
             android:exported="false">
             <meta-data
@@ -154,12 +188,18 @@
                 android:value="" />
         </activity>
         <activity
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:name=".profile.ProfileActivity"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:name=".pick_car.PickCarActivity"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:name=".splash.SplashActivity"
             android:exported="true">
             <intent-filter>
@@ -169,18 +209,28 @@
             </intent-filter>
         </activity>
         <activity
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:name=".detail_car.DetailCarActivity"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:name=".home.HomeActivity"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:name=".auth.register.RegisterActivity"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:name=".auth.login.LoginActivity"
             android:exported="false" />
         <activity
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:name=".OnboardActivity"
             android:exported="true" />
     </application>

@@ -89,14 +89,14 @@ class FinishPaymentActivity : AppCompatActivity() {
 
         val notificationBuilder = NotificationCompat.Builder(this, "channel01")
         //notificationBuilder.setSmallIcon(R.drawable.logo_selat)
-        notificationBuilder.setContentTitle("Transaksi Berhasil!")
-        notificationBuilder.setContentText("Hai, ${nameProfile}, Pesanan sewa anda dengan No Order ${orderData.id} telah diterima. Ketuk untuk melihat daftar transaksi terkini")
+        notificationBuilder.setContentTitle("Selat - Transaksi Berhasil!")
+        notificationBuilder.setContentText("Hai, ${nameProfile}, Pesanan sewa anda dengan Order No ${orderData.id} telah diterima. Ketuk untuk melihat daftar transaksi terkini")
         notificationBuilder.priority = NotificationCompat.PRIORITY_HIGH
         notificationBuilder.setAutoCancel(false)
         notificationBuilder.setContentIntent(mainPendingIntent)
         notificationBuilder.setStyle(
-            NotificationCompat.BigTextStyle().setBigContentTitle("Transaksi Berhasil!")
-                .bigText("Hai, ${nameProfile}, Pesanan sewa anda dengan No Order ${orderData.id} telah diterima. Ketuk untuk melihat daftar transaksi terkini")
+            NotificationCompat.BigTextStyle().setBigContentTitle("Selat - Transaksi Berhasil!")
+                .bigText("Hai, ${nameProfile}, Pesanan sewa anda dengan Order No ${orderData.id} telah diterima. Ketuk untuk melihat daftar transaksi terkini")
         )
         val notificationManagerCompat = NotificationManagerCompat.from(this)
         notificationManagerCompat.notify(Random.nextInt(), notificationBuilder.build())
