@@ -175,6 +175,18 @@ class RegisterActivity : AppCompatActivity() {
         binding.backToLogin.setOnClickListener {
             finish()
         }
+
+        binding.twitterRegister.setOnClickListener {
+            onSnackError("Fitur belum tersedia", binding.root, this@RegisterActivity)
+        }
+
+        binding.googleRegister.setOnClickListener {
+            onSnackError("Fitur belum tersedia", binding.root, this@RegisterActivity)
+        }
+
+        binding.facebookRegister.setOnClickListener {
+            onSnackError("Fitur belum tersedia", binding.root, this@RegisterActivity)
+        }
     }
 
     private fun sendData() {

@@ -224,6 +224,7 @@
         android:layout_height="wrap_content">
 
         <ImageButton
+            android:id="@+id/twitter_register"
             android:foreground="?android:attr/selectableItemBackground"
             android:src="@drawable/ic_akar_icons_twitter_fill"
             android:layout_marginHorizontal="12dp"
@@ -232,6 +233,7 @@
             android:layout_height="40dp"/>
 
         <ImageButton
+            android:id="@+id/google_register"
             android:foreground="?android:attr/selectableItemBackground"
             android:src="@drawable/ic_flat_color_icons_google"
             android:layout_marginHorizontal="12dp"
@@ -240,6 +242,7 @@
             android:layout_height="40dp"/>
 
         <ImageButton
+            android:id="@+id/facebook_register"
             android:foreground="?android:attr/selectableItemBackground"
             android:src="@drawable/ic_gg_facebook"
             android:layout_marginHorizontal="12dp"
