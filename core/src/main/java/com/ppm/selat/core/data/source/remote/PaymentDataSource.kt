@@ -15,6 +15,15 @@ class PaymentDataSource(firestore: FirebaseFirestore) {
     suspend fun addOrder(orderData: OrderData, uid: String): Flow<FirebaseResponse<Boolean>> {
         return flow {
             try {
+                val pmUser = paymentMethodDB.document(uid).collection("PAYMENT_METHOD")
+                val findData = pmUser.whereEqualTo("number", orderData.paymentNumber).get().await();
+                findData.documents.map {
+                    pmUser.document(it.id).update(
+                        mapOf(
+                            "value" to (it.data?.get("value").toString().toInt() - (orderData.price * orderData.rentDays)).toString()
+                        )
+                    ).await()
+                }
                 val userOrderDb = orderDb.document(uid)
                 val dataMap = mapOf(
                     "id" to orderData.id,

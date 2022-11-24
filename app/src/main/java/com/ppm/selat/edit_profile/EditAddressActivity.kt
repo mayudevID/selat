@@ -49,6 +49,7 @@ class EditAddressActivity : AppCompatActivity() {
         binding.errorText.alpha = 0F
         binding.saveButtonAddress.isClickable = false
         binding.errorText.text = "Mohon isi tempat lebih dari 10 (sepuluh) karakter"
+        binding.saveButtonAddress.visibility = View.GONE
 
         editProfileViewModel.editMode = TypeDataEdit.ADDRESS
 
@@ -80,6 +81,7 @@ class EditAddressActivity : AppCompatActivity() {
                 binding.errorText.alpha = 1F
                 binding.saveButtonAddress.isClickable = false
             } else {
+                binding.saveButtonAddress.visibility = View.VISIBLE
                 binding.errorText.alpha = 0F
                 editProfileViewModel.textValue = value
                 binding.saveButtonAddress.isClickable = true

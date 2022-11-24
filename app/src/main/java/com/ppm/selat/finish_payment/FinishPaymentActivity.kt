@@ -88,7 +88,7 @@ class FinishPaymentActivity : AppCompatActivity() {
             PendingIntent.getActivity(this, 1, mainIntent, PendingIntent.FLAG_IMMUTABLE)
 
         val notificationBuilder = NotificationCompat.Builder(this, "channel01")
-        //notificationBuilder.setSmallIcon(R.drawable.logo_selat)
+        notificationBuilder.setSmallIcon(R.drawable.ic_baseline_check_24)
         notificationBuilder.setContentTitle("Selat - Transaksi Berhasil!")
         notificationBuilder.setContentText("Hai, ${nameProfile}, Pesanan sewa anda dengan Order No ${orderData.id} telah diterima. Ketuk untuk melihat daftar transaksi terkini")
         notificationBuilder.priority = NotificationCompat.PRIORITY_HIGH

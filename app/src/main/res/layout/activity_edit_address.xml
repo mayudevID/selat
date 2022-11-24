@@ -283,6 +283,7 @@
     </FrameLayout>
 
     <androidx.cardview.widget.CardView
+        android:clickable="false"
         android:id="@+id/save_button_address"
         android:layout_width="match_parent"
         android:layout_height="40dp"
