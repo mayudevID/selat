@@ -63,5 +63,6 @@ dependencies {
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
     implementation("com.squareup.okhttp3:okhttp")
     implementation("com.squareup.okhttp3:logging-interceptor")
-    implementation 'com.itextpdf.android:kernel-android:7.2.2'
+    implementation 'com.itextpdf:itextpdf:5.0.6'
+    implementation 'com.karumi:dexter:6.2.2'
 }

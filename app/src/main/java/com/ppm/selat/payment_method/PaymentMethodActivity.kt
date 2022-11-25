@@ -245,7 +245,7 @@ class PaymentMethodActivity : AppCompatActivity() {
                         id = "0",
                         number = noValue!!,
                         type = type,
-                        value = 500000,
+                        value = 1500000,
                         name = name
                     )
                 )

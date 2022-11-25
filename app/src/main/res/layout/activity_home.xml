@@ -233,7 +233,7 @@
                 android:layout_marginStart="36dp"
                 android:layout_marginTop="30dp"
                 android:fontFamily="@font/montserrat_bold"
-                android:text="SUV"
+                android:text="SUV - MPV"
                 android:textColor="@color/black"
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"

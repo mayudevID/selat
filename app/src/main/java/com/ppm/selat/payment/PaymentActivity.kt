@@ -418,11 +418,8 @@ class PaymentActivity : AppCompatActivity() {
                     when (result) {
                         is Resource.Success -> {
                             if (PIN == result.data) {
-                                Log.d("PaymentActivity", "SUCCESS")
-                                loadDialog.dismiss()
                                 processingPayment(loadDialog)
                             } else {
-
                                 loadDialog.dismiss()
                                 if (pinAttempt < 4) {
                                     val dialogView = showPinConfirm()
@@ -438,9 +435,8 @@ class PaymentActivity : AppCompatActivity() {
                             }
                         }
                         is Resource.Error -> {
-                            Toast.makeText(this, "Error: ${result.message}", Toast.LENGTH_LONG)
-                                .show()
                             loadDialog.dismiss()
+                            onSnackError("Error: ${result.message}", binding.root, applicationContext)
                         }
                         is Resource.Loading -> {
 

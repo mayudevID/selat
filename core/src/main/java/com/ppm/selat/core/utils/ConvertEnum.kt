@@ -26,7 +26,7 @@ fun convertIntToManufacturer(manufacturer: Int): Manufacturer {
 fun convertStringToTypeCar(typeCar: String): TypeCar {
     return when (typeCar) {
         "SEDAN" -> TypeCar.SEDAN
-        "SUV" -> TypeCar.SUV
+        "SUV - MPV" -> TypeCar.SUV
         else -> TypeCar.ALL
     }
 }
@@ -45,7 +45,7 @@ fun convertStringToManufacturer(data: String) : Manufacturer {
 fun convertTypeCarToString(typeCar: TypeCar) : String {
     return when (typeCar) {
         TypeCar.SEDAN ->"SEDAN"
-        TypeCar.SUV -> "SUV"
+        TypeCar.SUV -> "SUV - MPV"
         TypeCar.ALL -> "ALL"
     }
 }

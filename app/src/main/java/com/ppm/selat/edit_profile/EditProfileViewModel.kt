@@ -53,7 +53,7 @@ class EditProfileViewModel(
     var regencyTarget = MutableStateFlow(Regency("", "", ""))
     var villageTarget = MutableStateFlow(Village("", "", ""))
 
-    fun getPassword() = authUseCase.getPassword().asLiveData()
+    fun getPIN() = authUseCase.getPIN().asLiveData()
 
     fun getProvince() = regionUseCase.getListProvince().asLiveData()
     fun getRegency(num: String) = regionUseCase.getListRegency(num).asLiveData()

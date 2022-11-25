@@ -7,6 +7,7 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -63,12 +64,23 @@ class FinishPaymentActivity : AppCompatActivity() {
             noRek.text = orderData.paymentNumber
             payTotal.text = kursIndonesia.format(orderData.price * orderData.rentDays).split(",")[0]
             finishButton.setOnClickListener {
-                val intent = Intent(this@FinishPaymentActivity, HomeActivity::class.java)
-                startActivity(intent)
-                finishAffinity()
+                goToHome()
             }
             logoPayment.setImageResource(setLogo(orderData.paymentTypeName.split(" ++ ")[1]))
         }
+
+        //BackSystemPressed
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                goToHome()
+            }
+        })
+    }
+
+    private fun goToHome() {
+        val intent = Intent(this@FinishPaymentActivity, HomeActivity::class.java)
+        startActivity(intent)
+        finishAffinity()
     }
 
     private fun getDate(date: String): List<String> {

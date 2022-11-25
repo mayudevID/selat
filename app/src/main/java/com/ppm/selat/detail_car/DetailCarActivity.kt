@@ -94,12 +94,12 @@ class DetailCarActivity : AppCompatActivity() {
                 if (result != null) {
                     if (result > 0)   {
                         binding.payButton.alpha = 1F
-                        availableStatus.text = "Tersedia"
+                        availableStatus.text = "Tersedia - $result"
                         availableStatus.setTextColor(Color.parseColor("#228C22"))
                         payButton.isClickable = true
                     } else {
                         binding.payButton.alpha = 0.4F
-                        availableStatus.text = "Kosong"
+                        availableStatus.text = "Kosong - $result"
                         availableStatus.setTextColor(Color.parseColor("#FF0000"))
                         payButton.isClickable = false
                     }

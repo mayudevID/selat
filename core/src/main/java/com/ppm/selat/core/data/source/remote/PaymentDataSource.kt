@@ -11,11 +11,14 @@ import kotlinx.coroutines.tasks.await
 class PaymentDataSource(firestore: FirebaseFirestore) {
     private val orderDb: CollectionReference = firestore.collection("order")
     private val paymentMethodDB: CollectionReference = firestore.collection("payment_method")
+    private val carDb: CollectionReference = firestore.collection("cars")
 
     suspend fun addOrder(orderData: OrderData, uid: String): Flow<FirebaseResponse<Boolean>> {
         return flow {
             try {
                 val pmUser = paymentMethodDB.document(uid).collection("PAYMENT_METHOD")
+                val carUser = carDb.document(orderData.idCar)
+
                 val findData = pmUser.whereEqualTo("number", orderData.paymentNumber).get().await();
                 findData.documents.map {
                     pmUser.document(it.id).update(
@@ -24,6 +27,13 @@ class PaymentDataSource(firestore: FirebaseFirestore) {
                         )
                     ).await()
                 }
+
+                val car = carUser.get().await()
+                carUser.update(
+                    mapOf(
+                        "available" to (car.data?.get("available").toString().toInt() - 1)
+                    )
+                ).await()
                 val userOrderDb = orderDb.document(uid)
                 val dataMap = mapOf(
                     "id" to orderData.id,

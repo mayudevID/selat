@@ -73,11 +73,11 @@ class PickCarActivity : AppCompatActivity() {
 
     private fun setUpListener() {
 
-        val adapter = CustomTypeCarAdapter(this, arrayListOf("ALL", "SEDAN", "SUV"))
+        val adapter = CustomTypeCarAdapter(this, arrayListOf("ALL", "SEDAN", "SUV - MPV"))
 
         val pos: Int = when (binding.typeCarRecent.text) {
             "SEDAN" -> 1
-            "SUV" -> 2
+            "SUV - MPV" -> 2
             else -> 0
         }
 
