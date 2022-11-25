@@ -1,29 +1,24 @@
 package com.ppm.selat.payment_method
 
 import android.app.AlertDialog
-import android.content.Intent
-import android.opengl.Visibility
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.InputFilter
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ppm.selat.R
-import com.ppm.selat.auth.login.LoginActivity
 import com.ppm.selat.core.data.Resource
 import com.ppm.selat.core.domain.model.DataTypePay
 import com.ppm.selat.core.ui.payment_method.ListPaymentMethodAdapter
-import com.ppm.selat.core.utils.AESEncryption
-import com.ppm.selat.core.utils.dismissKeyboard
 import com.ppm.selat.core.utils.isNetworkAvailable
 import com.ppm.selat.core.utils.setLogo
 import com.ppm.selat.databinding.ActivityPaymentMethodBinding
-import com.ppm.selat.payment.PaymentViewModel
 import com.ppm.selat.startLoadingDialog
 import com.ppm.selat.widget.onSnackError
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -211,6 +206,16 @@ class PaymentMethodActivity : AppCompatActivity() {
         val errorMessage = dialogView.findViewById<TextView>(R.id.error_text)
         val noValueEditText = dialogView.findViewById<EditText>(R.id.edit_text_no)
         val logo = dialogView.findViewById<ImageView>(R.id.target_logo_pm)
+
+        if (type == "CARD") {
+            val filterArray: Array<InputFilter?> = arrayOfNulls(1)
+            filterArray[0] = InputFilter.LengthFilter(16)
+            noValueEditText.filters = filterArray
+        } else {
+            val filterArray: Array<InputFilter?> = arrayOfNulls(1)
+            filterArray[0] = InputFilter.LengthFilter(14)
+            noValueEditText.filters = filterArray
+        }
 
         logo.setImageResource(setLogo(name))
 

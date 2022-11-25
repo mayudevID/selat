@@ -10,6 +10,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
@@ -35,6 +36,7 @@ class ListSuvAdapter(private var listSuv: ArrayList<Car>) : RecyclerView.Adapter
         val price: TextView = itemView.findViewById(R.id.suv_price_per_day)
         val rating: TextView = itemView.findViewById(R.id.suv_rating)
         val image: ImageView = itemView.findViewById(R.id.image_suv)
+        val load: ProgressBar = itemView.findViewById(R.id.load_image_suv)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListSuvViewHolder {
@@ -53,6 +55,29 @@ class ListSuvAdapter(private var listSuv: ArrayList<Car>) : RecyclerView.Adapter
         }
         Glide.with(holder.itemView)
             .load(data.carImage.sidePhoto)
+            .listener(object : RequestListener<Drawable> {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    holder.load.visibility = View.GONE
+                    return false
+                }
+
+                override fun onResourceReady(
+                    resource: Drawable?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    dataSource: DataSource?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    holder.load.visibility = View.GONE
+                    return false
+                }
+
+            })
             .into(holder.image)
         holder.itemView.margin(right = 38F)
         if (position == 0) {

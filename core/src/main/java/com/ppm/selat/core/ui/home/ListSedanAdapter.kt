@@ -38,6 +38,7 @@ class ListSedanAdapter(private var listSedan: ArrayList<Car>) : RecyclerView.Ada
         val price: TextView = itemView.findViewById(R.id.sedan_price_per_day)
         val rating: TextView = itemView.findViewById(R.id.sedan_rating)
         val image: ImageView = itemView.findViewById(R.id.image_sedan)
+        val load: ProgressBar = itemView.findViewById(R.id.load_image_sedan)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListSedanViewHolder {
@@ -56,6 +57,29 @@ class ListSedanAdapter(private var listSedan: ArrayList<Car>) : RecyclerView.Ada
         }
         Glide.with(holder.itemView)
             .load(data.carImage.sidePhoto)
+            .listener(object : RequestListener<Drawable> {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    holder.load.visibility = View.GONE
+                    return false
+                }
+
+                override fun onResourceReady(
+                    resource: Drawable?,
+                    model: Any?,
+                    target: Target<Drawable>?,
+                    dataSource: DataSource?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    holder.load.visibility = View.GONE
+                    return false
+                }
+
+            })
             .into(holder.image)
         holder.itemView.margin(right = 38F)
         if (position == 0) {

@@ -43,7 +43,7 @@
             android:fontFamily="@font/montserrat_regular"
             android:textColor="@color/black"
             android:hint="Nomor"
-            android:inputType="textPassword"
+            android:inputType="number"
             android:layout_marginHorizontal="45dp"
 
             android:layout_width="match_parent"

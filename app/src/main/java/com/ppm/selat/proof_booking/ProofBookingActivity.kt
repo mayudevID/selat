@@ -23,6 +23,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
 import com.itextpdf.text.Document
 import com.itextpdf.text.Image
 import com.itextpdf.text.pdf.PdfWriter
@@ -33,7 +35,10 @@ import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.ppm.selat.R
 import com.ppm.selat.core.domain.model.OrderData
+import com.ppm.selat.core.domain.model.UserData
 import com.ppm.selat.databinding.ActivityProofBookingBinding
+import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.w3c.dom.Text
 import java.io.File
 import java.io.FileNotFoundException
@@ -44,14 +49,22 @@ import java.text.DecimalFormatSymbols
 
 class ProofBookingActivity : AppCompatActivity() {
 
+    private val proofBookingViewModel : ProofBookingViewModel by viewModel()
     private lateinit var binding: ActivityProofBookingBinding
     private lateinit var orderData: OrderData
     private lateinit var fName: String
+    private lateinit var userData: UserData
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProofBookingBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        lifecycleScope.launch {
+            proofBookingViewModel.getUser.collect {
+                userData = it
+            }
+        }
 
         val builder = StrictMode.VmPolicy.Builder()
         StrictMode.setVmPolicy(builder.build())
@@ -69,9 +82,38 @@ class ProofBookingActivity : AppCompatActivity() {
             intent.getParcelableExtra("ORDER_DATA")!!
         }
 
+        setInvoice()
+
         fName = "invoice_selat_" + orderData.id
 
         setUpListener()
+    }
+
+    private fun setInvoice() {
+        val splitPm = orderData.paymentTypeName.split(" ++ ")
+
+        val pMethod = splitPm[1]
+        val pMethodName = splitPm[0]
+
+        val kursIndonesia2 = DecimalFormat.getCurrencyInstance() as DecimalFormat
+        val formatRp2 = DecimalFormatSymbols()
+
+        formatRp2.currencySymbol = "Rp"
+        formatRp2.monetaryDecimalSeparator = ','
+        formatRp2.groupingSeparator = '.'
+
+        kursIndonesia2.decimalFormatSymbols = formatRp2
+
+        //layout.findViewById<TextView>()
+        binding.userName.text = "${userData.name}\n${userData.email}"
+        binding.invoiceNo.text  = "Invoice/Order No: ${orderData.id}"
+        binding.dateOrder.text = "Date Order: ${orderData.dateOrder}"
+        binding.numberValuePrice.text = orderData.paymentNumber
+        binding.jnsPembayaran.text = "$pMethod ($pMethodName)"
+        binding.brandManufacturerTarget.text = "${orderData.manufacturer} - ${orderData.brand}"
+        binding.priceTarget.text = kursIndonesia2.format(orderData.price)
+        binding.rentDaysTargetInvoice.text = "${orderData.rentDays} hari"
+        binding.totalPrice.text = kursIndonesia2.format(orderData.rentDays * orderData.price)
     }
 
     private fun setUpListener() {
@@ -92,7 +134,7 @@ class ProofBookingActivity : AppCompatActivity() {
                 finish()
             }
             binding.buttonSaveInvoice.setOnClickListener {
-
+                createPdf()
             }
             tanggal.text = orderData.dateOrder
             orderNum.text = orderData.id
@@ -115,10 +157,7 @@ class ProofBookingActivity : AppCompatActivity() {
                     if (report.areAllPermissionsGranted()) {
 //                            ConstraintLayout layout = findViewById(R.id.lay);
 //                            ScrollView layout = findViewById(R.id.sView);
-                        val layout = findViewById<ConstraintLayout>(R.id.invoice_id)
-
-                        //layout.findViewById<TextView>()
-
+                        val layout = binding.invoiceDetail
 
                         val file: File? = saveBitMap(
                             this@ProofBookingActivity,
@@ -126,11 +165,11 @@ class ProofBookingActivity : AppCompatActivity() {
                         ) //which view you want to pass that view as parameter
                         if (file != null) {
                             Log.i("TAG", "Drawing saved to the gallery!")
-                            Toast.makeText(
-                                this@ProofBookingActivity,
-                                "Processing",
-                                Toast.LENGTH_SHORT
-                            ).show()
+//                            Toast.makeText(
+//                                this@ProofBookingActivity,
+//                                "Sedang Menyimpan...",
+//                                Toast.LENGTH_SHORT
+//                            ).show()
                             try {
                                 imageToPDF()
                             } catch (e: FileNotFoundException) {
@@ -140,7 +179,7 @@ class ProofBookingActivity : AppCompatActivity() {
                             Log.i("TAG", "Oops! Image could not be saved.")
                             Toast.makeText(
                                 this@ProofBookingActivity,
-                                "Click Again !",
+                                "Klik kembali untuk menyimpan invoice",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -183,8 +222,9 @@ class ProofBookingActivity : AppCompatActivity() {
             img.alignment = Image.ALIGN_CENTER or Image.ALIGN_TOP
             document.add(img)
             document.close()
-            Toast.makeText(this, "PDF Generated successfully!..", Toast.LENGTH_SHORT).show()
+            Snackbar.make(binding.root, "Invoice tersimpan, cek pada penyimpanan Internal untuk detail lebih lanjut", Snackbar.LENGTH_LONG).show()
         } catch (e: java.lang.Exception) {
+            Snackbar.make(binding.root, "Invoice gagal tersimpan", Snackbar.LENGTH_LONG).show()
         }
     }
 
@@ -195,7 +235,7 @@ class ProofBookingActivity : AppCompatActivity() {
         ) // enter folder name to save image
         if (!pictureFileDir.exists()) {
             val isDirectoryCreated = pictureFileDir.mkdirs()
-            if (!isDirectoryCreated) Log.i("ATG", "Can't create directory to save the image")
+            if (!isDirectoryCreated) Log.i("ATG", "Tidak dapat memmbuat direktori untuk menyimpan gambar")
             return null
         }
         val filename = pictureFileDir.path + File.separator + fName + ".jpg"

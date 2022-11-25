@@ -1,279 +1,550 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="UTF-8" ?>
+<ScrollView
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#FFE9E9E9"
-    android:layout_height="match_parent"
-    tools:context=".proof_booking.ProofBookingActivity">
+    android:layout_height="match_parent">
 
-    <ImageView
-        android:src="@drawable/expand_type"
-        android:rotation="180"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="47dp"
-        android:layout_marginStart="36dp"
-        android:id="@+id/back_button_bp"
-        android:layout_width="24dp"
-        android:layout_height="24dp"/>
-
-    <TextView
-        android:textColor="@color/black"
-        android:textSize="16sp"
-        android:fontFamily="@font/montserrat_bold"
-        android:gravity="center"
-        app:layout_constraintTop_toTopOf="@id/back_button_bp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/back_button_bp"
-        android:text="Bukti Pemesanan"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:background="#FFE9E9E9"
+        android:layout_height="match_parent"
+        tools:context=".proof_booking.ProofBookingActivity">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_marginHorizontal="36dp"
-        android:layout_marginTop="41dp"
-        app:layout_constraintTop_toBottomOf="@+id/back_button_bp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/tanggal"
-                android:fontFamily="@font/montserrat_regular"
-                android:textSize="10sp"
-                android:text="30 Oct 2022, 9:01 PM"
-                android:textColor="#FF979797"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <View
-                android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"/>
-
-            <TextView
-                android:fontFamily="@font/montserrat_regular"
-                android:textSize="12sp"
-                android:textColor="#FF979797"
-                android:text="Order NoNf098"
-                android:id="@+id/order_num"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-
-        <View
-            android:layout_marginTop="9dp"
-            android:background="#FFBDBDBD"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"/>
+        <ImageView
+            android:src="@drawable/expand_type"
+            android:rotation="180"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="47dp"
+            android:layout_marginStart="36dp"
+            android:id="@+id/back_button_bp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"/>
 
         <TextView
-            android:layout_marginTop="13dp"
-            android:fontFamily="@font/montserrat_regular"
-            android:textSize="12sp"
-            android:textColor="#FF979797"
-            android:text="Detail Pemesanan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-
-        <LinearLayout
-            android:layout_marginTop="15dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:textColor="@color/black"
-                android:fontFamily="@font/montserrat_regular"
-                android:textSize="12sp"
-                android:text="Nama Mobil"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <View
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"/>
-
-            <TextView
-                android:textColor="@color/black"
-                android:fontFamily="@font/montserrat_regular"
-                android:textSize="12sp"
-                android:id="@+id/brand_target"
-                android:text="Fortuner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginTop="6dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:textColor="@color/black"
-                android:fontFamily="@font/montserrat_regular"
-                android:textSize="12sp"
-                android:text="Merk Mobil"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <View
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"/>
-
-            <TextView
-                android:textColor="@color/black"
-                android:fontFamily="@font/montserrat_regular"
-                android:textSize="12sp"
-                android:id="@+id/manufacturer_target"
-                android:text="Toyota"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginTop="6dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:textColor="@color/black"
-                android:fontFamily="@font/montserrat_regular"
-                android:textSize="12sp"
-                android:text="Lama Sewa"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <View
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"/>
-
-            <TextView
-                android:textColor="@color/black"
-                android:fontFamily="@font/montserrat_regular"
-                android:textSize="12sp"
-                android:id="@+id/rent_days_target"
-                android:text="3 Hari"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-
-        <View
-            android:layout_marginTop="9dp"
-            android:background="#FFBDBDBD"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"/>
-
-        <TextView
-            android:layout_marginTop="22dp"
-            android:fontFamily="@font/montserrat_regular"
-            android:textSize="12sp"
-            android:textColor="#FF979797"
-            android:text="Detail Pembayaran"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <LinearLayout
-            android:layout_marginTop="6dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:textColor="@color/black"
-                android:fontFamily="@font/montserrat_regular"
-                android:textSize="12sp"
-                android:text="Harga"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <View
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"/>
-
-            <TextView
-                android:textColor="@color/black"
-                android:fontFamily="@font/montserrat_regular"
-                android:textSize="12sp"
-                android:id="@+id/price_total_target"
-                android:text="1.200.000"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-
-        <View
-            android:layout_marginTop="9dp"
-            android:background="#FFBDBDBD"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"/>
-
-        <LinearLayout
-            android:layout_marginTop="22dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/order_num_account"
-                android:textColor="@color/black"
-                android:fontFamily="@font/montserrat_regular"
-                android:textSize="12sp"
-                android:text="Bayar Menggunakan\nxxxx xxxx xxxx 1298"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-            <View
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"/>
-
-            <TextView
-                android:textColor="@color/black"
-                android:fontFamily="@font/montserrat_regular"
-                android:textSize="12sp"
-                android:id="@+id/price_total_target_2"
-                android:text="1.200.000"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/button_save_invoice"
-        app:cardElevation="0dp"
-        android:foreground="?attr/selectableItemBackground"
-        android:layout_marginHorizontal="36dp"
-        android:layout_marginBottom="23dp"
-        app:cardCornerRadius="12dp"
-        app:cardBackgroundColor="#FFFDC500"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_width="match_parent"
-        android:layout_height="53dp">
-
-        <TextView
-            android:fontFamily="@font/montserrat_bold"
-            android:layout_gravity="center"
-            android:text="Simpan Bukti"
             android:textColor="@color/black"
-            android:textSize="16dp"
-            android:layout_width="wrap_content"
+            android:textSize="16sp"
+            android:fontFamily="@font/montserrat_bold"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="@id/back_button_bp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/back_button_bp"
+            android:text="Bukti Pemesanan"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-    </androidx.cardview.widget.CardView>
+        <LinearLayout
+            android:id="@+id/linearLayoutData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="36dp"
+            android:layout_marginTop="41dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/back_button_bp"
+            tools:layout_editor_absoluteX="36dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tanggal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="30 Oct 2022, 9:01 PM"
+                    android:textColor="#FF979797"
+                    android:textSize="10sp" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/order_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="Order NoNf098"
+                    android:textColor="#FF979797"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="9dp"
+                android:background="#FFBDBDBD" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="13dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="Detail Pemesanan"
+                android:textColor="#FF979797"
+                android:textSize="12sp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="Nama Mobil"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/brand_target"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="Fortuner"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="Merk Mobil"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/manufacturer_target"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="Toyota"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="Lama Sewa"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/rent_days_target"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="3 Hari"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="9dp"
+                android:background="#FFBDBDBD" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="Detail Pembayaran"
+                android:textColor="#FF979797"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="Harga"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/price_total_target"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="1.200.000"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="9dp"
+                android:background="#FFBDBDBD" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp">
+
+                <TextView
+                    android:id="@+id/order_num_account"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="Bayar Menggunakan\nxxxx xxxx xxxx 1298"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/price_total_target_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="1.200.000"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_marginTop="36dp"
+            android:id="@+id/invoice_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="36dp"
+            android:background="@color/white"
+            android:padding="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/linearLayoutData">
+
+            <ImageView
+                android:id="@+id/logo_inv"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:src="@drawable/logo_selat"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/name_company"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Selat"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toEndOf="@+id/logo_inv"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_medium"
+                android:text="Sewa Mobil Kilat"
+                android:textColor="@color/black"
+                android:textSize="10sp"
+                app:layout_constraintStart_toEndOf="@id/logo_inv"
+                app:layout_constraintTop_toBottomOf="@id/name_company" />
+
+            <TextView
+                android:id="@id/email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="selat_app@gmail.com\n+62 8125435353"
+                android:textColor="@color/black"
+                android:textSize="8sp"
+                app:layout_constraintStart_toEndOf="@id/logo_inv"
+                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+            <TextView
+                android:id="@+id/invoice_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="72dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:text="Invoice"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/invoice_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Invoice No:"
+                android:textColor="@color/black"
+                android:textSize="8sp"
+                app:layout_constraintStart_toStartOf="@+id/invoice_text"
+                app:layout_constraintTop_toBottomOf="@+id/invoice_text" />
+
+            <TextView
+                android:id="@+id/date_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date Order:"
+                android:textColor="@color/black"
+                android:textSize="8sp"
+                app:layout_constraintStart_toStartOf="@+id/invoice_no"
+                app:layout_constraintTop_toBottomOf="@+id/invoice_no" />
+
+            <TextView
+                android:id="@+id/kepada_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Kepada"
+                android:textColor="@color/black"
+                android:textSize="8sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/logo_inv" />
+
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="USER"
+                android:textColor="@color/black"
+                android:textSize="8sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/kepada_text" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Metode Pembayaran:"
+                android:textColor="@color/black"
+                android:textSize="8sp"
+                app:layout_constraintBottom_toBottomOf="@+id/kepada_text"
+                app:layout_constraintStart_toStartOf="@+id/date_order"
+                app:layout_constraintTop_toTopOf="@+id/kepada_text" />
+
+            <TextView
+                android:id="@+id/number_value_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="XXXXXXXXXXX"
+                android:textColor="@color/black"
+                android:textSize="8sp"
+                app:layout_constraintStart_toStartOf="@+id/textView2"
+                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+            <TextView
+
+                android:id="@+id/jns_pembayaran"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CARD//CC"
+                android:textColor="@color/black"
+                android:textSize="8dp"
+                app:layout_constraintStart_toStartOf="@+id/number_value_price"
+                app:layout_constraintTop_toBottomOf="@+id/number_value_price" />
+
+            <TableLayout
+
+                android:id="@+id/tableLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/jns_pembayaran">
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_gravity="center"
+                        android:padding="3dip"
+                        android:text="Mobil yang disewa\n(Manufacturer - Brand)"
+                        android:textColor="@color/black"
+                        android:textSize="8sp"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_height="0dp"
+                        android:layout_marginHorizontal="15dp" />
+
+                    <TextView
+                        android:layout_gravity="start|center_vertical"
+                        android:padding="3dip"
+                        android:text="Harga"
+                        android:textColor="@color/black"
+                        android:textSize="8sp"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_height="0dp"
+                        android:layout_marginHorizontal="15dp" />
+
+                    <TextView
+                        android:layout_gravity="center"
+                        android:padding="3dip"
+                        android:text="Hari Sewa"
+                        android:textColor="@color/black"
+                        android:textSize="8sp"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_height="0dp"
+                        android:layout_marginHorizontal="7dp" />
+
+                    <TextView
+                        android:layout_gravity="start"
+                        android:padding="3dip"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="8sp" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/brand_manufacturer_target"
+                        android:layout_gravity="start"
+                        android:fontFamily="@font/montserrat_medium"
+                        android:padding="3dip"
+                        android:text="Toyota - Fortuner"
+                        android:textColor="@color/black"
+                        android:textSize="8sp" />
+
+                    <View
+                        android:layout_height="0dp"
+                        android:layout_marginHorizontal="15dp" />
+
+                    <TextView
+                        android:id="@+id/price_target"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/montserrat_medium"
+                        android:padding="3dip"
+                        android:text="Rp200.000"
+                        android:textColor="@color/black"
+                        android:textSize="8sp" />
+
+                    <View
+                        android:layout_height="0dp"
+                        android:layout_marginHorizontal="15dp" />
+
+                    <TextView
+                        android:id="@+id/rent_days_target_invoice"
+                        android:layout_gravity="start"
+                        android:fontFamily="@font/montserrat_medium"
+                        android:padding="3dip"
+                        android:text="3 hari"
+                        android:textColor="@color/black"
+                        android:textSize="8sp" />
+
+                    <View
+                        android:layout_height="0dp"
+                        android:layout_marginHorizontal="7dp" />
+
+                    <TextView
+                        android:id="@+id/total_price"
+                        android:layout_gravity="start"
+                        android:fontFamily="@font/montserrat_medium"
+                        android:padding="3dip"
+                        android:text="Rp600.000"
+                        android:textColor="@color/black"
+                        android:textSize="8sp"
+                        android:textStyle="bold" />
+                </TableRow>
+            </TableLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="64dp"
+                android:text="(Penanggung Jawab)"
+                android:textColor="@color/black"
+                android:textSize="8sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/button_save_invoice"
+            android:layout_marginVertical="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:layout_marginHorizontal="36dp"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardBackgroundColor="#FFFDC500"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/invoice_detail"
+            tools:layout_editor_absoluteX="36dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Simpan Bukti"
+                android:textColor="@color/black"
+                android:textSize="16dp" />
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
