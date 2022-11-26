@@ -168,9 +168,9 @@ class EditProfileActivity : AppCompatActivity() {
                 binding.errorText.text = ""
                 binding.saveButton.isClickable = true
 
-                Log.d("EditProfileActivity", "$value, ${editProfileViewModel.dateBirth}")
+                Log.d("EditProfileActivity", "$value, ${editProfileViewModel.dateBirth.value}")
 
-                editProfileViewModel.textValue.value = "$value, ${editProfileViewModel.dateBirth}"
+                editProfileViewModel.textValue.value = "$value, ${editProfileViewModel.dateBirth.value}"
             }
         }
 
