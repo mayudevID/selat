@@ -287,7 +287,7 @@ class PaymentMethodActivity : AppCompatActivity() {
         val dialog: AlertDialog
         val builder = AlertDialog.Builder(this)
         val inflater = this.layoutInflater
-        val dialogView = inflater.inflate(R.layout.dialog_logout, null)
+        val dialogView = inflater.inflate(R.layout.dialog_delete_payment_method, null)
 
         builder.setView(dialogView)
 
