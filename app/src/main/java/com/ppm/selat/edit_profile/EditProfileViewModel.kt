@@ -22,7 +22,7 @@ class EditProfileViewModel(
 
     fun updateProfile() : LiveData<Resource<Boolean>> {
 
-        if (editMode == TypeDataEdit.PDOB) {
+        if (editMode == TypeDataEdit.PDOB && (textValue.value.isNotEmpty() || textValue.value != "")) {
             textValue.value = "${textValue.value}, ${dateBirth.value}"
         }
 
