@@ -83,7 +83,7 @@ class EditAddressActivity : AppCompatActivity() {
             } else {
                 binding.saveButtonAddress.visibility = View.VISIBLE
                 binding.errorText.alpha = 0F
-                editProfileViewModel.textValue = value
+                editProfileViewModel.textValue.value = value
                 binding.saveButtonAddress.isClickable = true
             }
         }
