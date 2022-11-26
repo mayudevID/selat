@@ -2,7 +2,6 @@ package com.ppm.selat.core.data.source.remote
 
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
 import com.ppm.selat.core.data.source.remote.network.FirebaseResponse
@@ -66,11 +65,11 @@ class AuthDataSource (private val firebaseAuth: FirebaseAuth){
         }
     }
 
-    suspend fun changeEmail(email: String, oldEmail: String, password: String) : Flow<FirebaseResponse<Boolean>> {
+    suspend fun changeEmail(email: String) : Flow<FirebaseResponse<Boolean>> {
         return flow {
             try {
-                val credential = EmailAuthProvider.getCredential(oldEmail, password)
-                firebaseAuth.currentUser?.reauthenticate(credential)?.await()
+                //val credential = EmailAuthProvider.getCredential(oldEmail, password)
+                //firebaseAuth.currentUser?.reauthenticate(credential)?.await()
                 firebaseAuth.currentUser?.updateEmail(email)?.await()
                 emit(FirebaseResponse.Success(true))
             } catch (e: FirebaseAuthException) {

@@ -32,6 +32,9 @@ fun convertCode(errorCode: String): String {
         "ERROR_INVALID_EMAIL" -> {
             "Email tidak valid"
         }
+        "ERROR_REQUIRES_RECENT_LOGIN" -> {
+            "(Autentikasi Diperlukan) Harap logout akun dan login kembali untuk mengubah email lama"
+        }
         else -> {
             errorCode
         }

@@ -159,12 +159,12 @@ class AuthRepository(
                 is Resource.Success -> {
                     emit(Resource.Loading())
                     val resultLogout = authDataSource.logoutFromFirebase()
-                    when (val result = resultLogout.first()) {
+                    when (val resultD = resultLogout.first()) {
                         is FirebaseResponse.Success -> {
                             emit(Resource.Success(true))
                         }
                         is FirebaseResponse.Error -> {
-                            emit(Resource.Error(result.errorMessage))
+                            emit(Resource.Error(resultD.errorMessage))
                         }
                         is FirebaseResponse.Empty -> {}
                     }
@@ -202,7 +202,7 @@ class AuthRepository(
                     when (val resultSaveLocal = saveLocal.first()) {
                         is Resource.Success -> {
                             if (typeDataEdit == TypeDataEdit.EMAIL) {
-                                val resultChangeEmail = authDataSource.changeEmail(data, oldUserData.email!!, pass)
+                                val resultChangeEmail = authDataSource.changeEmail(data)
                                 when (val resultChange = resultChangeEmail.first()) {
                                     is FirebaseResponse.Success -> {
                                         emit(Resource.Success(true))

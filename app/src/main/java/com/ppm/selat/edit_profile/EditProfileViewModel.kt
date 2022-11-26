@@ -1,7 +1,9 @@
 package com.ppm.selat.edit_profile
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import com.ppm.selat.core.data.Resource
 import com.ppm.selat.core.domain.model.*
 import com.ppm.selat.core.domain.usecase.AuthUseCase
 import com.ppm.selat.core.domain.usecase.RegionUseCase
@@ -14,17 +16,22 @@ class EditProfileViewModel(
     private val regionUseCase: RegionUseCase
 ) : ViewModel() {
     lateinit var editMode: TypeDataEdit
-    lateinit var oldUserData: UserData
     var textValue = MutableStateFlow("")
     var dateBirth = MutableStateFlow("")
     var neededPassword = MutableStateFlow("")
-    var isDateChanged = MutableStateFlow(false)
 
-    fun updateProfile() = authUseCase.updateProfile(
-        editMode,
-        if (textValue.value.isEmpty() || textValue.value == "") "Tidak ada data" else textValue.value,
-        neededPassword.value
-    ).asLiveData()
+    fun updateProfile() : LiveData<Resource<Boolean>> {
+
+        if (editMode == TypeDataEdit.PDOB) {
+            textValue.value = "${textValue.value}, ${dateBirth.value}"
+        }
+
+        return authUseCase.updateProfile(
+            editMode,
+            if (textValue.value.isEmpty() || textValue.value == "") "Tidak ada data" else textValue.value,
+            neededPassword.value
+        ).asLiveData()
+    }
 
     fun updateAddress() = authUseCase.updateProfile(
         editMode,
@@ -49,7 +56,7 @@ class EditProfileViewModel(
     var regencyTarget = MutableStateFlow(Regency("", "", ""))
     var villageTarget = MutableStateFlow(Village("", "", ""))
 
-    //fun getPIN() = authUseCase.getPIN().asLiveData()
+    fun getPIN() = authUseCase.getPIN().asLiveData()
 
     fun getProvince() = regionUseCase.getListProvince().asLiveData()
     fun getRegency(num: String) = regionUseCase.getListRegency(num).asLiveData()
