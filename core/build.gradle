@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-parcelize'
     id 'com.google.gms.google-services'
     id "org.jetbrains.kotlin.plugin.serialization" version "1.7.20"
+    id 'com.google.firebase.crashlytics'
 }
 apply from: '../shared_dependencies.gradle'
 apply plugin: 'kotlin-kapt'

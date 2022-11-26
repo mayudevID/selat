@@ -23,7 +23,7 @@
             android:layout_marginHorizontal="40dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Metode pembayaran tidak tersedia, mohon hubungkan akun ke penyedia pembayaran sebelum melanjuutkan transaksi"
+            android:text="Metode pembayaran tidak tersedia, mohon hubungkan akun ke penyedia pembayaran sebelum melanjutkan transaksi"
             android:fontFamily="@font/montserrat_regular"
             android:textColor="@color/black"
             android:textSize="16sp"
