@@ -179,7 +179,7 @@ class AuthRepository(
         }
     }
 
-    override fun updateProfile(typeDataEdit: TypeDataEdit, data: String): Flow<Resource<Boolean>> {
+    override fun updateProfile(typeDataEdit: TypeDataEdit, data: String, pass: String): Flow<Resource<Boolean>> {
         return flow {
             emit(Resource.Loading())
             val uid = authDataSource.getUidUser()
@@ -202,7 +202,7 @@ class AuthRepository(
                     when (val resultSaveLocal = saveLocal.first()) {
                         is Resource.Success -> {
                             if (typeDataEdit == TypeDataEdit.EMAIL) {
-                                val resultChangeEmail = authDataSource.changeEmail(data)
+                                val resultChangeEmail = authDataSource.changeEmail(data, oldUserData.email!!, pass)
                                 when (val resultChange = resultChangeEmail.first()) {
                                     is FirebaseResponse.Success -> {
                                         emit(Resource.Success(true))

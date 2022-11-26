@@ -1,19 +1,12 @@
 package com.ppm.selat.edit_profile
 
-import android.net.Uri
-import android.provider.ContactsContract.CommonDataKinds.Email
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import com.ppm.selat.core.data.Resource
 import com.ppm.selat.core.domain.model.*
 import com.ppm.selat.core.domain.usecase.AuthUseCase
 import com.ppm.selat.core.domain.usecase.RegionUseCase
 import com.ppm.selat.core.utils.TypeDataEdit
 import com.ppm.selat.core.utils.getCapsSentences
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.flow.*
 
 class EditProfileViewModel(
@@ -24,16 +17,19 @@ class EditProfileViewModel(
     lateinit var oldUserData: UserData
     var textValue = MutableStateFlow("")
     var dateBirth = MutableStateFlow("")
+    var neededPassword = MutableStateFlow("")
     var isDateChanged = MutableStateFlow(false)
 
     fun updateProfile() = authUseCase.updateProfile(
         editMode,
-        if (textValue.value.isEmpty() || textValue.value == "") "Tidak ada data" else textValue.value
+        if (textValue.value.isEmpty() || textValue.value == "") "Tidak ada data" else textValue.value,
+        neededPassword.value
     ).asLiveData()
 
     fun updateAddress() = authUseCase.updateProfile(
         editMode,
-        if (textValue.value.isEmpty() || textValue.value == "") "Tidak ada data" else setAddress()
+        if (textValue.value.isEmpty() || textValue.value == "") "Tidak ada data" else setAddress(),
+        neededPassword.value
     ).asLiveData()
 
     private fun setAddress(): String {
@@ -53,7 +49,7 @@ class EditProfileViewModel(
     var regencyTarget = MutableStateFlow(Regency("", "", ""))
     var villageTarget = MutableStateFlow(Village("", "", ""))
 
-    fun getPIN() = authUseCase.getPIN().asLiveData()
+    //fun getPIN() = authUseCase.getPIN().asLiveData()
 
     fun getProvince() = regionUseCase.getListProvince().asLiveData()
     fun getRegency(num: String) = regionUseCase.getListRegency(num).asLiveData()

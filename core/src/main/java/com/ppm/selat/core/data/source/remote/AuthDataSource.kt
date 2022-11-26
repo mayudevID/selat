@@ -2,12 +2,16 @@ package com.ppm.selat.core.data.source.remote
 
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
 import com.ppm.selat.core.data.source.remote.network.FirebaseResponse
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.tasks.await
+
 
 class AuthDataSource (private val firebaseAuth: FirebaseAuth){
     suspend fun loginToFirebase(email: String, password: String): Flow<FirebaseResponse<AuthResult>> {
@@ -62,9 +66,11 @@ class AuthDataSource (private val firebaseAuth: FirebaseAuth){
         }
     }
 
-    suspend fun changeEmail(email: String) : Flow<FirebaseResponse<Boolean>> {
+    suspend fun changeEmail(email: String, oldEmail: String, password: String) : Flow<FirebaseResponse<Boolean>> {
         return flow {
             try {
+                val credential = EmailAuthProvider.getCredential(oldEmail, password)
+                firebaseAuth.currentUser?.reauthenticate(credential)?.await()
                 firebaseAuth.currentUser?.updateEmail(email)?.await()
                 emit(FirebaseResponse.Success(true))
             } catch (e: FirebaseAuthException) {

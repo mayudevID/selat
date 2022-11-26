@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -198,7 +199,7 @@ class EditProfileActivity : AppCompatActivity() {
                 }
             } else {
                 if (editProfileViewModel.editMode == TypeDataEdit.EMAIL) {
-                    showPinConfirm()
+                    showPasswordConfirm()
                 } else if (editProfileViewModel.editMode == TypeDataEdit.PDOB) {
                     val dateTemp = editProfileViewModel.dateBirth.value
                     if (dateTemp.isEmpty() || dateTemp == "") {
@@ -239,123 +240,89 @@ class EditProfileActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkPinAndProcessing(PIN: String) {
-        fun processingUpdateEmail(loadDialog: AlertDialog) {
-            editProfileViewModel.updateProfile().observe(this) { result ->
-                if (result != null) {
-                    when (result) {
-                        is Resource.Success -> {
-                            Toast.makeText(this, "Sukses disimpan", Toast.LENGTH_SHORT).show()
-                            loadDialog.dismiss()
-                            finish()
-                        }
-                        is Resource.Error -> {
-                            onSnackError(result.message!!, binding.root, applicationContext)
-                            loadDialog.dismiss()
-                        }
-                        is Resource.Loading -> {
+    private fun checkPasswordAndProcessing(password: String) {
+        val loadDialog = startLoadingDialog("Sedang memproses...", this)
+        editProfileViewModel.updateProfile().observe(this) { result ->
+            if (result != null) {
+                when (result) {
+                    is Resource.Success -> {
+                        Toast.makeText(this, "Sukses disimpan", Toast.LENGTH_SHORT).show()
+                        loadDialog.dismiss()
+                        finish()
+                    }
+                    is Resource.Error -> {
+                        onSnackError(result.message!!, binding.root, applicationContext)
+                        loadDialog.dismiss()
+                    }
+                    is Resource.Loading -> {
 
-                        }
                     }
                 }
             }
-        }
-
-        if (isNetworkAvailable(this@EditProfileActivity)) {
-            val loadDialog = startLoadingDialog("Sedang memproses...", this)
-            editProfileViewModel.getPIN().observe(this) { result ->
-                if (result != null) {
-                    when (result) {
-                        is Resource.Success -> {
-                            if (PIN == result.data) {
-                                processingUpdateEmail(loadDialog)
-                            } else {
-                                onSnackError("PIN Salah, coba kembali", binding.root, applicationContext)
-                                loadDialog.dismiss()
-                                //showPinConfirm()
-                            }
-                        }
-                        is Resource.Error -> {
-                            loadDialog.dismiss()
-                            onSnackError(result.message!!, binding.root, applicationContext)
-                            ///showPinConfirm()
-                        }
-                        is Resource.Loading -> {}
-                    }
-                }
-            }
-        } else {
-            onSnackError("Tidak dapat terhbung ke internet", binding.root, applicationContext)
         }
     }
 
-    private fun showPinConfirm(): View {
-        var PIN_FIRST: String? = null
-        var pinEmpty = true
+    private fun showPasswordConfirm() {
+        var passwordEmpty = true
+        var passwordValue : String? = null
 
-        val dialogView = layoutInflater.inflate(R.layout.dialog_set_pin, null)
+        val dialogView = layoutInflater.inflate(R.layout.dialog_set_password, null)
         val customDialog = AlertDialog.Builder(this).setView(dialogView).create()
 
         customDialog.window?.decorView?.setBackgroundResource(R.drawable.bg_dialog_border)
         customDialog.window?.setLayout(950, WindowManager.LayoutParams.WRAP_CONTENT)
         customDialog.setCanceledOnTouchOutside(false)
 
-        val firstPin = dialogView.findViewById<PinView>(R.id.firstPinView)
-        val title = dialogView.findViewById<TextView>(R.id.title_dialog)
-        val subTitle = dialogView.findViewById<TextView>(R.id.subtitle_dialog)
-        val errorMessage = dialogView.findViewById<TextView>(R.id.error_text)
         val okButton = dialogView.findViewById<TextView>(R.id.ok_button)
-        val cancelButton = dialogView.findViewById<TextView>(R.id.cancel_button)
+        val cancel = dialogView.findViewById<TextView>(R.id.cancel_button)
+        val errorMessage = dialogView.findViewById<TextView>(R.id.error_text)
+        val password = dialogView.findViewById<EditText>(R.id.edit_text_pass_confirm)
 
-        title.text = "Konfirmasi PIN"
-        subTitle.text = "Masukkan PIN untuk konfirmasi ganti email"
+        password.doAfterTextChanged {
+            val stringTemp = it.toString().trim()
+            passwordEmpty = stringTemp == "" || stringTemp.isEmpty()
 
-        customDialog.show()
-
-        fun initFocus() {
-            val imm =
-                getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            Handler(Looper.getMainLooper()).postDelayed({
-                firstPin.requestFocus();
-                imm.showSoftInput(firstPin, 0);
-            }, 100)
-        }
-
-        okButton.isClickable = false
-        firstPin.isPasswordHidden = true
-        firstPin.setAnimationEnable(true)
-        initFocus()
-
-        firstPin.doOnTextChanged { text, start, before, count ->
-            val stringTemp = text.toString().trim()
-            pinEmpty = stringTemp == "" || stringTemp.isEmpty()
-
-            if (text.toString().trim().length < 6) {
-                errorMessage.text = "PIN Tidak Lengkap"
+            if (stringTemp.length < 6) {
+                errorMessage.text = "Password minimal 6 (enam) karakter"
                 errorMessage.alpha = 1F
                 okButton.isClickable = false
             } else {
                 errorMessage.alpha = 0F
                 okButton.isClickable = true
-                PIN_FIRST = AESEncryption.encrypt(text.toString().trim())
+                passwordValue = AESEncryption.encrypt(password.text.toString().trim())
             }
         }
 
         okButton.setOnClickListener {
-            if (!pinEmpty) {
-                checkPinAndProcessing(PIN_FIRST!!)
+            if (!passwordEmpty) {
+                checkPasswordAndProcessing(passwordValue!!)
                 customDialog.dismiss()
             } else {
-                errorMessage.text = "Harap isi PIN"
+                errorMessage.text = "Mohon isi data"
                 errorMessage.alpha = 1F
                 okButton.isClickable = false
             }
         }
 
-        cancelButton.setOnClickListener {
+        cancel.setOnClickListener {
             customDialog.dismiss()
         }
 
-        return dialogView
+        customDialog.show()
+
+//        fun initFocus() {
+//            val imm =
+//                getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//            Handler(Looper.getMainLooper()).postDelayed({
+//                firstPin.requestFocus();
+//                imm.showSoftInput(firstPin, 0);
+//            }, 100)
+//        }
+
+//        initFocus()
+
+        cancel.setOnClickListener {
+            customDialog.dismiss()
+        }
     }
 }

@@ -37,6 +37,7 @@ import com.ppm.selat.R
 import com.ppm.selat.core.domain.model.OrderData
 import com.ppm.selat.core.domain.model.UserData
 import com.ppm.selat.databinding.ActivityProofBookingBinding
+import com.ppm.selat.widget.onSnackError
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.w3c.dom.Text
@@ -222,9 +223,9 @@ class ProofBookingActivity : AppCompatActivity() {
             img.alignment = Image.ALIGN_CENTER or Image.ALIGN_TOP
             document.add(img)
             document.close()
-            Snackbar.make(binding.root, "Invoice tersimpan, cek pada penyimpanan Internal untuk detail lebih lanjut", Snackbar.LENGTH_LONG).show()
+            onSnackError("Invoice tersimpan, cek pada penyimpanan Internal untuk detail lebih lanjut", binding.root,  this@ProofBookingActivity)
         } catch (e: java.lang.Exception) {
-            Snackbar.make(binding.root, "Invoice gagal tersimpan", Snackbar.LENGTH_LONG).show()
+            onSnackError("Invoice gagal tersimpan", binding.root,  this@ProofBookingActivity)
         }
     }
 

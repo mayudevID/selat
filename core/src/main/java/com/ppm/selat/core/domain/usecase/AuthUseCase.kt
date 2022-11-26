@@ -16,7 +16,7 @@ interface AuthUseCase {
     fun getUserStream() : MutableStateFlow<UserData>
     fun isUserSigned() : Flow<Boolean>
     fun logoutFromFirebase() : Flow<Resource<Boolean>>
-    fun updateProfile(typeDataEdit: TypeDataEdit, date: String) : Flow<Resource<Boolean>>
+    fun updateProfile(typeDataEdit: TypeDataEdit, data: String, pass: String) : Flow<Resource<Boolean>>
     fun updatePhoto(photo: Uri) : Flow<Resource<String>>
     fun saveNewUserData(user: UserData) : Flow<Resource<Boolean>>
     fun resetPassword(email: String) : Flow<Resource<Boolean>>
