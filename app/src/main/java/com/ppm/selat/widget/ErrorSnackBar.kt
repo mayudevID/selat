@@ -35,6 +35,9 @@ fun convertCode(errorCode: String): String {
         "ERROR_REQUIRES_RECENT_LOGIN" -> {
             "(Autentikasi Diperlukan) Harap logout akun dan login kembali untuk mengubah email lama"
         }
+        "ERROR_EMAIL_ALREADY_IN_USE" -> {
+            "Email telah digunakan akun lain"
+        }
         else -> {
             errorCode
         }

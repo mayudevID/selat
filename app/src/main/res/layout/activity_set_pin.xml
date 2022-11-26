@@ -38,7 +38,7 @@
         android:textColor="@color/black"
         android:textSize="15sp"
         android:id="@+id/text_desc"
-        android:text="Masukkan PIN baru"
+        android:text="Masukkan PIN lama"
         app:layout_constraintTop_toBottomOf="@id/title"
 
         app:layout_constraintStart_toStartOf="parent"
