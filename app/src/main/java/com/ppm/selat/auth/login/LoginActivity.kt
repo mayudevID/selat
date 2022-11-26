@@ -143,18 +143,18 @@ class LoginActivity : AppCompatActivity() {
                     }
                 }
             }
+        }
 
-            binding.twitterLogin.setOnClickListener {
-                onSnackError("Fitur belum tersedia", binding.root, this@LoginActivity)
-            }
+        binding.twitterLogin.setOnClickListener {
+            onSnackError("Fitur belum tersedia", binding.root, this@LoginActivity)
+        }
 
-            binding.googleLogin.setOnClickListener {
-                onSnackError("Fitur belum tersedia", binding.root, this@LoginActivity)
-            }
+        binding.googleLogin.setOnClickListener {
+            onSnackError("Fitur belum tersedia", binding.root, this@LoginActivity)
+        }
 
-            binding.facebookLogin.setOnClickListener {
-                onSnackError("Fitur belum tersedia", binding.root, this@LoginActivity)
-            }
+        binding.facebookLogin.setOnClickListener {
+            onSnackError("Fitur belum tersedia", binding.root, this@LoginActivity)
         }
 
         binding.toRegister.setOnClickListener {
