@@ -114,8 +114,8 @@ class EditProfileActivity : AppCompatActivity() {
 
             val format = SimpleDateFormat("dd MMMM yyyy")
 
-            editProfileViewModel.dateBirth = format.format(calendar.time)
-            binding.dateTemp.text = editProfileViewModel.dateBirth
+            editProfileViewModel.dateBirth.value = format.format(calendar.time)
+            binding.dateTemp.text = editProfileViewModel.dateBirth.value
         }
 
         binding.editTextBase.doAfterTextChanged {
@@ -125,7 +125,7 @@ class EditProfileActivity : AppCompatActivity() {
                     if (value.length > 4 || value == "") {
                         binding.errorText.text = ""
                         binding.saveButton.isClickable = true
-                        editProfileViewModel.textValue = value
+                        editProfileViewModel.textValue.value = value
                     } else {
                         binding.errorText.text = "Nama harus lebih dari 4 (empat) karakter"
                         binding.saveButton.isClickable = false
@@ -135,7 +135,7 @@ class EditProfileActivity : AppCompatActivity() {
                     if (emailPattern.matcher(value).matches() || value == "") {
                         binding.errorText.text = ""
                         binding.saveButton.isClickable = true
-                        editProfileViewModel.textValue = value
+                        editProfileViewModel.textValue.value = value
                     } else {
                         binding.errorText.text = "Email tidak valid"
                         binding.saveButton.isClickable = false
@@ -145,14 +145,14 @@ class EditProfileActivity : AppCompatActivity() {
                     if (value.length > 10 || value == "") {
                         binding.errorText.text = ""
                         binding.saveButton.isClickable = true
-                        editProfileViewModel.textValue = value
+                        editProfileViewModel.textValue.value = value
                     } else {
                         binding.errorText.text = "No telpon tidak valid"
                         binding.saveButton.isClickable = false
                     }
                 }
                 TypeDataEdit.JOB -> {
-                    editProfileViewModel.textValue = value
+                    editProfileViewModel.textValue.value = value
                 }
                 else -> {}
             }
@@ -169,13 +169,13 @@ class EditProfileActivity : AppCompatActivity() {
 
                 Log.d("EditProfileActivity", "$value, ${editProfileViewModel.dateBirth}")
 
-                editProfileViewModel.textValue = "$value, ${editProfileViewModel.dateBirth}"
+                editProfileViewModel.textValue.value = "$value, ${editProfileViewModel.dateBirth}"
             }
         }
 
         binding.saveButton.setOnClickListener {
             dismissKeyboard(this@EditProfileActivity)
-            if (editProfileViewModel.textValue.isEmpty() || editProfileViewModel.textValue == "") {
+            if (editProfileViewModel.textValue.value.isEmpty() || editProfileViewModel.textValue.value == "") {
                 when (editProfileViewModel.editMode) {
                     TypeDataEdit.NAME -> {
                         onSnackError("Mohon isi data", binding.root, applicationContext)
@@ -200,7 +200,7 @@ class EditProfileActivity : AppCompatActivity() {
                 if (editProfileViewModel.editMode == TypeDataEdit.EMAIL) {
                     showPinConfirm()
                 } else if (editProfileViewModel.editMode == TypeDataEdit.PDOB) {
-                    val dateTemp = editProfileViewModel.dateBirth
+                    val dateTemp = editProfileViewModel.dateBirth.value
                     if (dateTemp.isEmpty() || dateTemp == "") {
                         onSnackError("Mohon isi data tempat dan tanggal lahir", binding.root, applicationContext)
                     } else {

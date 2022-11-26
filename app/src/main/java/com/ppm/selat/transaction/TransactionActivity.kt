@@ -65,6 +65,7 @@ class TransactionActivity : AppCompatActivity() {
                     is Resource.Success -> {
                         val listData = result.data!!
                         if (listData.isEmpty()) {
+                            binding.loadTransaction.visibility = View.GONE
                             binding.emptyTransaction.visibility = View.VISIBLE
                         } else {
                             Log.d("TransactionActivity", listData.toString())

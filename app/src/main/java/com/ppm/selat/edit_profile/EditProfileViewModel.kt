@@ -22,22 +22,22 @@ class EditProfileViewModel(
 ) : ViewModel() {
     lateinit var editMode: TypeDataEdit
     lateinit var oldUserData: UserData
-    var textValue: String = ""
-    var dateBirth: String = ""
+    var textValue = MutableStateFlow("")
+    var dateBirth = MutableStateFlow("")
     var isDateChanged = MutableStateFlow(false)
 
     fun updateProfile() = authUseCase.updateProfile(
         editMode,
-        if (textValue.isEmpty() || textValue == "") "Tidak ada data" else textValue
+        if (textValue.value.isEmpty() || textValue.value == "") "Tidak ada data" else textValue.value
     ).asLiveData()
 
     fun updateAddress() = authUseCase.updateProfile(
         editMode,
-        if (textValue.isEmpty() || textValue == "") "Tidak ada data" else setAddress()
+        if (textValue.value.isEmpty() || textValue.value == "") "Tidak ada data" else setAddress()
     ).asLiveData()
 
     private fun setAddress(): String {
-        return "$textValue, ${getCapsSentences(villageTarget.value.name.lowercase())}, ${
+        return "$textValue.value, ${getCapsSentences(villageTarget.value.name.lowercase())}, ${
             getCapsSentences(
                 districtTarget.value.name.lowercase()
             )
