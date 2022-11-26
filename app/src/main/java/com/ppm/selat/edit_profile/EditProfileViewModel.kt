@@ -22,7 +22,7 @@ class EditProfileViewModel(
 
     fun updateProfile() : LiveData<Resource<Boolean>> {
 
-        if (editMode == TypeDataEdit.PDOB && (textValue.value.isNotEmpty() || textValue.value != "")) {
+        if (editMode == TypeDataEdit.PDOB) {
             textValue.value = "${textValue.value}, ${dateBirth.value}"
         }
 
@@ -40,7 +40,7 @@ class EditProfileViewModel(
     ).asLiveData()
 
     private fun setAddress(): String {
-        return "$textValue.value, ${getCapsSentences(villageTarget.value.name.lowercase())}, ${
+        return "${textValue.value}, ${getCapsSentences(villageTarget.value.name.lowercase())}, ${
             getCapsSentences(
                 districtTarget.value.name.lowercase()
             )
