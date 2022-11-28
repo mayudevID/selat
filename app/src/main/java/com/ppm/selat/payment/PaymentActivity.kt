@@ -252,7 +252,7 @@ class PaymentActivity : AppCompatActivity() {
         if (card.isNotEmpty()) {
             binding.rvListCard.layoutManager =
                 LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-            binding.rvListCard.setHasFixedSize(true)
+            //binding.rvListCard.setHasFixedSize(true)
             listCardAdapter = ListCardAdapter(ArrayList(card), -1)
             binding.rvListCard.adapter = listCardAdapter
 
@@ -343,7 +343,7 @@ class PaymentActivity : AppCompatActivity() {
         if (ewallet.isNotEmpty()) {
             rvAdapter.layoutManager =
                 LinearLayoutManager(this)
-            rvAdapter.setHasFixedSize(true)
+            //rvAdapter.setHasFixedSize(true)
             val listEWalletAdapter = ListEWalletAdapter(ArrayList(ewallet))
             rvAdapter.adapter = listEWalletAdapter
 
