@@ -14,7 +14,7 @@ kapt {
 }
 
 android {
-    compileSdk 32
+    compileSdk 34
 
     buildFeatures {
         viewBinding = true
@@ -22,7 +22,7 @@ android {
 
     defaultConfig {
         minSdk 21
-        targetSdk 32
+        targetSdk 33
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -41,6 +41,7 @@ android {
     kotlinOptions {
         jvmTarget = '11'
     }
+    namespace 'com.ppm.selat.core'
 }
 
 dependencies {
